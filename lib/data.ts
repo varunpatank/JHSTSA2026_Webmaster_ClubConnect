@@ -1,6 +1,5 @@
 import { Chapter, Event, Resource, Spotlight, Stats } from '@/types';
 
-// Mock Statistics
 export const stats: Stats = {
   activeChapters: 47,
   totalMembers: 1283,
@@ -8,7 +7,6 @@ export const stats: Stats = {
   newMembersThisMonth: 89,
 };
 
-// Mock Chapters Data
 export const chapters: Chapter[] = [
   {
     id: 'model-un',
@@ -307,7 +305,6 @@ export const chapters: Chapter[] = [
   },
 ];
 
-// Mock Events Data
 export const events: Event[] = [
   {
     id: 'event-1',
@@ -403,7 +400,6 @@ export const events: Event[] = [
   },
 ];
 
-// Mock Resources Data
 export const resources: Resource[] = [
   {
     id: 'res-1',
@@ -479,7 +475,6 @@ export const resources: Resource[] = [
   },
 ];
 
-// Mock Spotlights Data
 export const spotlights: Spotlight[] = [
   {
     id: 'spotlight-1',
@@ -564,7 +559,6 @@ export const spotlights: Spotlight[] = [
   },
 ];
 
-// Announcements
 export interface Announcement {
   id: string;
   title: string;

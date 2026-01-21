@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { chapters } from '@/lib/data';
 
-// Mock funding data
 const budgetAllocations = [
   { chapter: 'Model United Nations', allocated: 3500, spent: 2100, remaining: 1400 },
   { chapter: 'Robotics Team', allocated: 8000, spent: 5500, remaining: 2500 },
@@ -78,7 +77,6 @@ export default function FundingPage() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Overview Stats */}
         <div className="grid md:grid-cols-4 gap-4 mb-8">
           <div className="stat-card border-l-4 border-l-primary-500">
             <div className="stat-number text-2xl">${totalAllocated.toLocaleString()}</div>
@@ -98,7 +96,6 @@ export default function FundingPage() {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
         <div className="card mb-8">
           <div className="flex flex-wrap border-b border-neutral-200">
             {[
@@ -122,7 +119,6 @@ export default function FundingPage() {
           </div>
         </div>
 
-        {/* Budgets Tab */}
         {activeTab === 'budgets' && (
           <div className="space-y-6">
             <div className="card overflow-hidden">
@@ -169,7 +165,6 @@ export default function FundingPage() {
           </div>
         )}
 
-        {/* Requests Tab */}
         {activeTab === 'requests' && (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
@@ -249,7 +244,6 @@ export default function FundingPage() {
           </div>
         )}
 
-        {/* Grants Tab */}
         {activeTab === 'grants' && (
           <div className="space-y-6">
             <h2 className="text-lg font-bold text-primary-500 font-heading">Available Grants</h2>
@@ -278,7 +272,6 @@ export default function FundingPage() {
               ))}
             </div>
 
-            {/* Community Partnerships */}
             <div className="card p-6 mt-8">
               <h2 className="text-lg font-bold text-primary-500 font-heading mb-4">Community Partnership Opportunities</h2>
               <p className="text-neutral-600 mb-4">
@@ -302,7 +295,6 @@ export default function FundingPage() {
           </div>
         )}
 
-        {/* Fundraising Tab */}
         {activeTab === 'fundraising' && (
           <div className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
@@ -354,7 +346,6 @@ export default function FundingPage() {
               </div>
             </div>
 
-            {/* Fundraising History */}
             <div className="card">
               <div className="p-4 border-b border-neutral-200">
                 <h2 className="text-lg font-bold text-primary-500 font-heading">Fundraising History</h2>

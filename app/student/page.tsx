@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { chapters, events } from '@/lib/data';
 
-// Mock user data
 const myChapters = chapters.slice(0, 3);
 const mySchedule = events.slice(0, 4);
 
@@ -46,7 +45,6 @@ export default function StudentPortal() {
     if (quizStep < quizQuestions.length - 1) {
       setQuizStep(quizStep + 1);
     } else {
-      // Quiz complete
       setQuizStep(quizQuestions.length);
     }
   };
@@ -80,7 +78,6 @@ export default function StudentPortal() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Navigation Tabs */}
         <div className="card mb-8">
           <div className="flex flex-wrap border-b border-neutral-200">
             {[
@@ -104,10 +101,8 @@ export default function StudentPortal() {
           </div>
         </div>
 
-        {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* My Chapters */}
             <div className="lg:col-span-2 space-y-6">
               <div className="card">
                 <div className="p-4 border-b border-neutral-200 flex justify-between items-center">
@@ -138,7 +133,6 @@ export default function StudentPortal() {
                 </div>
               </div>
 
-              {/* My Schedule */}
               <div className="card">
                 <div className="p-4 border-b border-neutral-200 flex justify-between items-center">
                   <h2 className="text-lg font-bold text-primary-500 font-heading">My Schedule</h2>
@@ -168,9 +162,7 @@ export default function StudentPortal() {
               </div>
             </div>
 
-            {/* Sidebar */}
             <div className="space-y-6">
-              {/* Upcoming Deadlines */}
               <div className="card">
                 <div className="p-4 border-b border-neutral-200">
                   <h2 className="text-lg font-bold text-primary-500 font-heading">Upcoming Deadlines</h2>
@@ -200,7 +192,6 @@ export default function StudentPortal() {
                 </div>
               </div>
 
-              {/* Recommended Chapters */}
               <div className="card">
                 <div className="p-4 border-b border-neutral-200">
                   <h2 className="text-lg font-bold text-primary-500 font-heading">Recommended For You</h2>
@@ -221,10 +212,8 @@ export default function StudentPortal() {
           </div>
         )}
 
-        {/* Discover Tab */}
         {activeTab === 'discover' && (
           <div className="space-y-8">
-            {/* Chapter Match Quiz */}
             <div className="card p-8">
               {!quizStarted ? (
                 <div className="text-center max-w-2xl mx-auto">
@@ -294,7 +283,6 @@ export default function StudentPortal() {
               )}
             </div>
 
-            {/* New This Year */}
             <div className="card">
               <div className="p-4 border-b border-neutral-200">
                 <h2 className="text-lg font-bold text-primary-500 font-heading">New This Year</h2>
@@ -310,7 +298,6 @@ export default function StudentPortal() {
               </div>
             </div>
 
-            {/* Looking for Members */}
             <div className="card">
               <div className="p-4 border-b border-neutral-200">
                 <h2 className="text-lg font-bold text-primary-500 font-heading">Looking for Members</h2>
@@ -328,10 +315,8 @@ export default function StudentPortal() {
           </div>
         )}
 
-        {/* Involvement Tab */}
         {activeTab === 'involvement' && (
           <div className="space-y-8">
-            {/* Involvement Summary */}
             <div className="card p-6">
               <h2 className="text-2xl font-bold text-primary-500 font-heading mb-6">My Involvement Transcript</h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -363,7 +348,6 @@ export default function StudentPortal() {
               </div>
             </div>
 
-            {/* Chapter History */}
             <div className="card">
               <div className="p-4 border-b border-neutral-200">
                 <h2 className="text-lg font-bold text-primary-500 font-heading">Chapter Membership History</h2>
@@ -406,7 +390,6 @@ export default function StudentPortal() {
               </div>
             </div>
 
-            {/* Achievements */}
             <div className="card">
               <div className="p-4 border-b border-neutral-200">
                 <h2 className="text-lg font-bold text-primary-500 font-heading">Achievements & Badges</h2>
@@ -429,11 +412,9 @@ export default function StudentPortal() {
           </div>
         )}
 
-        {/* Collaboration Tab */}
         {activeTab === 'collaboration' && (
           <div className="space-y-8">
             <div className="grid md:grid-cols-2 gap-6">
-              {/* Inter-club Events */}
               <div className="card">
                 <div className="p-4 border-b border-neutral-200">
                   <h2 className="text-lg font-bold text-primary-500 font-heading">Joint Events</h2>
@@ -458,7 +439,6 @@ export default function StudentPortal() {
                 </div>
               </div>
 
-              {/* Shared Resources */}
               <div className="card">
                 <div className="p-4 border-b border-neutral-200">
                   <h2 className="text-lg font-bold text-primary-500 font-heading">Shared Resources</h2>
@@ -478,7 +458,6 @@ export default function StudentPortal() {
               </div>
             </div>
 
-            {/* Cross-Chapter Committees */}
             <div className="card">
               <div className="p-4 border-b border-neutral-200">
                 <h2 className="text-lg font-bold text-primary-500 font-heading">Cross-Chapter Committees</h2>

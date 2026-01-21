@@ -11,9 +11,7 @@ export default function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would authenticate
     console.log('Login attempt:', { loginType, email });
-    // Redirect based on role
     if (loginType === 'admin') {
       window.location.href = '/admin';
     } else if (loginType === 'advisor') {
@@ -46,11 +44,9 @@ export default function LoginPage() {
           <p className="text-neutral-600">Where School Chapters Thrive</p>
         </div>
 
-        {/* Login Card */}
         <div className="card p-8">
           <h2 className="text-xl font-bold text-primary-500 mb-6 text-center font-heading">Sign In</h2>
 
-          {/* Role Selection */}
           <div className="grid grid-cols-3 gap-2 mb-6">
             {[
               { key: 'student', label: 'Student' },
@@ -114,7 +110,6 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* SSO Option */}
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -133,7 +128,6 @@ export default function LoginPage() {
             </button>
           </div>
 
-          {/* Help Text */}
           <p className="mt-6 text-center text-sm text-neutral-500">
             Need help? Contact the{' '}
             <a href="mailto:activities@school.edu" className="text-primary-500 hover:underline">
@@ -142,7 +136,6 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Back to Home */}
         <p className="mt-6 text-center">
           <Link href="/" className="text-primary-500 hover:underline text-sm">
             ← Back to ClubConnect Home

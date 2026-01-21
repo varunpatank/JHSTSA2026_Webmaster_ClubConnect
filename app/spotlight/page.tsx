@@ -25,11 +25,9 @@ export default function SpotlightPage() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Spotlight Cards */}
         <div className="space-y-12">
           {spotlights.map((spotlight, index) => (
             <article key={spotlight.id} className="card overflow-hidden">
-              {/* Spotlight Header */}
               <div className={`p-8 ${index % 2 === 0 ? 'bg-primary-500' : 'bg-secondary-500'} text-white`}>
                 <div className="flex flex-col md:flex-row gap-6 items-start">
                   <div className="w-20 h-20 bg-white flex items-center justify-center flex-shrink-0">
@@ -47,15 +45,12 @@ export default function SpotlightPage() {
                 </div>
               </div>
 
-              {/* Spotlight Content */}
               <div className="p-8">
                 <div className="grid lg:grid-cols-3 gap-8">
-                  {/* Main Content */}
                   <div className="lg:col-span-2">
                     <h3 className="section-title text-xl mb-4">About</h3>
                     <p className="text-neutral-700 leading-relaxed mb-8">{spotlight.content}</p>
 
-                    {/* Highlights */}
                     <h3 className="section-title text-xl mb-4">Highlights</h3>
                     <div className="grid sm:grid-cols-2 gap-4 mb-8">
                       {spotlight.highlights.map((highlight, idx) => (
@@ -70,7 +65,6 @@ export default function SpotlightPage() {
                       ))}
                     </div>
 
-                    {/* Testimonials */}
                     <h3 className="section-title text-xl mb-4">What Members Say</h3>
                     <div className="space-y-6">
                       {spotlight.testimonials.map((testimonial, idx) => (
@@ -85,9 +79,7 @@ export default function SpotlightPage() {
                     </div>
                   </div>
 
-                  {/* Sidebar */}
                   <div className="space-y-6">
-                    {/* Quick Info */}
                     <div className="bg-neutral-50 border border-neutral-200 p-6">
                       <h4 className="font-bold text-primary-500 mb-4 font-heading">Chapter Information</h4>
                       <div className="space-y-3 text-sm">
@@ -110,7 +102,6 @@ export default function SpotlightPage() {
                       </div>
                     </div>
 
-                    {/* Advisor */}
                     <div className="bg-neutral-50 border border-neutral-200 p-6">
                       <h4 className="font-bold text-primary-500 mb-4 font-heading">Faculty Advisor</h4>
                       <div className="flex items-center gap-4">
@@ -126,7 +117,6 @@ export default function SpotlightPage() {
                       </div>
                     </div>
 
-                    {/* CTA */}
                     <div className="bg-primary-500 text-white p-6">
                       <h4 className="font-bold mb-2 font-heading">Interested in Joining?</h4>
                       <p className="text-neutral-200 text-sm mb-4">
@@ -146,7 +136,6 @@ export default function SpotlightPage() {
           ))}
         </div>
 
-        {/* More Spotlights Coming */}
         <div className="mt-12 text-center">
           <div className="card p-8">
             <h3 className="text-xl font-bold text-primary-500 mb-2 font-heading">More Spotlights Coming Soon</h3>

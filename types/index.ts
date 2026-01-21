@@ -1,4 +1,3 @@
-// Chapter/Club Types
 export interface Chapter {
   id: string;
   name: string;
@@ -77,7 +76,6 @@ export interface SocialLinks {
   discord?: string;
 }
 
-// Event Types
 export interface Event {
   id: string;
   title: string;
@@ -95,7 +93,6 @@ export interface Event {
   currentAttendees: number;
 }
 
-// Resource Types
 export interface Resource {
   id: string;
   title: string;
@@ -113,7 +110,6 @@ export type ResourceCategory =
   | 'Guides'
   | 'Handbooks';
 
-// Spotlight Types
 export interface Spotlight {
   id: string;
   chapterId: string;
@@ -132,7 +128,6 @@ export interface Testimonial {
   role: string;
 }
 
-// Form Submission Types
 export interface ChapterProposal {
   id: string;
   chapterName: string;
@@ -155,14 +150,13 @@ export type ProposalStatus =
   | 'Denied'
   | 'Needs Revision';
 
-// User Types
 export interface User {
   id: string;
   name: string;
   email: string;
   role: UserRole;
   grade?: number;
-  chapters: string[]; // chapter IDs
+  chapters: string[];
 }
 
 export type UserRole = 
@@ -171,7 +165,6 @@ export type UserRole =
   | 'Advisor'
   | 'Admin';
 
-// Statistics Types
 export interface Stats {
   activeChapters: number;
   totalMembers: number;

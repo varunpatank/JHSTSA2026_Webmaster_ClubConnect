@@ -13,6 +13,7 @@ export default function Header() {
     { href: '/events', label: 'Events' },
     { href: '/resources', label: 'Resources' },
     { href: '/spotlight', label: 'Spotlight' },
+    { href: '/references', label: 'References' },
   ];
 
   const moreLinks = [
@@ -26,7 +27,6 @@ export default function Header() {
 
   return (
     <header className="bg-primary-500 text-white shadow-lg">
-      {/* Top Bar */}
       <div className="bg-primary-700 py-1">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-sm">
           <span className="hidden sm:inline">Welcome to ClubConnect</span>
@@ -47,10 +47,8 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Main Navigation */}
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between py-4">
-          {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             <div className="w-12 h-12 bg-secondary-500 flex items-center justify-center rounded-xl shadow-md">
               <span className="text-2xl font-bold text-white">CC</span>
@@ -61,7 +59,6 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center">
             {mainNavLinks.map((link) => (
               <Link
@@ -72,7 +69,6 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-            {/* More Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setShowMoreMenu(!showMoreMenu)}
@@ -100,7 +96,6 @@ export default function Header() {
             </div>
           </nav>
 
-          {/* Mobile Menu Button */}
           <button
             className="lg:hidden p-2 hover:bg-primary-600 transition-colors rounded-lg"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -131,7 +126,6 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <nav className="lg:hidden py-4 border-t border-primary-400">
             {allMobileLinks.map((link) => (

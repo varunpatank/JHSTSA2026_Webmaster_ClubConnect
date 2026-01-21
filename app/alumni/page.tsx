@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-// Mock alumni data
 const featuredAlumni = [
   {
     id: 1,
@@ -144,7 +143,6 @@ export default function AlumniPage() {
           </div>
         </div>
 
-        {/* Alumni Registration Banner */}
         {!showRegistration && (
           <div className="card p-6 mb-8 bg-secondary-500 text-white">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -162,7 +160,6 @@ export default function AlumniPage() {
           </div>
         )}
 
-        {/* Alumni Registration Form */}
         {showRegistration && (
           <div className="card p-6 mb-8">
             <h2 className="text-xl font-bold text-primary-500 font-heading mb-6">Alumni Registration</h2>
@@ -210,10 +207,8 @@ export default function AlumniPage() {
           </div>
         )}
 
-        {/* Network Tab */}
         {activeTab === 'network' && (
           <div className="space-y-8">
-            {/* Search */}
             <div className="card p-6">
               <div className="grid md:grid-cols-4 gap-4">
                 <input type="text" placeholder="Search alumni..." className="input-field" />
@@ -239,7 +234,6 @@ export default function AlumniPage() {
               </div>
             </div>
 
-            {/* Featured Alumni */}
             <div>
               <h2 className="section-title">Where Are They Now?</h2>
               <div className="grid md:grid-cols-3 gap-6">
@@ -286,7 +280,6 @@ export default function AlumniPage() {
           </div>
         )}
 
-        {/* Mentorship Tab */}
         {activeTab === 'mentorship' && (
           <div className="space-y-8">
             <div className="card p-8 text-center">
@@ -342,10 +335,8 @@ export default function AlumniPage() {
           </div>
         )}
 
-        {/* Careers Tab */}
         {activeTab === 'careers' && (
           <div className="space-y-8">
-            {/* Career Panels */}
             <div>
               <h2 className="section-title">Upcoming Virtual Career Panels</h2>
               <div className="grid md:grid-cols-3 gap-6">
@@ -377,7 +368,6 @@ export default function AlumniPage() {
               </div>
             </div>
 
-            {/* Internships */}
             <div className="card">
               <div className="p-4 border-b border-neutral-200 flex justify-between items-center">
                 <h2 className="text-lg font-bold text-primary-500 font-heading">Internship & Job Shadow Postings</h2>
@@ -404,7 +394,6 @@ export default function AlumniPage() {
           </div>
         )}
 
-        {/* Donate Tab */}
         {activeTab === 'donate' && (
           <div className="space-y-8">
             <div className="card p-8 text-center bg-secondary-500 text-white">
@@ -445,7 +434,6 @@ export default function AlumniPage() {
               ))}
             </div>
 
-            {/* Impact */}
             <div className="card p-6">
               <h2 className="text-xl font-bold text-primary-500 font-heading mb-6">Your Impact</h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">

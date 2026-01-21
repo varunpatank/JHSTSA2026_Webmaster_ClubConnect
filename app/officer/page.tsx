@@ -5,8 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { chapters, events } from '@/lib/data';
 
-// Mock officer data
-const myChapter = chapters[0]; // Model UN
+const myChapter = chapters[0];
 const memberRoster = [
   { id: 1, name: 'James Chen', role: 'President', grade: 12, attendance: 95, duesPaid: true },
   { id: 2, name: 'Maria Santos', role: 'Vice President', grade: 11, attendance: 92, duesPaid: true },
@@ -62,7 +61,6 @@ export default function OfficerPortal() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Navigation Tabs */}
         <div className="card mb-8">
           <div className="flex flex-wrap border-b border-neutral-200">
             {[
@@ -87,10 +85,8 @@ export default function OfficerPortal() {
           </div>
         </div>
 
-        {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
           <div className="space-y-8">
-            {/* Quick Stats */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="stat-card">
                 <div className="stat-number text-2xl">{memberRoster.length}</div>
@@ -111,7 +107,6 @@ export default function OfficerPortal() {
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8">
-              {/* Pending Join Requests */}
               <div className="card">
                 <div className="p-4 border-b border-neutral-200 flex justify-between items-center">
                   <h2 className="text-lg font-bold text-primary-500 font-heading">Join Requests</h2>
@@ -136,7 +131,6 @@ export default function OfficerPortal() {
                 </div>
               </div>
 
-              {/* Upcoming Events */}
               <div className="card">
                 <div className="p-4 border-b border-neutral-200 flex justify-between items-center">
                   <h2 className="text-lg font-bold text-primary-500 font-heading">Upcoming Events</h2>
@@ -164,7 +158,6 @@ export default function OfficerPortal() {
               </div>
             </div>
 
-            {/* Attendance Chart */}
             <div className="card p-6">
               <h2 className="text-lg font-bold text-primary-500 font-heading mb-4">Members Needing Attention</h2>
               <div className="grid md:grid-cols-2 gap-4">
@@ -189,7 +182,6 @@ export default function OfficerPortal() {
           </div>
         )}
 
-        {/* Members Tab */}
         {activeTab === 'members' && (
           <div className="space-y-6">
             <div className="card p-4 flex flex-wrap gap-4 items-center justify-between">
@@ -261,7 +253,6 @@ export default function OfficerPortal() {
           </div>
         )}
 
-        {/* Communication Tab */}
         {activeTab === 'communication' && (
           <div className="space-y-6">
             {showAnnouncementForm && (
@@ -336,7 +327,6 @@ export default function OfficerPortal() {
           </div>
         )}
 
-        {/* Events Tab */}
         {activeTab === 'events' && (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
@@ -393,7 +383,6 @@ export default function OfficerPortal() {
           </div>
         )}
 
-        {/* Resources Tab */}
         {activeTab === 'resources' && (
           <div className="space-y-6">
             <h2 className="text-lg font-bold text-primary-500 font-heading">Officer Resources</h2>

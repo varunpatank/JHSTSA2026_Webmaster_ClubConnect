@@ -71,7 +71,6 @@ export default function ResourcesPage() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Search and Filters */}
         <div className="card p-6 mb-8">
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="relative">
@@ -106,7 +105,6 @@ export default function ResourcesPage() {
           </div>
         </div>
 
-        {/* Category Tabs */}
         <div className="flex flex-wrap gap-2 mb-8">
           <button
             onClick={() => setSelectedCategory('')}
@@ -133,14 +131,12 @@ export default function ResourcesPage() {
           ))}
         </div>
 
-        {/* Results Count */}
         <div className="mb-6">
           <p className="text-neutral-600">
             Showing <strong>{filteredResources.length}</strong> resources
           </p>
         </div>
 
-        {/* Resources Grid */}
         {filteredResources.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredResources.map((resource) => (
@@ -189,7 +185,6 @@ export default function ResourcesPage() {
           </div>
         )}
 
-        {/* Request Resource Section */}
         <div className="mt-12 card p-8 bg-primary-500 text-white">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-2xl font-bold font-heading mb-4">Need a Resource We Don&apos;t Have?</h2>

@@ -23,7 +23,6 @@ export default function EventsPage() {
     }).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }, [selectedCategory, selectedMonth]);
 
-  // Get unique months from events
   const months = useMemo(() => {
     const uniqueMonths = new Set(events.map(e => 
       new Date(e.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
@@ -31,7 +30,6 @@ export default function EventsPage() {
     return Array.from(uniqueMonths);
   }, []);
 
-  // Group events by date
   const groupedEvents = useMemo(() => {
     const groups: { [key: string]: typeof events } = {};
     filteredEvents.forEach(event => {
@@ -66,7 +64,6 @@ export default function EventsPage() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Filters */}
         <div className="card p-6 mb-8">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
@@ -98,14 +95,12 @@ export default function EventsPage() {
           </div>
         </div>
 
-        {/* Results Count */}
         <div className="mb-6">
           <p className="text-neutral-600">
             Showing <strong>{filteredEvents.length}</strong> events
           </p>
         </div>
 
-        {/* Events List */}
         {Object.keys(groupedEvents).length > 0 ? (
           <div className="space-y-8">
             {Object.entries(groupedEvents).map(([date, dateEvents]) => (

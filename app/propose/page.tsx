@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 interface FormData {
-  // Proposal Stage
   chapterName: string;
   missionStatement: string;
   proposedAdvisor: string;
@@ -13,7 +12,6 @@ interface FormData {
   category: string;
   justification: string;
   
-  // Planning Stage
   constitutionDraft: string;
   firstYearPlan: string;
   budgetRequirements: string;
@@ -21,7 +19,6 @@ interface FormData {
   meetingFrequency: string;
   meetingTime: string;
   
-  // Contact Info
   submitterName: string;
   submitterEmail: string;
   submitterGrade: string;
@@ -59,7 +56,6 @@ export default function ProposePage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would send to an API
     console.log('Form submitted:', formData);
     setSubmitted(true);
   };
@@ -162,7 +158,6 @@ export default function ProposePage() {
         </div>
 
         <form onSubmit={handleSubmit}>
-          {/* Step 1: Proposal Info */}
           {step === 1 && (
             <div className="card p-8">
               <h2 className="section-title text-xl mb-6">Chapter Proposal Information</h2>
@@ -263,7 +258,6 @@ export default function ProposePage() {
             </div>
           )}
 
-          {/* Step 2: Planning Details */}
           {step === 2 && (
             <div className="card p-8">
               <h2 className="section-title text-xl mb-6">Planning Details</h2>
@@ -368,7 +362,6 @@ export default function ProposePage() {
             </div>
           )}
 
-          {/* Step 3: Contact & Submit */}
           {step === 3 && (
             <div className="card p-8">
               <h2 className="section-title text-xl mb-6">Your Contact Information</h2>
@@ -421,7 +414,6 @@ export default function ProposePage() {
                 </div>
               </div>
 
-              {/* Review Summary */}
               <div className="mt-8 p-6 bg-neutral-50 border border-neutral-200">
                 <h3 className="font-bold text-primary-500 mb-4 font-heading">Review Your Proposal</h3>
                 <dl className="grid sm:grid-cols-2 gap-4 text-sm">
@@ -444,7 +436,6 @@ export default function ProposePage() {
                 </dl>
               </div>
 
-              {/* Terms */}
               <div className="mt-6">
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input type="checkbox" className="mt-1 w-4 h-4" required />
@@ -467,7 +458,6 @@ export default function ProposePage() {
           )}
         </form>
 
-        {/* Help Section */}
         <div className="mt-8 card p-6">
           <h3 className="font-bold text-primary-500 mb-2 font-heading">Need Help?</h3>
           <p className="text-neutral-600 text-sm">

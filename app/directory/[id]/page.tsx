@@ -61,9 +61,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* About */}
             <div className="card p-6">
               <h2 className="section-title text-xl mb-4">About This Chapter</h2>
               <p className="text-neutral-700">{chapter.description}</p>
@@ -88,7 +86,6 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
               </div>
             </div>
 
-            {/* Membership Info */}
             <div className="card p-6">
               <h2 className="section-title text-xl mb-4">Membership Information</h2>
               <div className="space-y-4">
@@ -103,7 +100,6 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
               </div>
             </div>
 
-            {/* Officers */}
             <div className="card p-6">
               <h2 className="section-title text-xl mb-4">Chapter Officers</h2>
               <div className="grid sm:grid-cols-2 gap-4">
@@ -124,7 +120,6 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
               </div>
             </div>
 
-            {/* Achievements */}
             {chapter.achievements.length > 0 && (
               <div className="card p-6">
                 <h2 className="section-title text-xl mb-4">Achievements & Highlights</h2>
@@ -144,9 +139,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
             )}
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-6">
-            {/* Quick Stats */}
             <div className="card p-6">
               <h3 className="font-bold text-lg text-primary-500 mb-4 font-heading">Quick Facts</h3>
               <div className="space-y-4">
@@ -169,7 +162,6 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
               </div>
             </div>
 
-            {/* Advisor */}
             <div className="card p-6">
               <h3 className="font-bold text-lg text-primary-500 mb-4 font-heading">Faculty Advisor</h3>
               <div className="flex items-center gap-4">
@@ -204,7 +196,6 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
               </div>
             </div>
 
-            {/* Social Links */}
             {(chapter.socialLinks.website || chapter.socialLinks.instagram || chapter.socialLinks.twitter || chapter.socialLinks.discord) && (
               <div className="card p-6">
                 <h3 className="font-bold text-lg text-primary-500 mb-4 font-heading">Connect With Us</h3>
@@ -247,7 +238,6 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
               </div>
             )}
 
-            {/* Join CTA */}
             <div className="card p-6 bg-primary-500 text-white">
               <h3 className="font-bold text-lg mb-2 font-heading">Interested in Joining?</h3>
               <p className="text-neutral-200 text-sm mb-4">

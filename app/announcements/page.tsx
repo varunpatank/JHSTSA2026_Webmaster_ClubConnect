@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { announcements } from '@/lib/data';
 
-// Extended announcements for this page
 const allAnnouncements = [
   ...announcements,
   {
@@ -84,7 +83,6 @@ export default function AnnouncementsPage() {
       </section>
 
       <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Filter Options */}
         <div className="card p-4 mb-8 flex flex-wrap gap-4 items-center justify-between">
           <div className="flex gap-2">
             <button className="px-4 py-2 bg-primary-500 text-white font-medium">All</button>
@@ -96,7 +94,6 @@ export default function AnnouncementsPage() {
           </div>
         </div>
 
-        {/* Announcements List */}
         <div className="space-y-4">
           {allAnnouncements
             .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -130,7 +127,6 @@ export default function AnnouncementsPage() {
             ))}
         </div>
 
-        {/* Newsletter Sign-up */}
         <div className="card p-8 mt-8 bg-primary-500 text-white">
           <div className="text-center">
             <h2 className="text-2xl font-bold font-heading mb-4">Stay Updated</h2>
@@ -150,7 +146,6 @@ export default function AnnouncementsPage() {
           </div>
         </div>
 
-        {/* Back Link */}
         <div className="mt-8 text-center">
           <Link href="/" className="text-primary-500 hover:underline">
             ← Back to Home

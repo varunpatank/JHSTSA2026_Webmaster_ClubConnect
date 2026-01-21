@@ -81,9 +81,7 @@ export default function DirectoryPage() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Search and Filters */}
         <div className="card p-6 mb-8">
-          {/* Search Bar */}
           <div className="flex flex-col md:flex-row gap-4 mb-6">
             <div className="flex-grow relative">
               <input
@@ -118,11 +116,9 @@ export default function DirectoryPage() {
             </button>
           </div>
 
-          {/* Advanced Filters */}
           {showFilters && (
             <div className="border-t border-neutral-200 pt-6">
               <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                {/* Category Filter */}
                 <div>
                   <label className="block text-sm font-semibold text-neutral-700 mb-2">Category</label>
                   <select
@@ -137,7 +133,6 @@ export default function DirectoryPage() {
                   </select>
                 </div>
 
-                {/* Frequency Filter */}
                 <div>
                   <label className="block text-sm font-semibold text-neutral-700 mb-2">Meeting Frequency</label>
                   <select
@@ -152,7 +147,6 @@ export default function DirectoryPage() {
                   </select>
                 </div>
 
-                {/* Membership Status Filter */}
                 <div>
                   <label className="block text-sm font-semibold text-neutral-700 mb-2">Membership Status</label>
                   <select
@@ -167,7 +161,6 @@ export default function DirectoryPage() {
                   </select>
                 </div>
 
-                {/* Grade Level Filter */}
                 <div>
                   <label className="block text-sm font-semibold text-neutral-700 mb-2">Grade Level</label>
                   <select
@@ -182,7 +175,6 @@ export default function DirectoryPage() {
                   </select>
                 </div>
 
-                {/* Meeting Time Filter */}
                 <div>
                   <label className="block text-sm font-semibold text-neutral-700 mb-2">Meeting Time</label>
                   <select
@@ -209,14 +201,12 @@ export default function DirectoryPage() {
           )}
         </div>
 
-        {/* Results Count */}
         <div className="mb-6 flex justify-between items-center">
           <p className="text-neutral-600">
             Showing <strong>{filteredChapters.length}</strong> of <strong>{chapters.length}</strong> chapters
           </p>
         </div>
 
-        {/* Chapter Grid */}
         {filteredChapters.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredChapters.map((chapter) => (

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { chapters, events, stats } from '@/lib/data';
 
-// Mock data for admin dashboard
 const pendingProposals = [
   { id: 'prop-1', name: 'Photography Club', submitter: 'Emily Chen', date: '2026-01-10', status: 'Under Review' },
   { id: 'prop-2', name: 'Chess Club', submitter: 'Marcus Johnson', date: '2026-01-08', status: 'Pending Advisor' },
@@ -65,7 +64,6 @@ export default function AdminDashboard() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Navigation Tabs */}
         <div className="card mb-8">
           <div className="flex flex-wrap border-b border-neutral-200">
             {[
@@ -91,10 +89,8 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Overview Tab */}
         {activeTab === 'overview' && (
           <div className="space-y-8">
-            {/* Quick Stats */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="stat-card">
                 <div className="stat-number">{stats.activeChapters}</div>
@@ -115,7 +111,6 @@ export default function AdminDashboard() {
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8">
-              {/* Pending Proposals */}
               <div className="card">
                 <div className="p-4 border-b border-neutral-200 flex justify-between items-center">
                   <h2 className="text-lg font-bold text-primary-500 font-heading">Pending Proposals</h2>
@@ -141,7 +136,6 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              {/* Recent Activity */}
               <div className="card">
                 <div className="p-4 border-b border-neutral-200">
                   <h2 className="text-lg font-bold text-primary-500 font-heading">Recent Activity</h2>
@@ -165,7 +159,6 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* Chapter Health */}
             <div className="card">
               <div className="p-4 border-b border-neutral-200 flex justify-between items-center">
                 <h2 className="text-lg font-bold text-primary-500 font-heading">Chapter Health Metrics</h2>
@@ -196,7 +189,6 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Chapters Management Tab */}
         {activeTab === 'chapters' && (
           <div className="space-y-6">
             <div className="card p-4 flex flex-wrap gap-4 items-center justify-between">
@@ -255,7 +247,6 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Proposals Tab */}
         {activeTab === 'proposals' && (
           <div className="space-y-6">
             <div className="grid md:grid-cols-3 gap-4">
@@ -304,7 +295,6 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Users Tab */}
         {activeTab === 'users' && (
           <div className="space-y-6">
             <div className="grid md:grid-cols-4 gap-4">
@@ -346,7 +336,6 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Analytics Tab */}
         {activeTab === 'analytics' && (
           <div className="space-y-6">
             <div className="card p-6">
@@ -407,7 +396,6 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Policies Tab */}
         {activeTab === 'policies' && (
           <div className="space-y-6">
             <div className="card p-6">
