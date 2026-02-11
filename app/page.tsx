@@ -8,6 +8,7 @@ export default function HomePage() {
 
   return (
     <div>
+      {/* Hero Section */}
       <section className="relative min-h-[600px] flex items-center">
         <div className="absolute inset-0">
           <Image
@@ -24,7 +25,7 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <span className="inline-block bg-secondary-500 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
-                🎓 Your School Community Hub
+                 Your School Community Hub
               </span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-6 text-white">
                 Welcome to ClubConnect
@@ -35,10 +36,10 @@ export default function HomePage() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link href="/directory" className="btn-secondary">
-                  Explore Chapters
+                  Browse Clubs
                 </Link>
                 <Link href="/propose" className="bg-white/20 backdrop-blur text-white px-6 py-2.5 font-semibold border-2 border-white/50 hover:bg-white hover:text-primary-500 transition-all rounded-lg">
-                  Start a New Chapter
+                  Start a New Club
                 </Link>
               </div>
             </div>
@@ -46,7 +47,7 @@ export default function HomePage() {
             <div className="hidden md:grid grid-cols-2 gap-4">
               <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 text-center">
                 <div className="text-5xl font-bold text-secondary-400 font-heading">{stats.activeChapters}</div>
-                <div className="text-white/80 mt-2">Active Chapters</div>
+                <div className="text-white/80 mt-2">Active Clubs</div>
               </div>
               <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 text-center">
                 <div className="text-5xl font-bold text-secondary-400 font-heading">{stats.totalMembers.toLocaleString()}</div>
@@ -65,12 +66,13 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Mobile Stats */}
       <section className="md:hidden bg-gradient-to-b from-neutral-100 to-white py-8">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="stat-card">
               <div className="stat-number">{stats.activeChapters}</div>
-              <div className="stat-label">Active Chapters</div>
+              <div className="stat-label">Active Clubs</div>
             </div>
             <div className="stat-card">
               <div className="stat-number">{stats.totalMembers.toLocaleString()}</div>
@@ -88,20 +90,110 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Announcement Banner */}
       <section className="bg-gradient-to-r from-secondary-500 to-secondary-600 text-white py-4">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center gap-4">
             <span className="bg-white text-secondary-500 px-3 py-1 font-bold text-sm rounded-full">
-              📢 NEW
+               NEW
             </span>
             <p className="font-medium">{announcements[0].title}</p>
             <Link href="/announcements" className="ml-auto text-sm underline hover:no-underline whitespace-nowrap">
-              View All →
+              View All 
             </Link>
           </div>
         </div>
       </section>
 
+      {/* Quick Navigation - 6 Main Sections */}
+      <section className="py-16 bg-gradient-to-b from-neutral-100 to-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold font-heading text-primary-500 mb-4">
+              Explore ClubConnect
+            </h2>
+            <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
+              Everything you need to discover, join, and lead student organizations.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Link href="/directory" className="group bg-white border-2 border-neutral-200 p-8 hover:border-primary-500 hover:shadow-xl transition-all">
+              <div className="flex items-start gap-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-3xl text-white shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
+                  
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mb-2 font-heading text-primary-500">Club Directory</h3>
+                  <p className="text-neutral-600 text-sm">Browse all {stats.activeChapters} active clubs and find the perfect fit for your interests.</p>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/events" className="group bg-white border-2 border-neutral-200 p-8 hover:border-secondary-500 hover:shadow-xl transition-all">
+              <div className="flex items-start gap-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-xl flex items-center justify-center text-3xl text-white shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
+                  
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mb-2 font-heading text-primary-500">Events Calendar</h3>
+                  <p className="text-neutral-600 text-sm">Stay updated with {stats.upcomingEvents} upcoming meetings, competitions, and activities.</p>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/resources" className="group bg-white border-2 border-neutral-200 p-8 hover:border-purple-500 hover:shadow-xl transition-all">
+              <div className="flex items-start gap-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center text-3xl text-white shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
+                  
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mb-2 font-heading text-primary-500">Resources</h3>
+                  <p className="text-neutral-600 text-sm">Templates, guides, training materials, and tools for club success.</p>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/community" className="group bg-white border-2 border-neutral-200 p-8 hover:border-green-500 hover:shadow-xl transition-all">
+              <div className="flex items-start gap-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center text-3xl text-white shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
+                  
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mb-2 font-heading text-primary-500">Community</h3>
+                  <p className="text-neutral-600 text-sm">Discussions, success stories, spotlights, and alumni connections.</p>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/my-space" className="group bg-white border-2 border-neutral-200 p-8 hover:border-accent-500 hover:shadow-xl transition-all">
+              <div className="flex items-start gap-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-accent-500 to-accent-600 rounded-xl flex items-center justify-center text-3xl text-white shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
+                  
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mb-2 font-heading text-primary-500">My Space</h3>
+                  <p className="text-neutral-600 text-sm">Your personal dashboard, goals, collections, and club management.</p>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/propose" className="group bg-white border-2 border-neutral-200 p-8 hover:border-yellow-500 hover:shadow-xl transition-all">
+              <div className="flex items-start gap-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center text-3xl text-white shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
+                  
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mb-2 font-heading text-primary-500">Start a Club</h3>
+                  <p className="text-neutral-600 text-sm">Have an idea? Submit a proposal to start your own student organization.</p>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Events & Quick Actions */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid lg:grid-cols-3 gap-8">
@@ -112,7 +204,7 @@ export default function HomePage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                 </span>
-                This Week&apos;s Events
+                Upcoming Events
               </h2>
               <div className="space-y-4">
                 {upcomingEvents.map((event) => (
@@ -160,16 +252,28 @@ export default function HomePage() {
 
             <div className="space-y-6">
               <div className="card p-6">
-                <h3 className="font-bold text-lg text-primary-500 mb-4 font-heading">Quick Actions</h3>
+                <h3 className="font-bold text-lg text-primary-500 mb-4 font-heading">Quick Tools</h3>
                 <div className="space-y-3">
-                  <Link href="/directory" className="block w-full btn-primary text-center">
-                    Find a Chapter
+                  <Link href="/hub/quiz" className="flex items-center gap-3 p-3 border border-neutral-200 hover:border-primary-400 hover:bg-neutral-50 transition-colors">
+                    <span className="text-2xl"></span>
+                    <div>
+                      <div className="font-medium text-primary-600">Club Finder Quiz</div>
+                      <div className="text-xs text-neutral-500">Find your perfect club match</div>
+                    </div>
                   </Link>
-                  <Link href="/events" className="block w-full btn-secondary text-center">
-                    Browse Events
+                  <Link href="/hub/compare" className="flex items-center gap-3 p-3 border border-neutral-200 hover:border-primary-400 hover:bg-neutral-50 transition-colors">
+                    <span className="text-2xl"></span>
+                    <div>
+                      <div className="font-medium text-primary-600">Compare Clubs</div>
+                      <div className="text-xs text-neutral-500">Side-by-side comparison</div>
+                    </div>
                   </Link>
-                  <Link href="/propose" className="block w-full btn-outline text-center">
-                    Propose New Chapter
+                  <Link href="/hub/health" className="flex items-center gap-3 p-3 border border-neutral-200 hover:border-primary-400 hover:bg-neutral-50 transition-colors">
+                    <span className="text-2xl"></span>
+                    <div>
+                      <div className="font-medium text-primary-600">Club Health Check</div>
+                      <div className="text-xs text-neutral-500">Diagnose & improve your club</div>
+                    </div>
                   </Link>
                 </div>
               </div>
@@ -185,37 +289,16 @@ export default function HomePage() {
                   ))}
                 </div>
               </div>
-
-              <div className="hidden md:block card p-6">
-                <h3 className="font-bold text-lg text-primary-500 mb-4 font-heading">At a Glance</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-neutral-600">Active Chapters</span>
-                    <span className="font-bold text-primary-500">{stats.activeChapters}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-neutral-600">Total Members</span>
-                    <span className="font-bold text-primary-500">{stats.totalMembers.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-neutral-600">Upcoming Events</span>
-                    <span className="font-bold text-primary-500">{stats.upcomingEvents}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-neutral-600">New This Month</span>
-                    <span className="font-bold text-secondary-500">+{stats.newMembersThisMonth}</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Featured Clubs */}
       <section className="py-16 bg-gradient-to-b from-neutral-100 to-neutral-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-10">
-            <h2 className="section-title inline-block">Featured Chapters</h2>
+            <h2 className="section-title inline-block">Featured Clubs</h2>
             <p className="text-neutral-600 mt-2 max-w-2xl mx-auto">Discover some of our most active and impactful student organizations</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -254,7 +337,7 @@ export default function HomePage() {
           </div>
           <div className="mt-10 text-center">
             <Link href="/directory" className="btn-primary inline-flex items-center gap-2">
-              View All Chapters
+              View All Clubs
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -263,62 +346,47 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Resource Highlights */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl">
-              <Image
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80"
-                alt="Students working together"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div>
-              <h2 className="section-title">Why Join a Chapter?</h2>
-              <p className="text-neutral-600 mb-8 text-lg">
-                Being part of a student organization is one of the best ways to make the most of your school experience.
-              </p>
-              <div className="space-y-6">
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg text-primary-500">Build Lasting Friendships</h3>
-                    <p className="text-neutral-600 mt-1">Connect with students who share your interests and passions.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-secondary-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg text-primary-500">Develop New Skills</h3>
-                    <p className="text-neutral-600 mt-1">Gain leadership, teamwork, and specialized skills for your future.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-accent-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg text-primary-500">Make an Impact</h3>
-                    <p className="text-neutral-600 mt-1">Contribute to your school and community in meaningful ways.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="text-center mb-10">
+            <h2 className="section-title inline-block">Resources & Tools</h2>
+            <p className="text-neutral-600 mt-2 max-w-2xl mx-auto">Everything you need to succeed as a club member or leader</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Link href="/hub" className="card p-6 hover:shadow-lg transition-all group">
+              <div className="text-4xl mb-4"></div>
+              <h3 className="font-bold text-primary-500 mb-2">Starter Guides</h3>
+              <p className="text-sm text-neutral-600">Step-by-step guides to start and run clubs successfully.</p>
+            </Link>
+            <Link href="/hub/competitions" className="card p-6 hover:shadow-lg transition-all group">
+              <div className="text-4xl mb-4"></div>
+              <h3 className="font-bold text-primary-500 mb-2">Competitions</h3>
+              <p className="text-sm text-neutral-600">Find and track student competitions nationwide.</p>
+            </Link>
+            <Link href="/hub/mentors" className="card p-6 hover:shadow-lg transition-all group">
+              <div className="text-4xl mb-4"></div>
+              <h3 className="font-bold text-primary-500 mb-2">Mentorship</h3>
+              <p className="text-sm text-neutral-600">Connect with alumni and advisors for guidance.</p>
+            </Link>
+            <Link href="/hub/external" className="card p-6 hover:shadow-lg transition-all group">
+              <div className="text-4xl mb-4"></div>
+              <h3 className="font-bold text-primary-500 mb-2">External Resources</h3>
+              <p className="text-sm text-neutral-600">100+ curated links to helpful external resources.</p>
+            </Link>
+          </div>
+          <div className="mt-10 text-center">
+            <Link href="/resources" className="btn-outline inline-flex items-center gap-2">
+              View All Resources
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
           </div>
         </div>
       </section>
 
+      {/* CTA Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0">
           <Image
@@ -330,10 +398,10 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-primary-500/90"></div>
         </div>
         <div className="relative max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold font-heading mb-4 text-white">Have an Idea for a New Chapter?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold font-heading mb-4 text-white">Have an Idea for a New Club?</h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            We&apos;re always looking for new student organizations. If you have a passion and want to share it with others, 
-            submit a proposal to start your own chapter.
+            We&apos;re always looking for new student organizations. If you have a passion and want to share it with others,
+            submit a proposal to start your own club.
           </p>
           <Link href="/propose" className="btn-secondary inline-flex items-center gap-2">
             Submit a Proposal

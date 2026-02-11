@@ -171,3 +171,463 @@ export interface Stats {
   upcomingEvents: number;
   newMembersThisMonth: number;
 }
+
+// ==========================================
+// COMMUNITY RESOURCE HUB - Extended Types
+// ==========================================
+
+// Club Starter Toolkit Types
+export interface StarterGuide {
+  id: string;
+  title: string;
+  description: string;
+  category: StarterGuideCategory;
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  estimatedTime: string;
+  steps: GuideStep[];
+  downloadUrl?: string;
+  videoUrl?: string;
+  relatedGuides: string[];
+  views: number;
+  helpful: number;
+  dateUpdated: string;
+}
+
+export type StarterGuideCategory = 
+  | 'Getting Started'
+  | 'Constitution & Bylaws'
+  | 'Recruiting Members'
+  | 'Running Meetings'
+  | 'Event Planning'
+  | 'Fundraising'
+  | 'Marketing'
+  | 'Leadership'
+  | 'Advisor Relations'
+  | 'Competitions';
+
+export interface GuideStep {
+  stepNumber: number;
+  title: string;
+  content: string;
+  tips?: string[];
+  warnings?: string[];
+  resources?: { title: string; url: string }[];
+}
+
+// Club Ideas Generator Types
+export interface ClubIdea {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  category: ChapterCategory;
+  targetAudience: string[];
+  estimatedInterest: 'Low' | 'Medium' | 'High' | 'Very High';
+  startupCost: 'Free' | 'Low ($0-50)' | 'Medium ($50-200)' | 'High ($200+)';
+  difficultyToStart: 'Easy' | 'Moderate' | 'Challenging';
+  suggestedActivities: string[];
+  potentialPartners: string[];
+  successTips: string[];
+  existsAtSchool: boolean;
+  votes: number;
+  submittedBy?: string;
+  dateSubmitted: string;
+}
+
+export interface ClubIdeaSubmission {
+  name: string;
+  tagline: string;
+  description: string;
+  category: ChapterCategory;
+  targetAudience: string[];
+  suggestedActivities: string[];
+  submitterName: string;
+  submitterEmail: string;
+  submitterGrade: string;
+}
+
+// Competition Hub Types
+export interface Competition {
+  id: string;
+  name: string;
+  organization: string;
+  description: string;
+  category: ChapterCategory;
+  eligibility: string[];
+  registrationDeadline: string;
+  competitionDates: string;
+  location: string;
+  locationType: 'In-Person' | 'Virtual' | 'Hybrid';
+  entryFee: string;
+  prizes: string[];
+  websiteUrl: string;
+  difficulty: 'Beginner-Friendly' | 'Intermediate' | 'Advanced' | 'Elite';
+  teamSize: string;
+  preparationResources: CompetitionResource[];
+  pastWinners?: string[];
+  schoolParticipationHistory: SchoolParticipation[];
+  isFeatured: boolean;
+}
+
+export interface CompetitionResource {
+  title: string;
+  type: 'Guide' | 'Video' | 'Practice' | 'Template' | 'External';
+  url: string;
+}
+
+export interface SchoolParticipation {
+  year: number;
+  placement?: string;
+  participants: string[];
+  highlights?: string;
+}
+
+export interface CompetitionTracker {
+  id: string;
+  competitionId: string;
+  chapterId: string;
+  status: 'Interested' | 'Registered' | 'Preparing' | 'Completed' | 'Won';
+  teamMembers: string[];
+  notes: string;
+  preparationChecklist: { task: string; completed: boolean }[];
+  dateAdded: string;
+}
+
+// Club Health Dashboard Types
+export interface ClubHealthMetrics {
+  chapterId: string;
+  clubId: string;
+  clubName: string;
+  overallScore: number; // 0-100
+  metrics: {
+    memberEngagement: number;
+    eventFrequency: number;
+    memberRetention: number;
+    leadershipDevelopment: number;
+    communityImpact: number;
+    financialHealth: number;
+  };
+  // Additional metrics used by dashboard
+  memberRetention: number;
+  eventAttendance: number;
+  memberSatisfaction: number;
+  leadershipDevelopment: number;
+  communityImpact: number;
+  financialHealth: number;
+  growthRate: number;
+  engagementScore: number;
+  totalMembers: number;
+  activeMembers: number;
+  eventsThisMonth: number;
+  newMembersLast30Days: number;
+  trends: {
+    metric: string;
+    direction: 'up' | 'down' | 'stable';
+    change: number;
+  }[];
+  recommendations: string[];
+  lastUpdated: string;
+}
+
+export interface ClubBenchmark {
+  category: ChapterCategory;
+  averageMembers: number;
+  averageEventsPerMonth: number;
+  averageRetentionRate: number;
+  topPerformers: string[];
+}
+
+// Mentorship Network Types
+export interface Mentor {
+  id: string;
+  name: string;
+  type: 'Alumni' | 'Current Officer' | 'Advisor' | 'Community Partner';
+  title: string;
+  organization?: string;
+  bio: string;
+  expertise: string[];
+  chaptersAdvised: string[];
+  availability: 'Available' | 'Limited' | 'Full';
+  contactMethod: 'Email' | 'Platform Message' | 'Schedule Meeting';
+  email?: string;
+  linkedIn?: string;
+  testimonials: MentorTestimonial[];
+  sessionsCompleted: number;
+  rating: number;
+  photoUrl?: string;
+}
+
+export interface MentorTestimonial {
+  quote: string;
+  author: string;
+  role: string;
+  date: string;
+}
+
+export interface MentorshipRequest {
+  id: string;
+  mentorId: string;
+  menteeId: string;
+  menteeName: string;
+  menteeEmail: string;
+  chapterName?: string;
+  topics: string[];
+  message: string;
+  preferredSchedule: string;
+  status: 'Pending' | 'Accepted' | 'Declined' | 'Completed';
+  dateSubmitted: string;
+}
+
+// Collaboration Finder Types
+export interface CollaborationOpportunity {
+  id: string;
+  title: string;
+  description: string;
+  hostChapterId: string;
+  hostChapterName: string;
+  type: CollaborationType;
+  category: ChapterCategory[];
+  targetChapters: string[];
+  requirements: string[];
+  benefits: string[];
+  proposedDate?: string;
+  deadline: string;
+  maxParticipants?: number;
+  currentInterest: number;
+  status: 'Open' | 'In Progress' | 'Completed' | 'Cancelled';
+  interestedChapters: { chapterId: string; chapterName: string; dateExpressed: string }[];
+  datePosted: string;
+}
+
+export type CollaborationType = 
+  | 'Joint Event'
+  | 'Fundraiser'
+  | 'Community Service'
+  | 'Competition Team'
+  | 'Workshop'
+  | 'Mentorship Exchange'
+  | 'Resource Sharing'
+  | 'Cross-Promotion';
+
+export interface CollaborationProposal {
+  title: string;
+  description: string;
+  type: CollaborationType;
+  category: ChapterCategory[];
+  requirements: string[];
+  benefits: string[];
+  proposedDate?: string;
+  deadline: string;
+  maxParticipants?: number;
+  submitterName: string;
+  submitterEmail: string;
+  chapterName: string;
+}
+
+// Success Stories Types
+export interface SuccessStory {
+  id: string;
+  title: string;
+  summary: string;
+  fullStory: string;
+  chapterId?: string;
+  chapterName?: string;
+  authorName: string;
+  authorRole: string;
+  authorGrade?: string;
+  category: SuccessCategory;
+  tags: string[];
+  impactMetrics?: { label: string; value: string }[];
+  images?: string[];
+  videoUrl?: string;
+  featured: boolean;
+  likes: number;
+  shares: number;
+  datePublished: string;
+}
+
+export type SuccessCategory = 
+  | 'Personal Growth'
+  | 'Competition Victory'
+  | 'Community Impact'
+  | 'Club Turnaround'
+  | 'Innovative Event'
+  | 'Leadership Journey'
+  | 'Collaboration Success'
+  | 'Fundraising Achievement'
+  | 'Alumni Career';
+
+export interface StorySubmission {
+  title: string;
+  summary: string;
+  fullStory: string;
+  chapterName?: string;
+  authorName: string;
+  authorEmail: string;
+  authorRole: string;
+  category: SuccessCategory;
+  tags: string[];
+  impactMetrics?: { label: string; value: string }[];
+}
+
+// Resource Request Types
+export interface ResourceRequest {
+  id: string;
+  title: string;
+  description: string;
+  category: ResourceCategory | 'New Category';
+  requestType: 'New Resource' | 'Update Existing' | 'Translation' | 'Accessibility';
+  urgency: 'Low' | 'Medium' | 'High' | 'Critical';
+  suggestedFormat?: string;
+  requesterName: string;
+  requesterEmail: string;
+  chapterName?: string;
+  status: 'Submitted' | 'Under Review' | 'In Progress' | 'Completed' | 'Declined';
+  adminNotes?: string;
+  dateSubmitted: string;
+  dateResolved?: string;
+  upvotes: number;
+  upvoters: string[];
+}
+
+// Club Comparison Types
+export interface ComparisonCriteria {
+  id: string;
+  label: string;
+  description: string;
+  category: 'Basic Info' | 'Commitment' | 'Opportunities' | 'Culture';
+}
+
+// Achievement System Types
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  category: AchievementCategory;
+  points: number;
+  rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary';
+  requirements: string[];
+  unlockedBy: number; // percentage of users
+}
+
+export type AchievementCategory = 
+  | 'Participation'
+  | 'Leadership'
+  | 'Events'
+  | 'Service'
+  | 'Competitions'
+  | 'Mentorship'
+  | 'Community';
+
+export interface UserAchievements {
+  odingerId: string;
+  achievements: { achievementId: string; dateEarned: string }[];
+  totalPoints: number;
+  level: number;
+  rank: string;
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  userId: string;
+  userName: string;
+  chapterName?: string;
+  points: number;
+  achievementCount: number;
+  level: number;
+}
+
+// Calendar Integration Types
+export interface CalendarEvent {
+  id: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+  chapterId?: string;
+  chapterName?: string;
+  eventType: 'Meeting' | 'Event' | 'Competition' | 'Deadline' | 'Workshop';
+  isRecurring: boolean;
+  recurrencePattern?: string;
+  reminders: { time: string; method: 'Email' | 'Push' | 'Both' }[];
+  attendees?: string[];
+  color: string;
+  icsUrl?: string;
+}
+
+export interface CalendarSubscription {
+  id: string;
+  userId: string;
+  chapterIds: string[];
+  categories: ChapterCategory[];
+  includeDeadlines: boolean;
+  includeCompetitions: boolean;
+  syncMethod: 'Google' | 'Apple' | 'Outlook' | 'ICS';
+  lastSynced: string;
+}
+
+// Quiz and Assessment Types
+export interface ClubFinderQuiz {
+  id: string;
+  question: string;
+  questionType: 'single' | 'multiple' | 'scale' | 'ranking';
+  options: QuizOption[];
+  weight: number;
+}
+
+export interface QuizOption {
+  id: string;
+  text: string;
+  categoryScores: { category: ChapterCategory; score: number }[];
+}
+
+export interface QuizResult {
+  topCategories: { category: ChapterCategory; matchPercentage: number }[];
+  recommendedChapters: Chapter[];
+  personalityTraits: string[];
+  suggestedActivities: string[];
+}
+
+// Analytics Types (for database-ready features)
+export interface PageAnalytics {
+  pageId: string;
+  pageName: string;
+  views: number;
+  uniqueVisitors: number;
+  averageTimeOnPage: number;
+  bounceRate: number;
+  topReferrers: { source: string; count: number }[];
+  dateRange: { start: string; end: string };
+}
+
+export interface UserEngagement {
+  userId: string;
+  sessionsCount: number;
+  pagesViewed: string[];
+  actionsCompleted: string[];
+  lastActive: string;
+  engagementScore: number;
+}
+
+// Notification System Types
+export interface Notification {
+  id: string;
+  userId: string;
+  type: NotificationType;
+  title: string;
+  message: string;
+  link?: string;
+  read: boolean;
+  dateCreated: string;
+}
+
+export type NotificationType = 
+  | 'Event Reminder'
+  | 'New Resource'
+  | 'Competition Deadline'
+  | 'Mentorship Update'
+  | 'Achievement Unlocked'
+  | 'Collaboration Request'
+  | 'Announcement';
