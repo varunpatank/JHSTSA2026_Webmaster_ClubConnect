@@ -231,7 +231,7 @@ export default function ExplorePage() {
                 External Resources Library
               </Link>
               <Link 
-                href="/hub/guides"
+                href="/hub"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
               >
                 <span>📖</span>

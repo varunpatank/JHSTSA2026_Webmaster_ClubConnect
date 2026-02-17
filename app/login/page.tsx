@@ -33,7 +33,7 @@ export default function LoginPage() {
         />
         <div className="absolute inset-0 bg-primary-500/80"></div>
       </div>
-      <div className="relative max-w-md w-full">
+        <div className="relative max-w-md w-full z-30 bg-white/95 backdrop-blur-sm rounded-xl p-4 animate-fade-up" style={{ animationDelay: '80ms' }}>
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-3">
             <div className="w-16 h-16 bg-primary-500 flex items-center justify-center">
@@ -44,7 +44,7 @@ export default function LoginPage() {
           <p className="text-neutral-600">Where School Chapters Thrive</p>
         </div>
 
-        <div className="card p-8">
+        <div className="card p-8 bg-white/100 animate-fade-up" style={{ animationDelay: '160ms' }}>
           <h2 className="text-xl font-bold text-primary-500 mb-6 text-center font-heading">Sign In</h2>
 
           <div className="grid grid-cols-3 gap-2 mb-6">

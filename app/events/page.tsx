@@ -125,7 +125,9 @@ export default function EventsPage() {
                         <span className="badge badge-secondary">{event.category}</span>
                       </div>
                       <div className="flex-grow">
-                        <h3 className="font-bold text-xl text-primary-500 font-heading">{event.title}</h3>
+                        <h3 className="font-bold text-xl text-primary-500 font-heading">
+                        <Link href={`/events/${event.id}`} className="hover:underline">{event.title}</Link>
+                      </h3>
                         <Link 
                           href={`/directory/${event.chapterId}`}
                           className="text-secondary-500 hover:underline text-sm font-medium"
@@ -152,9 +154,9 @@ export default function EventsPage() {
                         </div>
                       </div>
                       <div className="flex flex-col gap-2 items-end">
-                        <span className={`badge ${event.isPublic ? 'badge-primary' : 'badge-outline'}`}>
+                        <Link href={`/events/${event.id}`} className={`badge ${event.isPublic ? 'badge-primary' : 'badge-outline'}`}>
                           {event.isPublic ? 'Open Event' : 'Members Only'}
-                        </span>
+                        </Link>
                         {event.requiresRSVP && (
                           <button className="btn-secondary text-sm px-4 py-1">
                             RSVP

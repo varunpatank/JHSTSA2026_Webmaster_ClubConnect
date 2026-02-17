@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function InitiationPage() {
   const [openId, setOpenId] = useState<string | null>(null);
@@ -25,10 +25,10 @@ export default function InitiationPage() {
         { name: 'Collaboration Board', href: '/hub/collaborate', icon: '🤝' },
         { name: 'Mentor Directory', href: '/hub/mentors', icon: '👨‍🏫' },
         { name: 'Spotlight & Stories', href: '/hub/stories', icon: '⭐' },
-        { name: 'Event Planning Templates', href: '/hub/guides', icon: '📋' },
+        { name: 'Event Planning Templates', href: '/hub/guides/guide-5', icon: '📋' },
         { name: 'Fundraising Ideas', href: '/funding', icon: '💰' },
         { name: 'Social Media Guide', href: '/hub/external', icon: '📱' },
-        { name: 'Member Recruitment Tips', href: '/hub/guides', icon: '👥' },
+        { name: 'Member Recruitment Tips', href: '/hub/guides/guide-3', icon: '👥' },
       ],
     },
     {
@@ -41,10 +41,10 @@ export default function InitiationPage() {
       borderColor: 'border-blue-200',
       tools: [
         { name: 'Propose New Club', href: '/propose', icon: '✨' },
-        { name: 'Officer Guides', href: '/hub/guides', icon: '📖' },
+        { name: 'Officer Guides', href: '/hub/guides/guide-2', icon: '📖' },
         { name: 'Request Resources', href: '/hub/request', icon: '🛠️' },
-        { name: 'Club Officer Handbook', href: '/hub/guides', icon: '📘' },
-        { name: 'Meeting Agenda Templates', href: '/hub/guides', icon: '📝' },
+        { name: 'Club Officer Handbook', href: '/hub/guides/guide-2', icon: '📘' },
+        { name: 'Meeting Agenda Templates', href: '/hub/guides/guide-4', icon: '📝' },
         { name: 'External Resources', href: '/hub/external', icon: '🔗' },
       ],
     },
@@ -58,9 +58,9 @@ export default function InitiationPage() {
       borderColor: 'border-green-200',
       tools: [
         { name: 'Starter Guides', href: '/hub', icon: '🚀' },
-        { name: 'Meeting Agenda Templates', href: '/hub/guides', icon: '📅' },
+        { name: 'Meeting Agenda Templates', href: '/hub/guides/guide-4', icon: '📅' },
         { name: 'Club Health Check', href: '/hub/health', icon: '💊' },
-        { name: 'Event Planning Templates', href: '/hub/guides', icon: '📋' },
+        { name: 'Event Planning Templates', href: '/hub/guides/guide-5', icon: '📋' },
         { name: 'Collaboration Board', href: '/hub/collaborate', icon: '🤝' },
       ],
     },
@@ -76,7 +76,7 @@ export default function InitiationPage() {
         { name: 'Event Calendar', href: '/hub/calendar', icon: '📆' },
         { name: 'Fundraising Ideas', href: '/funding', icon: '💰' },
         { name: 'Social Media Guide', href: '/hub/external', icon: '📱' },
-        { name: 'Member Recruitment Tips', href: '/hub/guides', icon: '👥' },
+        { name: 'Member Recruitment Tips', href: '/hub/guides/guide-3', icon: '👥' },
         { name: 'Spotlight & Stories', href: '/hub/stories', icon: '⭐' },
       ],
     },
@@ -113,6 +113,27 @@ export default function InitiationPage() {
       ],
     },
   ];
+
+  useEffect(() => {
+    // If navigated with a hash (from header dropdown or external link), scroll to that stage
+    const scrollToHash = () => {
+      const hash = window.location.hash;
+      if (!hash) return;
+      const id = hash.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        // expand that stage and scroll to it
+        setOpenId(id);
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    // Scroll on mount
+    scrollToHash();
+    // Also handle future hash changes
+    window.addEventListener('hashchange', scrollToHash);
+    return () => window.removeEventListener('hashchange', scrollToHash);
+  }, []);
 
   return (
     <div className="min-h-screen bg-neutral-100">
@@ -175,7 +196,7 @@ export default function InitiationPage() {
         {/* Stage Details */}
         <div className="max-w-4xl mx-auto">
           {stages.map((stage, index) => (
-            <div key={stage.id} className="mb-6">
+            <div id={stage.id} key={stage.id} className="mb-6 scroll-mt-20">
               <div className={`bg-white border-2 ${stage.borderColor} rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200`}>
                 <button
                   onClick={() => setOpenId(openId === stage.id ? null : stage.id)}
@@ -204,11 +225,12 @@ export default function InitiationPage() {
                   <div className="border-t border-neutral-100 bg-neutral-50">
                     <div className="p-6">
                       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                        {stage.tools.map((tool) => (
+                        {stage.tools.map((tool, idx) => (
                           <Link
-                            key={tool.href}
+                            key={`${stage.id}-${tool.name}-${idx}`}
                             href={tool.href}
                             className="flex items-center gap-3 p-4 bg-white border border-neutral-200 rounded-lg hover:border-primary-300 hover:shadow-sm transition-all duration-200 group"
+                            onFocus={() => setOpenId(stage.id)}
                           >
                             <span className="text-2xl">{tool.icon}</span>
                             <div className="flex-1">

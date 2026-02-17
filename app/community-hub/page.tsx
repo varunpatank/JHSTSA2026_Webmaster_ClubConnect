@@ -1,4 +1,7 @@
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+
+const ClubBuilder = dynamic(() => import('@/components/ClubBuilder'), { ssr: false });
 
 export default function CommunityHubPage() {
   return (
@@ -16,12 +19,12 @@ export default function CommunityHubPage() {
             <li className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
               <h3 className="font-semibold text-neutral-800 mb-2">Club Officer Handbook</h3>
               <p className="text-neutral-600 mb-2">Complete guide for leading your club effectively.</p>
-              <Link href="/hub/guides" className="text-primary-600 font-medium">View Guide</Link>
+              <Link href="/hub/guides/guide-2" className="text-primary-600 font-medium">View Guide</Link>
             </li>
             <li className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
               <h3 className="font-semibold text-neutral-800 mb-2">Event Planning Templates</h3>
               <p className="text-neutral-600 mb-2">Ready-to-use templates for organizing events.</p>
-              <Link href="/hub/guides" className="text-primary-600 font-medium">View Templates</Link>
+              <Link href="/hub/guides/guide-5" className="text-primary-600 font-medium">View Templates</Link>
             </li>
             <li className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
               <h3 className="font-semibold text-neutral-800 mb-2">Fundraising Ideas</h3>
@@ -56,7 +59,7 @@ export default function CommunityHubPage() {
             <li className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
               <h3 className="font-semibold text-neutral-800 mb-2">Officer Guides</h3>
               <p className="text-neutral-600 mb-2">Comprehensive guides for club officers.</p>
-              <Link href="/hub/guides" className="text-primary-600 font-medium">View Guides</Link>
+              <Link href="/hub/guides/guide-2" className="text-primary-600 font-medium">View Guides</Link>
             </li>
           </ul>
         </section>
@@ -66,6 +69,44 @@ export default function CommunityHubPage() {
             <p className="text-neutral-800 text-lg mb-2 font-semibold">Our Mission</p>
             <p className="text-neutral-600 mb-4">To empower every student club and chapter to thrive by providing access to resources, mentorship, and a collaborative community. We believe in the power of student leadership and teamwork to create lasting impact in our schools and beyond.</p>
             <p className="text-neutral-600">Together, we build a stronger, more connected school community.</p>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-bold text-primary-700 mb-4">Club Builder — design your club</h2>
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div>
+              <p className="text-neutral-600 mb-4">Create a new club with guided suggestions: name ideas, logo, mission statement, and a ready-to-send proposal message to an advisor.</p>
+              <p className="text-sm text-neutral-500 mb-6">Use this tool to quickly prepare everything you need to propose and launch your chapter.</p>
+              <div className="space-y-4">
+                {/* Left column: quick tips */}
+                <div className="bg-white border border-neutral-200 rounded-xl p-4">
+                  <h4 className="font-semibold text-neutral-800 mb-2">Quick tips</h4>
+                  <ul className="list-disc pl-5 text-sm text-neutral-600 space-y-1">
+                    <li>Pick a clear focus and activities for your first semester.</li>
+                    <li>Keep meetings consistent (weekly or bi-weekly).</li>
+                    <li>Identify a faculty advisor and at least two officers.</li>
+                    <li>Use the proposal message to contact an advisor directly.</li>
+                  </ul>
+                </div>
+
+                <div className="bg-white border border-neutral-200 rounded-xl p-4">
+                  <h4 className="font-semibold text-neutral-800 mb-2">Starter resources</h4>
+                  <div className="flex flex-col gap-2 text-sm">
+                    <Link href="/hub" className="text-primary-600">Officer Guides & Templates</Link>
+                    <Link href="/hub/request" className="text-primary-600">Request Resources</Link>
+                    <Link href="/propose" className="text-primary-600">Propose a Chapter (prefilled)</Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              {/* ClubBuilder client component */}
+              <div id="club-builder-root">
+                <ClubBuilder />
+              </div>
+            </div>
           </div>
         </section>
       </div>

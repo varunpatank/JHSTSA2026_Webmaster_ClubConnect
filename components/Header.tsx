@@ -1,16 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const mainNavLinks = [
     { href: '/', label: 'Home' },
+    { href: '/about', label: 'About' },
     { href: '/explore', label: 'Explore' },
     { href: '/my-space', label: 'My Space' },
     { href: '/community', label: 'Community' },
+    { href: '/meetings', label: 'Meetings' },
   ];
 
   const initiationStages = [
@@ -22,9 +24,32 @@ export default function Header() {
     { id: 'growth', label: 'Growth & Competitions' },
   ];
   const [showInitiation, setShowInitiation] = useState(false);
+  const hideTimeoutRef = useRef<number | null>(null);
+
+  const openInitiation = () => {
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+    setShowInitiation(true);
+  };
+
+  const closeInitiationDelayed = (delay = 250) => {
+    if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+    hideTimeoutRef.current = window.setTimeout(() => {
+      setShowInitiation(false);
+      hideTimeoutRef.current = null;
+    }, delay);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+    };
+  }, []);
 
   return (
-    <header className="bg-primary-500 text-white shadow-lg">
+    <header className="bg-primary-500 text-white shadow-lg z-50">
       {/* Top Bar */}
       <div className="bg-primary-700 py-1">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-sm">
@@ -71,22 +96,34 @@ export default function Header() {
             {/* Initiation dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setShowInitiation(true)}
-              onMouseLeave={() => setShowInitiation(false)}
+              onMouseEnter={openInitiation}
+              onMouseLeave={() => closeInitiationDelayed()}
             >
-              <Link href="/initiation" className="px-4 py-2 font-medium hover:bg-primary-600 rounded-lg transition-colors inline-flex items-center gap-2">
+              <Link
+                href="/initiation"
+                className="px-4 py-2 font-medium hover:bg-primary-600 rounded-lg transition-colors inline-flex items-center gap-2"
+                onFocus={openInitiation}
+                onBlur={() => closeInitiationDelayed()}
+                aria-haspopup="menu"
+                aria-expanded={showInitiation}
+              >
                 Initiation
                 <span className="text-sm">▾</span>
               </Link>
 
               {showInitiation && (
-                <div className="absolute right-0 mt-2 w-64 bg-white text-neutral-800 rounded-lg shadow-lg border">
+                <div
+                  className="absolute right-0 mt-2 w-64 bg-white text-neutral-800 rounded-lg shadow-lg border z-50"
+                  onMouseEnter={openInitiation}
+                  onMouseLeave={() => closeInitiationDelayed()}
+                >
                   <div className="p-2">
                     {initiationStages.map((s) => (
                       <Link
                         key={s.id}
-                        href={`/initiation/${s.id}`}
+                        href={`/initiation#${s.id}`}
                         className="block px-3 py-2 rounded hover:bg-neutral-100"
+                        onFocus={openInitiation}
                       >
                         {s.label}
                       </Link>

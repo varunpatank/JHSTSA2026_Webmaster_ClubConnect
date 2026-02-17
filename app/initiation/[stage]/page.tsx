@@ -13,26 +13,26 @@ const stages = [
       { name: 'External Resources Library', href: '/hub/external' },
     ],
   },
-  {
-    id: 'proposal',
-    title: 'Proposal & Approval',
-    description: 'Prepare and submit the official proposal to start a club.',
-    tools: [
-      { name: 'Propose New Club', href: '/propose' },
-      { name: 'Officer Guides', href: '/hub/guides' },
-      { name: 'Request Resources', href: '/hub/request' },
-    ],
-  },
-  {
-    id: 'setup',
-    title: 'Setup & Structure',
-    description: 'Create constitution, officer roles, and meeting plans.',
-    tools: [
-      { name: 'Starter Guides', href: '/hub' },
-      { name: 'Meeting Agenda Templates', href: '/hub/guides' },
-      { name: 'Club Health Check', href: '/hub/health' },
-    ],
-  },
+      {
+        id: 'proposal',
+        title: 'Proposal & Approval',
+        description: 'Prepare and submit the official proposal to start a club.',
+        tools: [
+          { name: 'Propose New Club', href: '/propose' },
+          { name: 'Officer Guides', href: '/hub/guides/guide-2' },
+          { name: 'Request Resources', href: '/hub/request' },
+        ],
+      },
+      {
+        id: 'setup',
+        title: 'Setup & Structure',
+        description: 'Create constitution, officer roles, and meeting plans.',
+        tools: [
+          { name: 'Starter Guides', href: '/hub' },
+          { name: 'Meeting Agenda Templates', href: '/hub/guides/guide-4' },
+          { name: 'Club Health Check', href: '/hub/health' },
+        ],
+      },
   {
     id: 'recruitment',
     title: 'Recruitment & Launch',

@@ -1,10 +1,15 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+const EmbeddedCall = dynamic(() => import('@/components/EmbeddedCall'), { ssr: false });
 
 export default function CommunityPage() {
-  const [activeTab, setActiveTab] = useState<'discussions' | 'spotlight' | 'stories' | 'alumni'>('discussions');
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<'discussions' | 'spotlight' | 'stories' | 'alumni' | 'connect'>('discussions');
 
   const discussions = [
     { id: 1, title: 'Tips for TSA State Competition?', author: 'Maria G.', club: 'TSA', replies: 23, lastActive: '2 hours ago', hot: true },
@@ -33,6 +38,88 @@ export default function CommunityPage() {
     { id: 3, name: 'Amanda Lee', year: '2019', role: 'Broadway Performer', club: 'Drama' },
   ];
 
+  // --- Connect / Meetings (new) ---
+  const members = [
+    { id: 'm1', name: 'Greg Shelton', role: 'Advisor', club: 'Juanita HS Webmaster', email: 'gshelton@lwsd.org', bio: 'Advisor with 10+ years experience mentoring Webmaster teams.', availability: ['Mon 3:30pm','Wed 4:00pm'] },
+    { id: 'm2', name: 'Alex Johnson', role: 'Team Captain', club: 'Robotics', email: 'a.johnson@student.edu', bio: 'Lead programmer and mentor for new members.', availability: ['Tue 5:00pm','Thu 3:30pm'] },
+    { id: 'm3', name: 'Isabella Martinez', role: 'President', club: 'Community Service', email: 'i.martinez@student.edu', bio: 'Organizes large volunteer drives and outreach.', availability: ['Fri 12:00pm'] },
+  ];
+
+  const [meetings, setMeetings] = useState<any[]>([]);
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [selectedMember, setSelectedMember] = useState<any | null>(null);
+  const [form, setForm] = useState({ datetime: '', duration: 30, method: 'Video', message: '' });
+
+  function openSchedule(member: any) {
+    setSelectedMember(member);
+    setShowScheduleModal(true);
+  }
+
+  function createMeeting() {
+    if (!selectedMember || !form.datetime) return alert('Please choose date/time');
+    const mt = {
+      id: 'mt-' + Date.now(),
+      member: selectedMember,
+      datetime: form.datetime,
+      duration: form.duration,
+      method: form.method,
+      message: form.message,
+      room: `ClubConnect-${selectedMember.id}-${Date.now()}`,
+    };
+    setMeetings((m) => [mt, ...m]);
+    setShowScheduleModal(false);
+    setForm({ datetime: '', duration: 30, method: 'Video', message: '' });
+  }
+
+  function downloadICS(meeting: any) {
+    const start = new Date(meeting.datetime);
+    const end = new Date(start.getTime() + meeting.duration * 60000);
+    const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nUID:${meeting.id}\nDTSTAMP:${start.toISOString().replace(/[-:]/g,'').split('.')[0]}Z\nDTSTART:${start.toISOString().replace(/[-:]/g,'').split('.')[0]}Z\nDTEND:${end.toISOString().replace(/[-:]/g,'').split('.')[0]}Z\nSUMMARY:Meeting with ${meeting.member.name}\nDESCRIPTION:${meeting.message}\nEND:VEVENT\nEND:VCALENDAR`;
+    const blob = new Blob([ics], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${meeting.member.name.replace(/\s+/g,'_')}-meeting.ics`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  const [embeddedRoom, setEmbeddedRoom] = useState<string | null>(null);
+
+  function startEmbeddedRoom(roomId: string) {
+    setEmbeddedRoom(roomId);
+  }
+
+  function openLocalPreview() {
+    // open simple local preview modal (handled below)
+    setShowPreview(true);
+  }
+
+  const [showPreview, setShowPreview] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    let stream: MediaStream | null = null;
+    async function start() {
+      if (!showPreview) return;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        if (videoRef.current) videoRef.current.srcObject = stream;
+      } catch (err) {
+        console.error('getUserMedia failed', err);
+        alert('Unable to access camera/microphone for preview.');
+        setShowPreview(false);
+      }
+    }
+    start();
+    return () => {
+      if (stream) stream.getTracks().forEach(t => t.stop());
+      if (videoRef.current) videoRef.current.srcObject = null;
+    };
+  }, [showPreview]);
+
   return (
     <div className="min-h-screen bg-neutral-100">
       {/* Hero Section */}
@@ -54,10 +141,11 @@ export default function CommunityPage() {
               { key: 'spotlight', label: 'Club Spotlight', icon: '⭐' },
               { key: 'stories', label: 'Success Stories', icon: '🌟' },
               { key: 'alumni', label: 'Alumni Network', icon: '🎓' },
+              { key: 'connect', label: 'Connect & Meetings', icon: '📞' },
             ].map((tab) => (
               <button
                 key={tab.key}
-                onClick={() => setActiveTab(tab.key as 'discussions' | 'spotlight' | 'stories' | 'alumni')}
+                onClick={() => setActiveTab(tab.key as 'discussions' | 'spotlight' | 'stories' | 'alumni' | 'connect')}
                 className={`px-6 py-4 font-medium border-b-3 transition-colors ${
                   activeTab === tab.key
                     ? 'border-secondary-500 text-primary-600 bg-neutral-50'
@@ -236,6 +324,132 @@ export default function CommunityPage() {
             </div>
           </div>
         )}
+
+        {/* Connect & Meetings Tab (new) */}
+        {activeTab === 'connect' && (
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-primary-700">Connect with Founders & Members</h2>
+              <div className="flex gap-3">
+                <button onClick={() => setShowPreview(true)} className="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 rounded">Local Call Preview</button>
+                <button onClick={() => { setSelectedMember(null); setShowScheduleModal(true); }} className="px-4 py-2 bg-secondary-500 text-white rounded">Schedule Meeting</button>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 mb-8">
+              {members.map((member, idx) => (
+                <div key={member.id} className="bg-white border-2 border-neutral-200 p-6 hover:shadow-lg transition-shadow animate-fade-up" style={{ animationDelay: `${idx * 80}ms` }}>
+                  <div className="flex items-start gap-4">
+                    <div className="w-14 h-14 rounded-full bg-primary-100 flex items-center justify-center text-2xl">{member.name.split(' ').map(n=>n[0]).slice(0,2).join('')}</div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <div>
+                          <h3 className="font-bold text-primary-700">{member.name}</h3>
+                          <div className="text-xs text-neutral-500">{member.role} • {member.club}</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-xs text-neutral-400">Availability</div>
+                          <div className="text-sm text-neutral-600">{member.availability.join(', ')}</div>
+                        </div>
+                      </div>
+                      <p className="text-sm text-neutral-600 mt-3">{member.bio}</p>
+
+                      <div className="mt-4 flex gap-2">
+                        <button onClick={() => openSchedule(member)} className="px-3 py-2 bg-primary-600 text-white rounded">Book</button>
+                        <button onClick={() => router.push(`/call/${encodeURIComponent(`Community-${member.id}-${Date.now()}`)}`)} className="px-3 py-2 border rounded">Start Call (full‑screen)</button>
+                        <button onClick={() => { setSelectedMember(member); setShowScheduleModal(true); }} className="px-3 py-2 border rounded">Message / Propose</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mb-8 bg-white border rounded-lg p-6 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold">Upcoming Meetings</h3>
+                <div className="text-sm text-neutral-500">Manage on the Meetings page</div>
+              </div>
+              <p className="text-neutral-500 mb-4">Meetings are now managed on a dedicated page for better clarity and controls.</p>
+              <div className="flex gap-3">
+                <a href="/meetings" className="px-4 py-2 bg-primary-600 text-white rounded">Open Meetings →</a>
+                <button onClick={() => setShowScheduleModal(true)} className="px-4 py-2 border rounded">Quick schedule</button>
+              </div>
+            </div>
+
+            {/* Schedule modal */}
+            {showScheduleModal && (
+              <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-xl w-full max-w-2xl p-6">
+                  <div className="flex items-start justify-between mb-4 gap-4">
+                    <h4 className="text-lg font-bold truncate max-w-[72%]">Schedule Meeting {selectedMember ? `with ${selectedMember.name}` : ''}</h4>
+                    <button onClick={() => setShowScheduleModal(false)} className="text-neutral-400 ml-auto">✕</button>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm text-neutral-600">Date & time</label>
+                      <input type="datetime-local" value={form.datetime} onChange={e=>setForm(f=>({...f, datetime: e.target.value}))} className="input-field mt-1 w-full" />
+                    </div>
+                    <div>
+                      <label className="text-sm text-neutral-600">Duration (minutes)</label>
+                      <input type="number" value={form.duration} onChange={e=>setForm(f=>({...f, duration: Number(e.target.value)}))} className="input-field mt-1 w-full" />
+                    </div>
+                    <div>
+                      <label className="text-sm text-neutral-600">Method</label>
+                      <select value={form.method} onChange={e=>setForm(f=>({...f, method: e.target.value}))} className="select-field mt-1 w-full">
+                        <option>Video</option>
+                        <option>Audio</option>
+                        <option>In-person</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-sm text-neutral-600">Message</label>
+                      <input value={form.message} onChange={e=>setForm(f=>({...f, message: e.target.value}))} className="input-field mt-1 w-full" />
+                    </div>
+                  </div>
+                  <div className="mt-4 flex justify-end gap-3">
+                    <button onClick={() => setShowScheduleModal(false)} className="px-4 py-2 border rounded">Cancel</button>
+                    <button onClick={createMeeting} className="px-4 py-2 bg-secondary-500 text-white rounded">Schedule</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Local preview call modal */}
+            {showPreview && (
+              <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-xl w-full max-w-2xl p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="text-lg font-bold">Call preview (local only)</h4>
+                    <button onClick={() => setShowPreview(false)} className="text-neutral-400">✕</button>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="bg-neutral-100 p-4 rounded">
+                      <video ref={videoRef} autoPlay playsInline muted className="w-full h-56 bg-black/10 rounded" />
+                    </div>
+                    <div>
+                      <h5 className="font-semibold">Start in‑platform call</h5>
+                      <p className="text-sm text-neutral-600 mb-3">Open an embedded in‑app meeting with full controls (mute, camera, screen, whiteboard).</p>
+                      <div className="flex gap-2">
+                        <button onClick={() => startEmbeddedRoom(`Community-Preview-${Date.now()}`)} className="px-4 py-2 bg-primary-600 text-white rounded">Open Embedded Call</button>
+                        <button onClick={() => navigator.clipboard?.writeText(`https://meet.jit.si/Community-${Date.now()}`)} className="px-4 py-2 border rounded">Copy Jitsi link</button>
+                      </div>
+                      <div className="mt-6">
+                        <h6 className="font-semibold">Notes</h6>
+                        <ul className="list-disc pl-5 text-sm text-neutral-600 mt-2">
+                          <li>Preview shows your local camera/microphone only (no remote participants).</li>
+                          <li>Embedded call uses Jitsi Meet iframe API so participants can join inside ClubConnect.</li>
+                          <li>Whiteboard is included in the embedded call (local-only for now).</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+          </div>
+        )}
       </div>
 
       {/* CTA Section */}
@@ -256,6 +470,15 @@ export default function CommunityPage() {
             </div>
           </div>
         </div>
+
+        {/* Embedded call modal */}
+        {embeddedRoom && (
+          <EmbeddedCall
+            room={embeddedRoom}
+            displayName={typeof window !== 'undefined' ? (localStorage.getItem('cc_displayName') || 'Guest') : 'Guest'}
+            onClose={() => setEmbeddedRoom(null)}
+          />
+        )}
       </div>
     </div>
   );

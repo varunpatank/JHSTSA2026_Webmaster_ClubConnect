@@ -37,7 +37,7 @@ const demoCollections: Collection[] = [
     updatedAt: '2026-02-08',
     items: [
       { id: '1', title: 'TSA Official Themes', type: 'link', url: 'https://tsaweb.org', addedAt: '2026-01-15' },
-      { id: '2', title: 'Webmaster Rubric PDF', type: 'resource', addedAt: '2026-01-16' },
+      { id: '2', title: 'Webmaster Rubric PDF', type: 'resource', url: '/hub/rubrics/webmaster', addedAt: '2026-01-16' },
       { id: '3', title: 'Previous Winners Gallery', type: 'link', url: 'https://tsaweb.org', addedAt: '2026-01-20' },
       { id: '4', title: 'Team meeting notes', type: 'note', note: 'Discuss theme interpretation on Monday', addedAt: '2026-02-05' },
     ]

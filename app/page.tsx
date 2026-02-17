@@ -386,6 +386,87 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Suggested Clubs (new) */}
+      <section className="py-8 bg-neutral-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-6">
+            <h2 className="section-title inline-block">Suggested Clubs For You</h2>
+            <p className="text-neutral-600 mt-2 max-w-2xl mx-auto">Personalized suggestions based on popularity and recent activity.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredChapters.slice(0,3).map((chapter) => (
+              <Link key={chapter.id} href={`/directory/${chapter.id}`} className="card p-6 hover:shadow-lg transition-all group">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-neutral-100 flex items-center justify-center rounded-lg text-xl">{chapter.name.charAt(0)}</div>
+                  <div>
+                    <h3 className="font-bold text-primary-500 mb-1">{chapter.name}</h3>
+                    <p className="text-sm text-neutral-600">{chapter.description.slice(0, 80)}...</p>
+                    <div className="text-xs text-neutral-400 mt-3">{chapter.memberCount} members — {chapter.meetingFrequency}</div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Promo cards: About / Partners / Meetings (moved to their own pages) */}
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-6">
+            <h2 className="section-title">Learn more about ClubConnect</h2>
+            <p className="text-neutral-600 mt-2 max-w-2xl mx-auto">Detailed pages for our mission, partners, and meeting management have their own dedicated spaces — cleaner, faster, and focused.</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <a href="/about" className="card p-6 hover:shadow-lg transition-all group animate-fade-up">
+              <div className="text-3xl mb-2">📘</div>
+              <h3 className="font-bold text-lg">About</h3>
+              <p className="text-neutral-500 text-sm mt-2">Our mission, principles, and how ClubConnect supports student leaders.</p>
+            </a>
+
+            <a href="/about#partners" className="card p-6 hover:shadow-lg transition-all group animate-fade-up" style={{ animationDelay: '80ms' }}>
+              <div className="text-3xl mb-2">🤝</div>
+              <h3 className="font-bold text-lg">Partners</h3>
+              <p className="text-neutral-500 text-sm mt-2">See our partner organizations — now included on the About page.</p>
+            </a>
+
+            <a href="/meetings" className="card p-6 hover:shadow-lg transition-all group animate-fade-up" style={{ animationDelay: '160ms' }}>
+              <div className="text-3xl mb-2">📅</div>
+              <h3 className="font-bold text-lg">Meetings</h3>
+              <p className="text-neutral-500 text-sm mt-2">Manage your scheduled meetings, invites, and join full‑screen ClubConnect calls.</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Partners — scrolling marquee */}
+      <section className="py-8 bg-neutral-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <h3 className="section-title">Partners & Supporters</h3>
+          <p className="text-neutral-600 mb-4">Proud partners who support student leadership, competitions, and programs.</p>
+
+          <div className="marquee">
+            <div className="marquee-track">
+              {['State TSA','Local Library','City Bank','TechCo','Arts Guild','University Partner','Community Center'].map((p) => (
+                <div key={p} className="marquee-item" aria-hidden>
+                  <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-sm font-bold text-primary-600">{p.split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
+                  <div className="text-sm text-neutral-700">{p}</div>
+                </div>
+              ))}
+
+              {/* duplicate for continuous scroll */}
+              {['State TSA','Local Library','City Bank','TechCo','Arts Guild','University Partner','Community Center'].map((p, i) => (
+                <div key={`${p}-repeat-${i}`} className="marquee-item" aria-hidden>
+                  <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-sm font-bold text-primary-600">{p.split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
+                  <div className="text-sm text-neutral-700">{p}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0">
