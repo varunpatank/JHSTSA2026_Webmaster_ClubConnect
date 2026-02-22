@@ -1,27 +1,28 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useState, useRef, useEffect } from 'react';
+import Link from "next/link";
+import { useState, useRef, useEffect } from "react";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const mainNavLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/explore', label: 'Explore' },
-    { href: '/my-space', label: 'My Space' },
-    { href: '/community', label: 'Community' },
-    { href: '/meetings', label: 'Meetings' },
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/explore", label: "Explore" },
+    { href: "/my-space", label: "My Space" },
+    { href: "/community", label: "Community" },
+    { href: "/meetings", label: "Meetings" },
+    { href: "/references", label: "References" },
   ];
 
   const initiationStages = [
-    { id: 'ideation', label: 'Ideation & Planning' },
-    { id: 'proposal', label: 'Proposal & Approval' },
-    { id: 'setup', label: 'Setup & Structure' },
-    { id: 'recruitment', label: 'Recruitment & Launch' },
-    { id: 'operations', label: 'Operations & Management' },
-    { id: 'growth', label: 'Growth & Competitions' },
+    { id: "ideation", label: "Ideation & Planning" },
+    { id: "proposal", label: "Proposal & Approval" },
+    { id: "setup", label: "Setup & Structure" },
+    { id: "recruitment", label: "Recruitment & Launch" },
+    { id: "operations", label: "Operations & Management" },
+    { id: "growth", label: "Growth & Competitions" },
   ];
   const [showInitiation, setShowInitiation] = useState(false);
   const hideTimeoutRef = useRef<number | null>(null);
@@ -49,24 +50,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="bg-primary-500 text-white shadow-lg z-50">
-      {/* Top Bar */}
-      <div className="bg-primary-700 py-1">
-        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-sm">
-          <span className="hidden sm:inline">Welcome to ClubConnect - Your School Club Hub</span>
-          <span className="sm:hidden">ClubConnect</span>
-          <div className="flex gap-3">
-            <Link href="/my-space" className="hover:text-secondary-400 transition-colors">
-              My Space
-            </Link>
-            <span className="text-neutral-400">|</span>
-            <Link href="/login" className="hover:text-secondary-400 transition-colors">
-              Sign In
-            </Link>
-          </div>
-        </div>
-      </div>
-
+    <header className="bg-primary-700 text-white shadow-lg z-50">
       {/* Main Header */}
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between py-4">
