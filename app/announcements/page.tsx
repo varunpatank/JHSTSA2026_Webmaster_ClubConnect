@@ -2,42 +2,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { announcements } from '@/lib/data';
 
-const allAnnouncements = [
-  ...announcements,
-  {
-    id: 'ann-4',
-    title: 'Winter Sports Tryouts Schedule',
-    content: 'Tryouts for winter sports clubs will be held next week. Check with your advisor for specific times and requirements.',
-    date: '2026-01-03',
-    priority: 'medium' as const,
-    author: 'Athletics Department',
-  },
-  {
-    id: 'ann-5',
-    title: 'New Club Fair Date Announced',
-    content: 'The spring Club Fair has been scheduled for January 25th in the main gymnasium. All chapters should plan to participate.',
-    date: '2026-01-01',
-    priority: 'high' as const,
-    author: 'Student Activities',
-  },
-  {
-    id: 'ann-6',
-    title: 'Leadership Workshop Series',
-    content: 'A new leadership workshop series for chapter officers begins February 1st. Registration is now open.',
-    date: '2025-12-20',
-    priority: 'low' as const,
-    author: 'Student Leadership Council',
-  },
-  {
-    id: 'ann-7',
-    title: 'Community Service Hours Deadline',
-    content: 'Reminder: All service hours must be logged by January 31st to count for the fall semester.',
-    date: '2025-12-15',
-    priority: 'high' as const,
-    author: 'Community Service Office',
-  },
-];
-
 export default function AnnouncementsPage() {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -90,12 +54,12 @@ export default function AnnouncementsPage() {
             <button className="px-4 py-2 border border-neutral-300 hover:border-primary-500 transition-colors">This Week</button>
           </div>
           <div className="text-sm text-neutral-500">
-            {allAnnouncements.length} announcements
+            {announcements.length} announcements
           </div>
         </div>
 
         <div className="space-y-4">
-          {allAnnouncements
+          {announcements
             .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
             .map((announcement) => (
               <article 

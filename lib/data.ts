@@ -1,5 +1,208 @@
 import { Chapter, Event, Resource, Spotlight, Stats } from '@/types';
 
+// Mock data for admin dashboard
+const pendingProposals = [
+  { id: 'prop-1', name: 'Photography Club', submitter: 'Emily Chen', date: '2026-01-10', status: 'Under Review' },
+  { id: 'prop-2', name: 'Chess Club', submitter: 'Marcus Johnson', date: '2026-01-08', status: 'Pending Advisor' },
+  { id: 'prop-3', name: 'Entrepreneurship Society', submitter: 'Sarah Williams', date: '2026-01-05', status: 'Under Review' },
+];
+
+const recentActivity = [
+  { action: 'New member joined Model UN', time: '2 hours ago', type: 'member' },
+  { action: 'Robotics Team updated meeting schedule', time: '5 hours ago', type: 'update' },
+  { action: 'Drama Club event approved', time: '1 day ago', type: 'event' },
+  { action: 'New proposal submitted: Photography Club', time: '2 days ago', type: 'proposal' },
+  { action: 'Community Service Club hours verified', time: '3 days ago', type: 'verification' },
+];
+
+const chapterHealth = [
+  { name: 'Model UN', score: 95, status: 'Excellent', color: 'bg-green-500' },
+  { name: 'Robotics Team', score: 92, status: 'Excellent', color: 'bg-green-500' },
+  { name: 'Drama Club', score: 88, status: 'Good', color: 'bg-blue-500' },
+  { name: 'Debate Team', score: 85, status: 'Good', color: 'bg-blue-500' },
+  { name: 'Environmental Club', score: 72, status: 'Fair', color: 'bg-yellow-500' },
+];
+
+// Mock alumni data
+const featuredAlumni = [
+  {
+    id: 1,
+    name: 'Jessica Chen',
+    gradYear: 2022,
+    chapter: 'Model United Nations',
+    college: 'Georgetown University',
+    major: 'International Relations',
+    career: 'Policy Analyst',
+    photo: null,
+    available: true,
+  },
+  {
+    id: 2,
+    name: 'Marcus Williams',
+    gradYear: 2021,
+    chapter: 'Robotics Team',
+    college: 'MIT',
+    major: 'Mechanical Engineering',
+    career: 'Robotics Engineer at Boston Dynamics',
+    photo: null,
+    available: true,
+  },
+  {
+    id: 3,
+    name: 'Sarah Martinez',
+    gradYear: 2020,
+    chapter: 'Community Service Club',
+    college: 'UC Berkeley',
+    major: 'Social Work',
+    career: 'Non-profit Director',
+    photo: null,
+    available: false,
+  },
+];
+
+const careerPanels = [
+  {
+    id: 1,
+    title: 'Careers in Technology',
+    date: '2026-02-15',
+    time: '4:00 PM - 5:30 PM',
+    panelists: 4,
+    registrations: 45,
+  },
+  {
+    id: 2,
+    title: 'Paths to Law School',
+    date: '2026-02-22',
+    time: '4:00 PM - 5:30 PM',
+    panelists: 3,
+    registrations: 32,
+  },
+  {
+    id: 3,
+    title: 'Creative Arts Careers',
+    date: '2026-03-05',
+    time: '4:00 PM - 5:30 PM',
+    panelists: 5,
+    registrations: 28,
+  },
+];
+
+const internships = [
+  {
+    id: 1,
+    title: 'Summer Research Internship',
+    company: 'Tech Innovation Labs',
+    location: 'Hybrid',
+    type: 'Summer 2026',
+    postedBy: 'Marcus Williams (Class of 2021)',
+  },
+  {
+    id: 2,
+    title: 'Marketing Intern',
+    company: 'Creative Media Group',
+    location: 'Remote',
+    type: 'Part-time during school',
+    postedBy: 'Emily Thompson (Class of 2023)',
+  },
+  {
+    id: 3,
+    title: 'Engineering Shadow Program',
+    company: 'Aerospace Solutions Inc.',
+    location: 'On-site',
+    type: 'Spring Break 2026',
+    postedBy: 'David Park (Class of 2019)',
+  },
+];
+
+// Mock funding data
+const budgetAllocations = [
+  { chapter: 'Model United Nations', allocated: 3500, spent: 2100, remaining: 1400 },
+  { chapter: 'Robotics Team', allocated: 8000, spent: 5500, remaining: 2500 },
+  { chapter: 'Drama Club', allocated: 4500, spent: 3200, remaining: 1300 },
+  { chapter: 'Community Service Club', allocated: 1500, spent: 800, remaining: 700 },
+  { chapter: 'Debate Team', allocated: 2500, spent: 1900, remaining: 600 },
+  { chapter: 'Environmental Club', allocated: 1200, spent: 650, remaining: 550 },
+];
+
+const purchaseRequests = [
+  { id: 1, chapter: 'Robotics Team', item: 'Motor Controllers (x5)', amount: 450, status: 'Pending', date: '2026-01-10' },
+  { id: 2, chapter: 'Drama Club', item: 'Costume Materials', amount: 320, status: 'Approved', date: '2026-01-08' },
+  { id: 3, chapter: 'Model UN', item: 'Conference Registration', amount: 800, status: 'Pending', date: '2026-01-05' },
+];
+
+const grants = [
+  { 
+    id: 1, 
+    title: 'Innovation Grant', 
+    amount: '$2,500', 
+    deadline: '2026-02-15',
+    description: 'For chapters developing new technology or innovative programs.',
+    eligibility: 'STEM and Academic chapters'
+  },
+  { 
+    id: 2, 
+    title: 'Community Impact Award', 
+    amount: '$1,500', 
+    deadline: '2026-03-01',
+    description: 'For chapters with outstanding community service projects.',
+    eligibility: 'Service and Cultural chapters'
+  },
+  { 
+    id: 3, 
+    title: 'Arts Enrichment Fund', 
+    amount: '$2,000', 
+    deadline: '2026-02-28',
+    description: 'Support for arts programs, productions, and equipment.',
+    eligibility: 'Arts and Media chapters'
+  },
+];
+
+// Mock officer data
+
+const memberRoster = [
+  { id: 1, name: 'James Chen', role: 'President', grade: 12, attendance: 95, duesPaid: true },
+  { id: 2, name: 'Maria Santos', role: 'Vice President', grade: 11, attendance: 92, duesPaid: true },
+  { id: 3, name: 'David Kim', role: 'Secretary', grade: 11, attendance: 88, duesPaid: true },
+  { id: 4, name: 'Emma Wilson', role: 'Treasurer', grade: 10, attendance: 90, duesPaid: true },
+  { id: 5, name: 'Alex Thompson', role: 'Member', grade: 10, attendance: 78, duesPaid: false },
+  { id: 6, name: 'Sophie Brown', role: 'Member', grade: 9, attendance: 85, duesPaid: true },
+  { id: 7, name: 'Michael Lee', role: 'Member', grade: 11, attendance: 82, duesPaid: false },
+  { id: 8, name: 'Olivia Davis', role: 'Member', grade: 10, attendance: 91, duesPaid: true },
+];
+
+const pendingJoinRequests = [
+  { id: 1, name: 'Ryan Foster', grade: 10, date: '2026-01-10', message: 'I have always been interested in international relations.' },
+  { id: 2, name: 'Lisa Wang', grade: 9, date: '2026-01-08', message: 'I want to improve my public speaking skills.' },
+];
+
+// Mock user data
+
+const upcomingDeadlines = [
+  { id: 1, title: 'Model UN Conference Registration', date: '2026-01-20', type: 'event' },
+  { id: 2, title: 'Robotics Team Dues Payment', date: '2026-01-25', type: 'dues' },
+  { id: 3, title: 'Drama Club Audition Sign-up', date: '2026-01-16', type: 'application' },
+];
+
+const quizQuestions = [
+  {
+    id: 1,
+    question: 'What activities interest you most?',
+    options: ['Academic competitions', 'Creative arts', 'Community service', 'Technology & Engineering', 'Sports & Recreation'],
+  },
+  {
+    id: 2,
+    question: 'How often would you like to meet?',
+    options: ['Daily', 'Weekly', 'Bi-weekly', 'Monthly'],
+  },
+  {
+    id: 3,
+    question: 'What time works best for you?',
+    options: ['Before school', 'During lunch', 'After school', 'Weekends'],
+  },
+];
+
+
+// Mock Statistics
 export const stats: Stats = {
   activeChapters: 47,
   totalMembers: 1283,
@@ -592,5 +795,37 @@ export const announcements: Announcement[] = [
     date: '2026-01-05',
     priority: 'medium',
     author: 'Activities Office',
+  },
+  {
+    id: 'ann-4',
+    title: 'Winter Sports Tryouts Schedule',
+    content: 'Tryouts for winter sports clubs will be held next week. Check with your advisor for specific times and requirements.',
+    date: '2026-01-03',
+    priority: 'medium',
+    author: 'Athletics Department',
+  },
+  {
+    id: 'ann-5',
+    title: 'New Club Fair Date Announced',
+    content: 'The spring Club Fair has been scheduled for January 25th in the main gymnasium. All chapters should plan to participate.',
+    date: '2026-01-01',
+    priority: 'high',
+    author: 'Student Activities',
+  },
+  {
+    id: 'ann-6',
+    title: 'Leadership Workshop Series',
+    content: 'A new leadership workshop series for chapter officers begins February 1st. Registration is now open.',
+    date: '2025-12-20',
+    priority: 'low',
+    author: 'Student Leadership Council',
+  },
+  {
+    id: 'ann-7',
+    title: 'Community Service Hours Deadline',
+    content: 'Reminder: All service hours must be logged by January 31st to count for the fall semester.',
+    date: '2025-12-15',
+    priority: 'high',
+    author: 'Community Service Office',
   },
 ];
