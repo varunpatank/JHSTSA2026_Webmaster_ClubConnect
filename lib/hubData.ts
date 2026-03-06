@@ -11,7 +11,7 @@ import {
   ClubHealthMetrics,
   ClubBenchmark,
   ResourceRequest
-} from '@/types';
+} from '@/lib/types';
 
 // ==========================================
 // STARTER GUIDES - Comprehensive Club Resources

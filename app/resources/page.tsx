@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { resources } from '@/lib/data';
-import { ResourceCategory } from '@/types';
+import { ResourceCategory } from '@/lib/types';
 
 const categories: ResourceCategory[] = ['Templates', 'Training Materials', 'Forms', 'Guides', 'Handbooks'];
 

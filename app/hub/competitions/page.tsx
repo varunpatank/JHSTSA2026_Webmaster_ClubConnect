@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { competitions } from '@/lib/hubData';
-import { ChapterCategory } from '@/types';
+import { ChapterCategory } from '@/lib/types';
 
 const categories: ChapterCategory[] = ['Academic', 'Arts', 'Service', 'Cultural', 'STEM', 'Sports', 'Leadership', 'Media', 'Other'];
 

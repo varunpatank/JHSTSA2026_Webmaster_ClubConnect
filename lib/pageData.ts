@@ -1,5 +1,5 @@
-import { ChapterCategory, MeetingFrequency, MembershipStatus, GradeLevel, MeetingTime } from '@/types';
-import type { StarterGuideCategory } from '@/types';
+import { ChapterCategory, MeetingFrequency, MembershipStatus, GradeLevel, MeetingTime } from '@/lib/types';
+import type { StarterGuideCategory } from '@/lib/types';
 
 // ==========================================
 // ABOUT PAGE DATA

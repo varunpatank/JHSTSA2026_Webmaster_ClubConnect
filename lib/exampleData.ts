@@ -1,7 +1,7 @@
 // Centralized example/demo data moved from page components and UI files.
 // Organized by source page for clarity.
 
-import { Chapter, ChapterCategory } from '@/types';
+import { Chapter, ChapterCategory } from '@/lib/types';
 
 // ==========================================
 // ACHIEVEMENTS PAGE DATA

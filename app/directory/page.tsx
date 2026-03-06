@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { chapters } from '@/lib/data';
-import { ChapterCategory, MeetingFrequency, MembershipStatus, GradeLevel, MeetingTime } from '@/types';
+import { ChapterCategory, MeetingFrequency, MembershipStatus, GradeLevel, MeetingTime } from '@/lib/types';
 import { directoryCategories, directoryFrequencies, directoryMembershipStatuses, directoryGradeLevels, directoryMeetingTimes } from '@/lib/pageData';
 
 const categories: ChapterCategory[] = directoryCategories;

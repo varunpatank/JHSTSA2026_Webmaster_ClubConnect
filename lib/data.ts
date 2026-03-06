@@ -1,4 +1,4 @@
-import { Chapter, Event, Resource, Spotlight, Stats } from '@/types';
+import { Chapter, Event, Resource, Spotlight, Stats } from '@/lib/types';
 
 // Mock data for admin dashboard
 export const pendingProposals = [

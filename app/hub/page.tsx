@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { starterGuides, hubStats } from '@/lib/hubData';
-import { StarterGuideCategory } from '@/types';
+import { StarterGuideCategory } from '@/lib/types';
 import { hubCategories } from '@/lib/pageData';
 
 const categories: StarterGuideCategory[] = hubCategories;
