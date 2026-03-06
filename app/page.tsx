@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { stats, events, announcements, chapters } from '@/lib/data';
+import { featuredClubImages } from '@/lib/exampleData';
 
 export default function HomePage() {
   const upcomingEvents = events.slice(0, 4);
@@ -303,17 +304,11 @@ export default function HomePage() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredChapters.map((chapter, index) => {
-              const images = [
-                'https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&q=80',
-                'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&q=80',
-                'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&q=80',
-                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
-              ];
               return (
                 <Link key={chapter.id} href={`/directory/${chapter.id}`} className="card-hover block group overflow-hidden">
                   <div className="relative h-40 overflow-hidden">
                     <Image
-                      src={images[index % images.length]}
+                      src={featuredClubImages[index % featuredClubImages.length]}
                       alt={chapter.name}
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-500"

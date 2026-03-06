@@ -3,6 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import {
+  profileDemoBadges as demoBadges,
+  profileDemoClubs as demoClubs,
+  profileDemoActivities as demoActivities,
+  profileRarityColors as rarityColors,
+} from '@/lib/exampleData';
 
 interface Badge {
   id: string;
@@ -30,38 +36,6 @@ interface Activity {
   timestamp: string;
   icon: string;
 }
-
-const demoBadges: Badge[] = [
-  { id: '1', name: 'First Steps', icon: '👣', description: 'Joined ClubConnect', earnedAt: '2025-09-01', rarity: 'common' },
-  { id: '2', name: 'Social Butterfly', icon: '🦋', description: 'Joined 5+ clubs', earnedAt: '2025-10-15', rarity: 'rare' },
-  { id: '3', name: 'Leader Rising', icon: '⭐', description: 'Became a club officer', earnedAt: '2025-11-01', rarity: 'epic' },
-  { id: '4', name: 'Event Master', icon: '🎪', description: 'Attended 10+ events', earnedAt: '2025-12-10', rarity: 'rare' },
-  { id: '5', name: 'Goal Getter', icon: '🎯', description: 'Completed 5 goals', earnedAt: '2026-01-05', rarity: 'rare' },
-  { id: '6', name: 'Helping Hand', icon: '🤝', description: '10+ volunteer hours', earnedAt: '2026-01-20', rarity: 'epic' },
-  { id: '7', name: 'Competition Ready', icon: '🏆', description: 'Competed in TSA', earnedAt: '2026-02-01', rarity: 'legendary' }
-];
-
-const demoClubs: ClubMembership[] = [
-  { id: '1', name: 'Technology Student Association', role: 'President', joinedAt: '2024-09-01', contributions: 47, logo: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=100&q=80' },
-  { id: '2', name: 'Debate Club', role: 'Vice President', joinedAt: '2024-09-15', contributions: 32, logo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80' },
-  { id: '3', name: 'National Honor Society', role: 'Member', joinedAt: '2025-01-10', contributions: 18, logo: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=100&q=80' },
-  { id: '4', name: 'Environmental Club', role: 'Secretary', joinedAt: '2025-09-01', contributions: 12, logo: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=100&q=80' }
-];
-
-const demoActivities: Activity[] = [
-  { id: '1', type: 'achievement', title: 'Earned Competition Ready badge', description: 'Competed in TSA State Competition', timestamp: '2026-02-01T10:00:00', icon: '🏆' },
-  { id: '2', type: 'event', title: 'Attended TSA State Conference', description: 'Represented school at state level', timestamp: '2026-02-01T08:00:00', icon: '📅' },
-  { id: '3', type: 'goal', title: 'Completed goal: Finish Webmaster project', description: 'Major milestone achieved', timestamp: '2026-01-28T15:30:00', icon: '🎯' },
-  { id: '4', type: 'club', title: 'Posted announcement in TSA', description: 'Competition reminder for all members', timestamp: '2026-01-25T12:00:00', icon: '📢' },
-  { id: '5', type: 'resource', title: 'Saved 3 new resources', description: 'Design tools added to collection', timestamp: '2026-01-20T16:45:00', icon: '📚' }
-];
-
-const rarityColors = {
-  common: 'bg-neutral-100 border-neutral-300 text-neutral-600',
-  rare: 'bg-blue-100 border-blue-400 text-blue-700',
-  epic: 'bg-purple-100 border-purple-400 text-purple-700',
-  legendary: 'bg-amber-100 border-amber-400 text-amber-700'
-};
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'badges' | 'clubs' | 'activity' | 'settings'>('overview');

@@ -4,33 +4,11 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { mentors } from '@/lib/hubData';
-
-const expertiseAreas = [
-  'Public speaking',
-  'Entrepreneurship',
-  'College applications',
-  'Leadership development',
-  'Programming',
-  'Robotics',
-  'Tech careers',
-  'Community service',
-  'Grant writing',
-  'Fundraising',
-  'Event planning'
-];
-
-const typeColors = {
-  'Alumni': 'bg-purple-100 text-purple-700',
-  'Current Officer': 'bg-blue-100 text-blue-700',
-  'Advisor': 'bg-green-100 text-green-700',
-  'Community Partner': 'bg-amber-100 text-amber-700'
-};
-
-const availabilityColors = {
-  'Available': 'bg-green-500',
-  'Limited': 'bg-yellow-500',
-  'Full': 'bg-red-500'
-};
+import {
+  mentorExpertiseAreas as expertiseAreas,
+  mentorTypeColors as typeColors,
+  mentorAvailabilityColors as availabilityColors,
+} from '@/lib/exampleData';
 
 export default function MentorsPage() {
   const [searchQuery, setSearchQuery] = useState('');

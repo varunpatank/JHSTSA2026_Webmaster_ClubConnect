@@ -5,12 +5,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { chapters } from '@/lib/data';
 import { ChapterCategory, MeetingFrequency, MembershipStatus, GradeLevel, MeetingTime } from '@/types';
+import { directoryCategories, directoryFrequencies, directoryMembershipStatuses, directoryGradeLevels, directoryMeetingTimes } from '@/lib/pageData';
 
-const categories: ChapterCategory[] = ['Academic', 'Arts', 'Service', 'Cultural', 'STEM', 'Sports', 'Leadership', 'Media', 'Other'];
-const frequencies: MeetingFrequency[] = ['Daily', 'Weekly', 'Bi-weekly', 'Monthly'];
-const membershipStatuses: MembershipStatus[] = ['Open Enrollment', 'Tryout Required', 'Application Required'];
-const gradeLevels: GradeLevel[] = ['9th Only', '10th-12th', 'All Grades'];
-const meetingTimes: MeetingTime[] = ['Before School', 'Lunch', 'After School', 'Weekends'];
+const categories: ChapterCategory[] = directoryCategories;
+const frequencies: MeetingFrequency[] = directoryFrequencies;
+const membershipStatuses: MembershipStatus[] = directoryMembershipStatuses;
+const gradeLevels: GradeLevel[] = directoryGradeLevels;
+const meetingTimes: MeetingTime[] = directoryMeetingTimes;
 
 export default function DirectoryPage() {
   const [searchQuery, setSearchQuery] = useState('');

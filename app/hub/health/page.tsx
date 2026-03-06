@@ -4,29 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { clubHealthMetrics } from '@/lib/hubData';
-
-// Benchmark values for each metric
-const benchmarkValues: Record<string, number> = {
-  memberRetention: 75,
-  eventAttendance: 70,
-  memberSatisfaction: 7.5,
-  leadershipDevelopment: 60,
-  communityImpact: 100,
-  financialHealth: 80,
-  growthRate: 10,
-  engagementScore: 75
-};
-
-const metricInfo = {
-  memberRetention: { label: 'Member Retention', icon: '👥', unit: '%', description: 'Percentage of members who continue year-over-year' },
-  eventAttendance: { label: 'Event Attendance', icon: '📅', unit: '%', description: 'Average attendance rate at events' },
-  memberSatisfaction: { label: 'Member Satisfaction', icon: '😊', unit: '/10', description: 'Average satisfaction score from surveys' },
-  leadershipDevelopment: { label: 'Leadership Dev', icon: '🌟', unit: '%', description: 'Members taking on leadership roles' },
-  communityImpact: { label: 'Community Impact', icon: '❤️', unit: 'hrs', description: 'Volunteer hours contributed' },
-  financialHealth: { label: 'Financial Health', icon: '💰', unit: '%', description: 'Budget utilization and reserves' },
-  growthRate: { label: 'Growth Rate', icon: '📈', unit: '%', description: 'Year-over-year membership growth' },
-  engagementScore: { label: 'Engagement', icon: '🔥', unit: '/100', description: 'Overall engagement composite score' }
-};
+import { healthBenchmarkValues as benchmarkValues, healthMetricInfo as metricInfo } from '@/lib/exampleData';
 
 type MetricKey = keyof typeof metricInfo;
 

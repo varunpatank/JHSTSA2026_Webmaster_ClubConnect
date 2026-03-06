@@ -3,123 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
-interface Notification {
-  id: string;
-  type: 'event' | 'announcement' | 'achievement' | 'reminder' | 'system' | 'mention';
-  title: string;
-  message: string;
-  timestamp: string;
-  read: boolean;
-  link?: string;
-  club?: string;
-  priority: 'low' | 'normal' | 'high';
-}
-
-interface NotificationPreference {
-  type: string;
-  label: string;
-  description: string;
-  email: boolean;
-  push: boolean;
-  inApp: boolean;
-}
-
-const demoNotifications: Notification[] = [
-  {
-    id: '1',
-    type: 'event',
-    title: 'Event Reminder: TSA Chapter Meeting',
-    message: 'Your meeting starts in 1 hour. Room 204, Technology Wing.',
-    timestamp: '2026-02-10T14:30:00',
-    read: false,
-    link: '/events',
-    club: 'Technology Student Association',
-    priority: 'high'
-  },
-  {
-    id: '2',
-    type: 'announcement',
-    title: 'New Announcement from Robotics Club',
-    message: 'Competition registration deadline extended to February 20th!',
-    timestamp: '2026-02-10T10:15:00',
-    read: false,
-    link: '/hub/announcements',
-    club: 'Robotics Club',
-    priority: 'normal'
-  },
-  {
-    id: '3',
-    type: 'achievement',
-    title: '🏆 Achievement Unlocked!',
-    message: 'You earned "Social Butterfly" for joining 3 clubs!',
-    timestamp: '2026-02-09T16:00:00',
-    read: false,
-    link: '/hub/achievements',
-    priority: 'normal'
-  },
-  {
-    id: '4',
-    type: 'reminder',
-    title: 'Goal Reminder',
-    message: 'Your goal "Complete 50 Service Hours" is 64% complete. Keep going!',
-    timestamp: '2026-02-09T09:00:00',
-    read: true,
-    link: '/hub/goals',
-    priority: 'low'
-  },
-  {
-    id: '5',
-    type: 'system',
-    title: 'Welcome to ClubConnect!',
-    message: 'Complete your profile to get personalized club recommendations.',
-    timestamp: '2026-02-08T12:00:00',
-    read: true,
-    link: '/dashboard',
-    priority: 'normal'
-  },
-  {
-    id: '6',
-    type: 'mention',
-    title: 'You were mentioned in a discussion',
-    message: 'Alex Martinez mentioned you in "Webmaster Competition Planning"',
-    timestamp: '2026-02-08T11:30:00',
-    read: true,
-    club: 'TSA',
-    priority: 'normal'
-  },
-  {
-    id: '7',
-    type: 'event',
-    title: 'RSVP Confirmation',
-    message: 'You\'re confirmed for "Regional TSA Conference" on Feb 25th.',
-    timestamp: '2026-02-07T14:00:00',
-    read: true,
-    link: '/events',
-    club: 'TSA',
-    priority: 'low'
-  },
-  {
-    id: '8',
-    type: 'announcement',
-    title: 'New Resource Available',
-    message: 'Check out the new "Leadership Development Guide" in the Resource Hub.',
-    timestamp: '2026-02-06T09:30:00',
-    read: true,
-    link: '/hub',
-    priority: 'low'
-  },
-];
-
-const demoPreferences: NotificationPreference[] = [
-  { type: 'events', label: 'Event Reminders', description: 'Upcoming events and meeting reminders', email: true, push: true, inApp: true },
-  { type: 'announcements', label: 'Club Announcements', description: 'News and updates from your clubs', email: true, push: true, inApp: true },
-  { type: 'achievements', label: 'Achievement Alerts', description: 'When you earn new badges or achievements', email: false, push: true, inApp: true },
-  { type: 'goals', label: 'Goal Reminders', description: 'Progress updates and deadline reminders', email: false, push: true, inApp: true },
-  { type: 'mentions', label: 'Mentions', description: 'When someone mentions you in discussions', email: true, push: true, inApp: true },
-  { type: 'newsletter', label: 'Weekly Digest', description: 'Summary of activities and opportunities', email: true, push: false, inApp: false },
-  { type: 'system', label: 'System Updates', description: 'Important platform announcements', email: true, push: false, inApp: true },
-];
+import {
+  demoNotifications,
+  demoPreferences,
+  type NotificationItem as Notification,
+  type NotificationPreference,
+} from '@/lib/pageData';
 
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>(demoNotifications);

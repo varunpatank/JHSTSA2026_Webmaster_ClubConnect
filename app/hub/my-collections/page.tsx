@@ -3,6 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import {
+  demoCollections as initialCollections,
+  collectionIconOptions as iconOptions,
+  collectionColorOptions as colorOptions,
+} from '@/lib/exampleData';
 
 interface Collection {
   id: string;
@@ -25,74 +30,14 @@ interface CollectionItem {
   addedAt: string;
 }
 
-const demoCollections: Collection[] = [
-  {
-    id: '1',
-    name: 'TSA Competition Prep',
-    description: 'Resources and links for TSA regionals and state competition',
-    icon: '🏆',
-    color: 'bg-blue-500',
-    isPublic: false,
-    createdAt: '2026-01-15',
-    updatedAt: '2026-02-08',
-    items: [
-      { id: '1', title: 'TSA Official Themes', type: 'link', url: 'https://tsaweb.org', addedAt: '2026-01-15' },
-      { id: '2', title: 'Webmaster Rubric PDF', type: 'resource', url: '/hub/rubrics/webmaster', addedAt: '2026-01-16' },
-      { id: '3', title: 'Previous Winners Gallery', type: 'link', url: 'https://tsaweb.org', addedAt: '2026-01-20' },
-      { id: '4', title: 'Team meeting notes', type: 'note', note: 'Discuss theme interpretation on Monday', addedAt: '2026-02-05' },
-    ]
-  },
-  {
-    id: '2',
-    name: 'Leadership Resources',
-    description: 'Books, videos, and articles about effective leadership',
-    icon: '📚',
-    color: 'bg-purple-500',
-    isPublic: true,
-    createdAt: '2026-01-20',
-    updatedAt: '2026-02-06',
-    items: [
-      { id: '5', title: 'TED Talk: How Great Leaders Inspire', type: 'link', url: 'https://ted.com', addedAt: '2026-01-20' },
-      { id: '6', title: 'Student Council Handbook', type: 'resource', addedAt: '2026-01-22' },
-      { id: '7', title: 'Meeting Facilitation Tips', type: 'note', note: 'Use round-robin for equal participation', addedAt: '2026-02-01' },
-    ]
-  },
-  {
-    id: '3',
-    name: 'Fundraising Ideas',
-    description: 'Creative ways to raise money for club activities',
-    icon: '💰',
-    color: 'bg-green-500',
-    isPublic: true,
-    createdAt: '2026-02-01',
-    updatedAt: '2026-02-07',
-    items: [
-      { id: '8', title: 'GoFundMe for Clubs', type: 'link', url: 'https://gofundme.com', addedAt: '2026-02-01' },
-      { id: '9', title: 'Bake Sale Planning Template', type: 'resource', addedAt: '2026-02-03' },
-    ]
-  }
-];
-
 export default function MyCollectionsPage() {
-  const [collections, setCollections] = useState<Collection[]>(demoCollections);
+  const [collections, setCollections] = useState<Collection[]>(initialCollections as unknown as Collection[]);
   const [selectedCollection, setSelectedCollection] = useState<Collection | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [isAddingItem, setIsAddingItem] = useState(false);
   const [newCollection, setNewCollection] = useState({ name: '', description: '', icon: '📁', color: 'bg-primary-500', isPublic: false });
   const [newItem, setNewItem] = useState({ title: '', type: 'link' as CollectionItem['type'], url: '', note: '' });
   const [searchQuery, setSearchQuery] = useState('');
-
-  const iconOptions = ['📁', '🏆', '📚', '💡', '🎯', '⭐', '💰', '🎨', '🔬', '🌍', '🎵', '💻', '📝', '🤝', '🎓'];
-  const colorOptions = [
-    { value: 'bg-primary-500', label: 'Navy' },
-    { value: 'bg-secondary-500', label: 'Gold' },
-    { value: 'bg-accent-500', label: 'Maroon' },
-    { value: 'bg-blue-500', label: 'Blue' },
-    { value: 'bg-green-500', label: 'Green' },
-    { value: 'bg-purple-500', label: 'Purple' },
-    { value: 'bg-pink-500', label: 'Pink' },
-    { value: 'bg-orange-500', label: 'Orange' },
-  ];
 
   const createCollection = () => {
     if (!newCollection.name.trim()) return;

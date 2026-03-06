@@ -4,35 +4,16 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { achievements } from '@/lib/hubData';
-
-const categories = ['All', 'Leadership', 'Growth', 'Events', 'Community', 'Innovation', 'Competition'];
-const tierOrder = { 'Legendary': 0, 'Epic': 1, 'Rare': 2, 'Uncommon': 3, 'Common': 4 };
+import {
+  achievementCategories as categories,
+  tierOrder,
+  tierColors,
+  tierBg,
+  achievementUserProgress as userProgress,
+  achievementLeaderboard as leaderboard,
+} from '@/lib/exampleData';
 
 type TierKey = keyof typeof tierOrder;
-
-const tierColors = {
-  'Legendary': 'from-amber-400 to-orange-500 border-amber-400',
-  'Epic': 'from-purple-400 to-indigo-500 border-purple-400',
-  'Rare': 'from-blue-400 to-cyan-500 border-blue-400',
-  'Uncommon': 'from-green-300 to-teal-400 border-green-300',
-  'Common': 'from-neutral-300 to-neutral-400 border-neutral-300'
-};
-
-const tierBg = {
-  'Legendary': 'bg-gradient-to-br from-amber-50 to-orange-50',
-  'Epic': 'bg-gradient-to-br from-purple-50 to-indigo-50',
-  'Rare': 'bg-gradient-to-br from-blue-50 to-cyan-50',
-  'Uncommon': 'bg-gradient-to-br from-green-50 to-teal-50',
-  'Common': 'bg-neutral-50'
-};
-
-// Simulated user progress
-const userProgress = {
-  unlockedAchievements: ['ach-1', 'ach-3', 'ach-5', 'ach-9'],
-  totalPoints: 450,
-  rank: 12,
-  streak: 5
-};
 
 export default function AchievementsPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -54,19 +35,7 @@ export default function AchievementsPage() {
     .filter(a => userProgress.unlockedAchievements.includes(a.id))
     .reduce((sum, a) => sum + a.points, 0);
 
-  // Leaderboard data (simulated)
-  const leaderboard = [
-    { rank: 1, name: 'Robotics Club', points: 1250, badges: 18 },
-    { rank: 2, name: 'Debate Society', points: 1180, badges: 16 },
-    { rank: 3, name: 'Science Olympiad', points: 1050, badges: 15 },
-    { rank: 4, name: 'DECA Chapter', points: 980, badges: 14 },
-    { rank: 5, name: 'Key Club', points: 920, badges: 13 },
-    { rank: 6, name: 'Drama Club', points: 850, badges: 12 },
-    { rank: 7, name: 'Math League', points: 780, badges: 11 },
-    { rank: 8, name: 'Environmental Club', points: 720, badges: 10 },
-    { rank: 9, name: 'Photography Club', points: 680, badges: 9 },
-    { rank: 10, name: 'Chess Club', points: 620, badges: 8 },
-  ];
+
 
   return (
     <div className="bg-neutral-100 min-h-screen">

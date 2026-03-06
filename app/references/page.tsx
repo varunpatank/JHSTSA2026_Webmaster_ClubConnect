@@ -1,86 +1,10 @@
 'use client';
 
 import Image from 'next/image';
+import { referenceImageLinks as imageLinks } from '@/lib/exampleData';
 
 // refrences page for clubconnect websuite
 export default function ReferencesPage() {
-  const imageLinks = [
-    {
-      url: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80',
-      description: 'Conference event hero image',
-      page: 'Events'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1920&q=80',
-      description: 'Students celebration hero image',
-      page: 'Home, Alumni'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1529390079861-591de354faf5?w=1920&q=80',
-      description: 'Group of students image',
-      page: 'Home, Directory'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&q=80',
-      description: 'Student with laptop image',
-      page: 'Home'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&q=80',
-      description: 'Team working together image',
-      page: 'Home'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
-      description: 'Portrait headshot image',
-      page: 'Home'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80',
-      description: 'Students collaborating image',
-      page: 'Home, Officer'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80',
-      description: 'Student discussion group image',
-      page: 'Home, Student'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=1920&q=80',
-      description: 'Students in classroom image',
-      page: 'Directory Detail, Spotlight'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1920&q=80',
-      description: 'Library books hero image',
-      page: 'Resources'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&q=80',
-      description: 'Team meeting hero image',
-      page: 'Propose'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1920&q=80',
-      description: 'Campus building hero image',
-      page: 'Login'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80',
-      description: 'Office workspace hero image',
-      page: 'Admin'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&q=80',
-      description: 'Financial documents hero image',
-      page: 'Funding'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1920&q=80',
-      description: 'Business meeting hero image',
-      page: 'Announcements'
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-neutral-100">

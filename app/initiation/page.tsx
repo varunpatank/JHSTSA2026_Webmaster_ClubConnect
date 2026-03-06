@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { initiationStages } from '@/lib/pageData';
 
 export default function InitiationPage() {
   const [openId, setOpenId] = useState<string | null>(null);
@@ -9,110 +10,7 @@ export default function InitiationPage() {
   // Mission statement
   const mission = "Our mission is to empower every student club and chapter to thrive by providing access to resources, mentorship, and a collaborative community. We believe in the power of student leadership and teamwork to create lasting impact in our schools and beyond.";
 
-  const stages = [
-    {
-      id: 'ideation',
-      title: 'Ideation & Planning',
-      description: 'Brainstorm club ideas and validate student interest.',
-      icon: '💡',
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-50',
-      borderColor: 'border-yellow-200',
-      tools: [
-        { name: 'Club Ideas Board', href: '/hub/ideas', icon: '🎯' },
-        { name: 'Club Finder Quiz', href: '/hub/quiz', icon: '🔍' },
-        { name: 'External Resources Library', href: '/hub/external', icon: '📚' },
-        { name: 'Collaboration Board', href: '/hub/collaborate', icon: '🤝' },
-        { name: 'Mentor Directory', href: '/hub/mentors', icon: '👨‍🏫' },
-        { name: 'Spotlight & Stories', href: '/hub/stories', icon: '⭐' },
-        { name: 'Event Planning Templates', href: '/hub/guides/guide-5', icon: '📋' },
-        { name: 'Fundraising Ideas', href: '/funding', icon: '💰' },
-        { name: 'Social Media Guide', href: '/hub/external', icon: '📱' },
-        { name: 'Member Recruitment Tips', href: '/hub/guides/guide-3', icon: '👥' },
-      ],
-    },
-    {
-      id: 'proposal',
-      title: 'Proposal & Approval',
-      description: 'Prepare and submit the official proposal to start a club.',
-      icon: '📝',
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200',
-      tools: [
-        { name: 'Propose New Club', href: '/propose', icon: '✨' },
-        { name: 'Officer Guides', href: '/hub/guides/guide-2', icon: '📖' },
-        { name: 'Request Resources', href: '/hub/request', icon: '🛠️' },
-        { name: 'Club Officer Handbook', href: '/hub/guides/guide-2', icon: '📘' },
-        { name: 'Meeting Agenda Templates', href: '/hub/guides/guide-4', icon: '📝' },
-        { name: 'External Resources', href: '/hub/external', icon: '🔗' },
-      ],
-    },
-    {
-      id: 'setup',
-      title: 'Setup & Structure',
-      description: 'Create constitution, officer roles, and meeting plans.',
-      icon: '🏗️',
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
-      borderColor: 'border-green-200',
-      tools: [
-        { name: 'Starter Guides', href: '/hub', icon: '🚀' },
-        { name: 'Meeting Agenda Templates', href: '/hub/guides/guide-4', icon: '📅' },
-        { name: 'Club Health Check', href: '/hub/health', icon: '💊' },
-        { name: 'Event Planning Templates', href: '/hub/guides/guide-5', icon: '📋' },
-        { name: 'Collaboration Board', href: '/hub/collaborate', icon: '🤝' },
-      ],
-    },
-    {
-      id: 'recruitment',
-      title: 'Recruitment & Launch',
-      description: 'Run your first recruitment drives and launch events.',
-      icon: '👥',
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50',
-      borderColor: 'border-purple-200',
-      tools: [
-        { name: 'Event Calendar', href: '/hub/calendar', icon: '📆' },
-        { name: 'Fundraising Ideas', href: '/funding', icon: '💰' },
-        { name: 'Social Media Guide', href: '/hub/external', icon: '📱' },
-        { name: 'Member Recruitment Tips', href: '/hub/guides/guide-3', icon: '👥' },
-        { name: 'Spotlight & Stories', href: '/hub/stories', icon: '⭐' },
-      ],
-    },
-    {
-      id: 'operations',
-      title: 'Operations & Management',
-      description: 'Manage members, announcements, and recurring activities.',
-      icon: '⚙️',
-      color: 'text-indigo-600',
-      bgColor: 'bg-indigo-50',
-      borderColor: 'border-indigo-200',
-      tools: [
-        { name: 'Club Manager', href: '/hub/manage-club', icon: '🎛️' },
-        { name: 'Member Collections', href: '/hub/my-collections', icon: '👥' },
-        { name: 'Mentors & Advisors', href: '/hub/mentors', icon: '👨‍🏫' },
-        { name: 'Collaboration Board', href: '/hub/collaborate', icon: '🤝' },
-        { name: 'Club Health Check', href: '/hub/health', icon: '💊' },
-      ],
-    },
-    {
-      id: 'growth',
-      title: 'Growth & Competitions',
-      description: 'Scale membership, track competitions, and celebrate wins.',
-      icon: '🚀',
-      color: 'text-pink-600',
-      bgColor: 'bg-pink-50',
-      borderColor: 'border-pink-200',
-      tools: [
-        { name: 'Competitions', href: '/hub/competitions', icon: '🏆' },
-        { name: 'Club Comparison', href: '/hub/compare', icon: '⚖️' },
-        { name: 'Spotlight & Stories', href: '/hub/stories', icon: '⭐' },
-        { name: 'Mentor Directory', href: '/hub/mentors', icon: '👨‍🏫' },
-        { name: 'External Resources', href: '/hub/external', icon: '🔗' },
-      ],
-    },
-  ];
+  const stages = initiationStages;
 
   useEffect(() => {
     // If navigated with a hash (from header dropdown or external link), scroll to that stage

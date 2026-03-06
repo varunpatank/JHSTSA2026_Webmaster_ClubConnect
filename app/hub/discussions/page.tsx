@@ -3,6 +3,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import {
+  demoDiscussions as initialDiscussions,
+  discussionCategories as categories,
+} from '@/lib/exampleData';
 
 interface Discussion {
   id: string;
@@ -29,134 +33,8 @@ interface Reply {
   isAnswer?: boolean;
 }
 
-const demoDiscussions: Discussion[] = [
-  {
-    id: '1',
-    title: 'Tips for recruiting new members at the beginning of the year?',
-    content: 'Our club lost a lot of seniors last year and we need to rebuild. What strategies have worked for you to attract new members during club fair and the first few weeks of school?',
-    author: { name: 'Sarah Chen', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80', role: 'President' },
-    category: 'Recruiting',
-    createdAt: '2026-02-09T10:30:00',
-    views: 234,
-    likes: 18,
-    isPinned: true,
-    isLocked: false,
-    tags: ['recruiting', 'membership', 'growth'],
-    replies: [
-      {
-        id: '1a',
-        content: 'We created an interactive demo at our club fair booth - it really helped draw people in! Also, having current members wear club shirts creates visibility.',
-        author: { name: 'Marcus Johnson', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80', role: 'Vice President' },
-        createdAt: '2026-02-09T11:45:00',
-        likes: 12,
-        isAnswer: true
-      },
-      {
-        id: '1b',
-        content: 'Social media presence before school starts helps a lot. We post teaser content on Instagram over the summer.',
-        author: { name: 'Emily Rodriguez', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80', role: 'Member' },
-        createdAt: '2026-02-09T14:20:00',
-        likes: 8
-      }
-    ]
-  },
-  {
-    id: '2',
-    title: 'How to handle disagreements between officers?',
-    content: 'Two of our officers have very different visions for the club direction and it\'s causing tension. Looking for advice on conflict resolution in leadership teams.',
-    author: { name: 'Jordan Lee', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80', role: 'Advisor' },
-    category: 'Leadership',
-    createdAt: '2026-02-08T16:00:00',
-    views: 156,
-    likes: 24,
-    isPinned: false,
-    isLocked: false,
-    tags: ['leadership', 'conflict', 'teamwork'],
-    replies: [
-      {
-        id: '2a',
-        content: 'Schedule a dedicated meeting to discuss the vision openly. Sometimes writing down everyone\'s ideas helps depersonalize the conflict.',
-        author: { name: 'Dr. Patricia Williams', avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&q=80', role: 'Mentor' },
-        createdAt: '2026-02-08T17:30:00',
-        likes: 15,
-        isAnswer: true
-      }
-    ]
-  },
-  {
-    id: '3',
-    title: 'Best fundraising ideas that actually work?',
-    content: 'We need to raise $500 for our upcoming competition. What fundraisers have been most successful for your clubs? Looking for ideas beyond the usual bake sales.',
-    author: { name: 'Alex Martinez', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80', role: 'Treasurer' },
-    category: 'Fundraising',
-    club: 'Technology Student Association',
-    createdAt: '2026-02-08T09:15:00',
-    views: 312,
-    likes: 31,
-    isPinned: false,
-    isLocked: false,
-    tags: ['fundraising', 'money', 'competition'],
-    replies: [
-      {
-        id: '3a',
-        content: 'We did a car wash and made over $800 in one day! The key is picking a high-traffic location and promoting heavily.',
-        author: { name: 'Chris Taylor', avatar: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=100&q=80', role: 'President' },
-        createdAt: '2026-02-08T10:00:00',
-        likes: 9
-      },
-      {
-        id: '3b',
-        content: 'Spirit wear sales work great for us. We design custom club merchandise and sell it to members and their families.',
-        author: { name: 'Maya Patel', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80', role: 'Secretary' },
-        createdAt: '2026-02-08T12:45:00',
-        likes: 14,
-        isAnswer: true
-      }
-    ]
-  },
-  {
-    id: '4',
-    title: 'Virtual club meetings - how do you keep them engaging?',
-    content: 'We still have some hybrid members who attend virtually. What tools and techniques do you use to keep online participants engaged?',
-    author: { name: 'Nina Okafor', avatar: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&q=80', role: 'Vice President' },
-    category: 'Meetings',
-    createdAt: '2026-02-07T14:30:00',
-    views: 178,
-    likes: 11,
-    isPinned: false,
-    isLocked: false,
-    tags: ['virtual', 'meetings', 'hybrid', 'engagement'],
-    replies: []
-  },
-  {
-    id: '5',
-    title: 'TSA Webmaster Competition - Theme Interpretation',
-    content: 'How are other teams interpreting the "Community Resource Hub" theme? Looking to exchange ideas without giving away competitive secrets!',
-    author: { name: 'David Kim', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&q=80', role: 'Team Lead' },
-    category: 'Competitions',
-    club: 'Technology Student Association',
-    createdAt: '2026-02-06T11:00:00',
-    views: 445,
-    likes: 52,
-    isPinned: true,
-    isLocked: false,
-    tags: ['tsa', 'webmaster', 'competition', 'theme'],
-    replies: [
-      {
-        id: '5a',
-        content: 'We\'re focusing on making it actually useful for real students. The key is interactivity and user-created content.',
-        author: { name: 'Sophie Zhang', avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&q=80', role: 'Developer' },
-        createdAt: '2026-02-06T13:15:00',
-        likes: 21
-      }
-    ]
-  }
-];
-
-const categories = ['All', 'Recruiting', 'Leadership', 'Fundraising', 'Meetings', 'Events', 'Competitions', 'General'];
-
 export default function DiscussionsPage() {
-  const [discussions, setDiscussions] = useState<Discussion[]>(demoDiscussions);
+  const [discussions, setDiscussions] = useState<Discussion[]>(initialDiscussions as Discussion[]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'recent' | 'popular' | 'unanswered'>('recent');

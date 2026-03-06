@@ -5,22 +5,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { clubIdeas } from '@/lib/hubData';
 import { ChapterCategory } from '@/types';
-
-const categories: ChapterCategory[] = ['Academic', 'Arts', 'Service', 'Cultural', 'STEM', 'Sports', 'Leadership', 'Media', 'Other'];
-
-const interestColors = {
-  'Low': 'bg-neutral-100 text-neutral-600',
-  'Medium': 'bg-blue-100 text-blue-700',
-  'High': 'bg-green-100 text-green-700',
-  'Very High': 'bg-purple-100 text-purple-700'
-};
-
-const costColors = {
-  'Free': 'text-green-600',
-  'Low ($0-50)': 'text-blue-600',
-  'Medium ($50-200)': 'text-yellow-600',
-  'High ($200+)': 'text-red-600'
-};
+import {
+  ideaCategories as categories,
+  ideaInterestColors as interestColors,
+  ideaCostColors as costColors,
+} from '@/lib/exampleData';
 
 export default function ClubIdeasPage() {
   const [searchQuery, setSearchQuery] = useState('');

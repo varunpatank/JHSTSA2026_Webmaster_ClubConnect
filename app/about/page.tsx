@@ -4,15 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import Head from 'next/head';
-
-const PARTNERS = [
-  { id: 'state-tsa', name: 'State TSA', src: '/partners/state-tsa.svg' },
-  { id: 'local-library', name: 'Local Library', src: '/partners/local-library.svg' },
-  { id: 'city-bank', name: 'City Bank', src: '/partners/city-bank.svg' },
-  { id: 'techco', name: 'TechCo', src: '/partners/techco.svg' },
-  { id: 'arts-guild', name: 'Arts Guild', src: '/partners/arts-guild.svg' },
-  { id: 'university', name: 'University Partner', src: '/partners/university-partner.svg' },
-];
+import { aboutPartners as PARTNERS } from '@/lib/pageData';
 
 export default function AboutPage() {
   useEffect(() => {

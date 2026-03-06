@@ -5,19 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { starterGuides, hubStats } from '@/lib/hubData';
 import { StarterGuideCategory } from '@/types';
+import { hubCategories } from '@/lib/pageData';
 
-const categories: StarterGuideCategory[] = [
-  'Getting Started',
-  'Constitution & Bylaws',
-  'Recruiting Members',
-  'Running Meetings',
-  'Event Planning',
-  'Fundraising',
-  'Marketing',
-  'Leadership',
-  'Advisor Relations',
-  'Competitions'
-];
+const categories: StarterGuideCategory[] = hubCategories;
 
 const difficultyColors = {
   'Beginner': 'bg-green-100 text-green-700 border-green-300',

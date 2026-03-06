@@ -2,27 +2,11 @@
 
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
+import { mainNavLinks, headerInitiationStages as initiationStages } from '@/lib/exampleData';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const mainNavLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/explore', label: 'Explore' },
-    { href: '/my-space', label: 'My Space' },
-    { href: '/community', label: 'Community' },
-    { href: '/meetings', label: 'Meetings' },
-  ];
-
-  const initiationStages = [
-    { id: 'ideation', label: 'Ideation & Planning' },
-    { id: 'proposal', label: 'Proposal & Approval' },
-    { id: 'setup', label: 'Setup & Structure' },
-    { id: 'recruitment', label: 'Recruitment & Launch' },
-    { id: 'operations', label: 'Operations & Management' },
-    { id: 'growth', label: 'Growth & Competitions' },
-  ];
   const [showInitiation, setShowInitiation] = useState(false);
   const hideTimeoutRef = useRef<number | null>(null);
 

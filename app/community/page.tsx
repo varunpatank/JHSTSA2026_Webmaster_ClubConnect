@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { communityDiscussions, communitySpotlights, communitySuccessStories, communityAlumni, communityMembers } from '@/lib/pageData';
 
 const EmbeddedCall = dynamic(() => import('@/components/EmbeddedCall'), { ssr: false });
 
@@ -11,39 +12,13 @@ export default function CommunityPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'discussions' | 'spotlight' | 'stories' | 'alumni' | 'connect'>('discussions');
 
-  const discussions = [
-    { id: 1, title: 'Tips for TSA State Competition?', author: 'Maria G.', club: 'TSA', replies: 23, lastActive: '2 hours ago', hot: true },
-    { id: 2, title: 'Best fundraising ideas for spring', author: 'James L.', club: 'FBLA', replies: 18, lastActive: '5 hours ago', hot: true },
-    { id: 3, title: 'How to balance club leadership with academics', author: 'Sophie K.', club: 'NHS', replies: 31, lastActive: '1 day ago', hot: false },
-    { id: 4, title: 'Robotics competition strategies', author: 'Alex J.', club: 'Robotics', replies: 15, lastActive: '1 day ago', hot: false },
-    { id: 5, title: 'New member recruitment ideas', author: 'Taylor M.', club: 'Drama', replies: 12, lastActive: '2 days ago', hot: false },
-  ];
-
-  const spotlights = [
-    { id: 1, title: 'TSA Chapter Wins State Championship', club: 'TSA', date: 'Nov 2024', image: '🏆', featured: true },
-    { id: 2, title: 'Drama Club Spring Musical Sells Out', club: 'Drama', date: 'Oct 2024', image: '🎭', featured: false },
-    { id: 3, title: 'Robotics Team Qualifies for Nationals', club: 'Robotics', date: 'Oct 2024', image: '🤖', featured: false },
-    { id: 4, title: 'NHS Community Service Milestone', club: 'NHS', date: 'Sep 2024', image: '🤝', featured: false },
-  ];
-
-  const successStories = [
-    { id: 1, title: 'From Club Member to Tech Entrepreneur', author: 'Sarah Chen, Class of 2020', club: 'TSA', excerpt: 'How TSA skills helped me launch my startup...' },
-    { id: 2, title: 'Leadership Lessons That Shaped My Career', author: 'Michael Brown, Class of 2018', club: 'FBLA', excerpt: 'The business skills I learned in FBLA...' },
-    { id: 3, title: 'Finding My Voice Through Debate', author: 'Emily Rodriguez, Class of 2021', club: 'Debate', excerpt: 'Public speaking transformed my confidence...' },
-  ];
-
-  const alumni = [
-    { id: 1, name: 'Dr. Jennifer Walsh', year: '2015', role: 'Software Engineer at Google', club: 'TSA' },
-    { id: 2, name: 'Marcus Thompson', year: '2017', role: 'Investment Banker', club: 'FBLA' },
-    { id: 3, name: 'Amanda Lee', year: '2019', role: 'Broadway Performer', club: 'Drama' },
-  ];
+  const discussions = communityDiscussions;
+  const spotlights = communitySpotlights;
+  const successStories = communitySuccessStories;
+  const alumni = communityAlumni;
 
   // --- Connect / Meetings (new) ---
-  const members = [
-    { id: 'm1', name: 'Greg Shelton', role: 'Advisor', club: 'Juanita HS Webmaster', email: 'gshelton@lwsd.org', bio: 'Advisor with 10+ years experience mentoring Webmaster teams.', availability: ['Mon 3:30pm','Wed 4:00pm'] },
-    { id: 'm2', name: 'Alex Johnson', role: 'Team Captain', club: 'Robotics', email: 'a.johnson@student.edu', bio: 'Lead programmer and mentor for new members.', availability: ['Tue 5:00pm','Thu 3:30pm'] },
-    { id: 'm3', name: 'Isabella Martinez', role: 'President', club: 'Community Service', email: 'i.martinez@student.edu', bio: 'Organizes large volunteer drives and outreach.', availability: ['Fri 12:00pm'] },
-  ];
+  const members = communityMembers;
 
   const [meetings, setMeetings] = useState<any[]>([]);
   const [showScheduleModal, setShowScheduleModal] = useState(false);

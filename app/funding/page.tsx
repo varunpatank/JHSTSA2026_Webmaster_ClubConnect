@@ -3,49 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { chapters } from '@/lib/data';
-
-const budgetAllocations = [
-  { chapter: 'Model United Nations', allocated: 3500, spent: 2100, remaining: 1400 },
-  { chapter: 'Robotics Team', allocated: 8000, spent: 5500, remaining: 2500 },
-  { chapter: 'Drama Club', allocated: 4500, spent: 3200, remaining: 1300 },
-  { chapter: 'Community Service Club', allocated: 1500, spent: 800, remaining: 700 },
-  { chapter: 'Debate Team', allocated: 2500, spent: 1900, remaining: 600 },
-  { chapter: 'Environmental Club', allocated: 1200, spent: 650, remaining: 550 },
-];
-
-const purchaseRequests = [
-  { id: 1, chapter: 'Robotics Team', item: 'Motor Controllers (x5)', amount: 450, status: 'Pending', date: '2026-01-10' },
-  { id: 2, chapter: 'Drama Club', item: 'Costume Materials', amount: 320, status: 'Approved', date: '2026-01-08' },
-  { id: 3, chapter: 'Model UN', item: 'Conference Registration', amount: 800, status: 'Pending', date: '2026-01-05' },
-];
-
-const grants = [
-  { 
-    id: 1, 
-    title: 'Innovation Grant', 
-    amount: '$2,500', 
-    deadline: '2026-02-15',
-    description: 'For chapters developing new technology or innovative programs.',
-    eligibility: 'STEM and Academic chapters'
-  },
-  { 
-    id: 2, 
-    title: 'Community Impact Award', 
-    amount: '$1,500', 
-    deadline: '2026-03-01',
-    description: 'For chapters with outstanding community service projects.',
-    eligibility: 'Service and Cultural chapters'
-  },
-  { 
-    id: 3, 
-    title: 'Arts Enrichment Fund', 
-    amount: '$2,000', 
-    deadline: '2026-02-28',
-    description: 'Support for arts programs, productions, and equipment.',
-    eligibility: 'Arts and Media chapters'
-  },
-];
+import { chapters, budgetAllocations, purchaseRequests, grants } from '@/lib/data';
 
 export default function FundingPage() {
   const [activeTab, setActiveTab] = useState<'budgets' | 'requests' | 'grants' | 'fundraising'>('budgets');

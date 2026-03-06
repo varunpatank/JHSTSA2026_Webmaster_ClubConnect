@@ -3,29 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { chapters, events, stats } from '@/lib/data';
-
-const pendingProposals = [
-  { id: 'prop-1', name: 'Photography Club', submitter: 'Emily Chen', date: '2026-01-10', status: 'Under Review' },
-  { id: 'prop-2', name: 'Chess Club', submitter: 'Marcus Johnson', date: '2026-01-08', status: 'Pending Advisor' },
-  { id: 'prop-3', name: 'Entrepreneurship Society', submitter: 'Sarah Williams', date: '2026-01-05', status: 'Under Review' },
-];
-
-const recentActivity = [
-  { action: 'New member joined Model UN', time: '2 hours ago', type: 'member' },
-  { action: 'Robotics Team updated meeting schedule', time: '5 hours ago', type: 'update' },
-  { action: 'Drama Club event approved', time: '1 day ago', type: 'event' },
-  { action: 'New proposal submitted: Photography Club', time: '2 days ago', type: 'proposal' },
-  { action: 'Community Service Club hours verified', time: '3 days ago', type: 'verification' },
-];
-
-const chapterHealth = [
-  { name: 'Model UN', score: 95, status: 'Excellent', color: 'bg-green-500' },
-  { name: 'Robotics Team', score: 92, status: 'Excellent', color: 'bg-green-500' },
-  { name: 'Drama Club', score: 88, status: 'Good', color: 'bg-blue-500' },
-  { name: 'Debate Team', score: 85, status: 'Good', color: 'bg-blue-500' },
-  { name: 'Environmental Club', score: 72, status: 'Fair', color: 'bg-yellow-500' },
-];
+import { chapters, events, stats, pendingProposals, recentActivity, chapterHealth } from '@/lib/data';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<'overview' | 'chapters' | 'proposals' | 'users' | 'analytics' | 'policies'>('overview');

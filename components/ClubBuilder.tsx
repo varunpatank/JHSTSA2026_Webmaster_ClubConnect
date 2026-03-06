@@ -1,9 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-
-const categories = ['Academic','Arts','Service','Cultural','STEM','Sports','Leadership','Media','Other'];
-const emojis = ['🎯','💡','🚀','🎨','🎵','🤝','📚','🏆','💻','🔬','🎮','⚙️'];
+import { clubBuilderCategories as categories, clubBuilderEmojis as emojis } from '@/lib/exampleData';
 
 function makeNameSuggestions(focus: string, category: string) {
   const base = focus.trim() || category || 'Student Club';

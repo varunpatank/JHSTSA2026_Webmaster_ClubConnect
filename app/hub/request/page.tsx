@@ -4,33 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { resourceRequests } from '@/lib/hubData';
-
-const categories = [
-  'Starter Guides',
-  'Templates',
-  'Training Materials',
-  'Tools & Software',
-  'Funding Resources',
-  'Competition Prep',
-  'Leadership Development',
-  'Marketing & Outreach',
-  'Other'
-];
-
-const priorityColors = {
-  'Low': 'bg-blue-100 text-blue-700',
-  'Medium': 'bg-yellow-100 text-yellow-700',
-  'High': 'bg-orange-100 text-orange-700',
-  'Critical': 'bg-red-100 text-red-700'
-};
-
-const statusColors = {
-  'Submitted': 'bg-neutral-100 text-neutral-600',
-  'Under Review': 'bg-blue-100 text-blue-600',
-  'In Progress': 'bg-purple-100 text-purple-600',
-  'Completed': 'bg-green-100 text-green-600',
-  'Declined': 'bg-red-100 text-red-600'
-};
+import {
+  requestCategories as categories,
+  requestPriorityColors as priorityColors,
+  requestStatusColors as statusColors,
+} from '@/lib/exampleData';
 
 type PriorityKey = keyof typeof priorityColors;
 type StatusKey = keyof typeof statusColors;

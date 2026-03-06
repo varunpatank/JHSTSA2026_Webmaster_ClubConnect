@@ -3,88 +3,18 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
-interface UserProfile {
-  name: string;
-  email: string;
-  grade: string;
-  avatar: string;
-  joinedClubs: string[];
-  interests: string[];
-  role: 'student' | 'officer' | 'advisor';
-}
-
-interface SavedItem {
-  id: string;
-  type: 'resource' | 'event' | 'club' | 'opportunity';
-  title: string;
-  savedAt: string;
-}
-
-interface UserActivity {
-  id: string;
-  type: 'joined' | 'saved' | 'rsvp' | 'submitted' | 'completed';
-  description: string;
-  timestamp: string;
-}
-
-interface MyEvent {
-  id: string;
-  title: string;
-  club: string;
-  date: string;
-  time: string;
-  location: string;
-  rsvpStatus: 'going' | 'maybe' | 'not-going';
-}
-
-interface Achievement {
-  id: string;
-  name: string;
-  icon: string;
-  description: string;
-  earnedAt: string;
-  rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary';
-}
-
-// Demo data
-const demoProfile: UserProfile = {
-  name: 'Alex Johnson',
-  email: 'alex.j@school.edu',
-  grade: 'Junior (11th)',
-  avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80',
-  joinedClubs: ['Technology Student Association', 'Robotics Club', 'Math League'],
-  interests: ['STEM', 'Leadership', 'Competition'],
-  role: 'student'
-};
-
-const demoSavedItems: SavedItem[] = [
-  { id: '1', type: 'resource', title: 'TSA Competition Guide 2026', savedAt: '2026-02-08' },
-  { id: '2', type: 'event', title: 'Regional TSA Conference', savedAt: '2026-02-07' },
-  { id: '3', type: 'club', title: 'Environmental Club', savedAt: '2026-02-05' },
-  { id: '4', type: 'opportunity', title: 'Summer STEM Mentorship', savedAt: '2026-02-04' },
-];
-
-const demoActivity: UserActivity[] = [
-  { id: '1', type: 'rsvp', description: 'RSVPed to Regional TSA Conference', timestamp: '2026-02-09T14:30:00' },
-  { id: '2', type: 'saved', description: 'Saved TSA Competition Guide', timestamp: '2026-02-08T10:15:00' },
-  { id: '3', type: 'submitted', description: 'Submitted new club proposal', timestamp: '2026-02-07T16:45:00' },
-  { id: '4', type: 'completed', description: 'Completed Club Finder Quiz', timestamp: '2026-02-06T09:00:00' },
-  { id: '5', type: 'joined', description: 'Joined Math League', timestamp: '2026-02-05T11:30:00' },
-];
-
-const demoEvents: MyEvent[] = [
-  { id: '1', title: 'TSA Chapter Meeting', club: 'TSA', date: '2026-02-12', time: '3:30 PM', location: 'Room 204', rsvpStatus: 'going' },
-  { id: '2', title: 'Robotics Build Session', club: 'Robotics Club', date: '2026-02-14', time: '4:00 PM', location: 'Engineering Lab', rsvpStatus: 'going' },
-  { id: '3', title: 'Math League Practice', club: 'Math League', date: '2026-02-15', time: '3:00 PM', location: 'Room 118', rsvpStatus: 'maybe' },
-];
-
-const demoAchievements: Achievement[] = [
-  { id: '1', name: 'First Steps', icon: '👟', description: 'Joined your first club', earnedAt: '2026-01-15', rarity: 'Common' },
-  { id: '2', name: 'Quiz Master', icon: '🎯', description: 'Completed the Club Finder Quiz', earnedAt: '2026-02-06', rarity: 'Common' },
-  { id: '3', name: 'Social Butterfly', icon: '🦋', description: 'Joined 3 or more clubs', earnedAt: '2026-02-05', rarity: 'Uncommon' },
-  { id: '4', name: 'Resource Hunter', icon: '📚', description: 'Saved 5+ resources', earnedAt: '2026-02-08', rarity: 'Uncommon' },
-];
+import {
+  demoProfile,
+  demoSavedItems,
+  demoActivity,
+  demoDashboardEvents as demoEvents,
+  demoAchievements,
+  type UserProfile,
+  type SavedItem,
+  type UserActivity,
+  type MyEvent,
+  type Achievement,
+} from '@/lib/pageData';
 
 export default function DashboardPage() {
   const [profile, setProfile] = useState<UserProfile>(demoProfile);

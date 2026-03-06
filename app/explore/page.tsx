@@ -2,40 +2,15 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { exploreClubs, exploreEvents, exploreResources, exploreCategories } from '@/lib/pageData';
 
 export default function ExplorePage() {
   const [activeTab, setActiveTab] = useState<'clubs' | 'events' | 'resources'>('clubs');
 
-  const clubs = [
-    { id: 'tsa', name: 'Technology Student Association', category: 'STEM', members: 45, description: 'Competitive technology and leadership organization' },
-    { id: 'fbla', name: 'Future Business Leaders', category: 'Business', members: 38, description: 'Developing business skills and career readiness' },
-    { id: 'nhs', name: 'National Honor Society', category: 'Academic', members: 52, description: 'Recognizing outstanding academic achievement' },
-    { id: 'drama', name: 'Drama Club', category: 'Arts', members: 28, description: 'Theatre productions and performing arts' },
-    { id: 'debate', name: 'Debate Team', category: 'Academic', members: 22, description: 'Competitive speech and debate' },
-    { id: 'robotics', name: 'Robotics Club', category: 'STEM', members: 35, description: 'Building and programming robots for competition' },
-    { id: 'art', name: 'Art Club', category: 'Arts', members: 30, description: 'Creative expression and art exhibitions' },
-    { id: 'eco', name: 'Environmental Club', category: 'Service', members: 25, description: 'Promoting sustainability and eco-friendly initiatives' },
-  ];
-
-  const events = [
-    { id: 1, title: 'TSA State Conference', date: 'Mar 15-17, 2025', type: 'Competition', club: 'TSA' },
-    { id: 2, title: 'Spring Club Fair', date: 'Mar 20, 2025', type: 'Fair', club: 'All Clubs' },
-    { id: 3, title: 'FBLA Regional Competition', date: 'Apr 5, 2025', type: 'Competition', club: 'FBLA' },
-    { id: 4, title: 'Spring Musical', date: 'Apr 12-14, 2025', type: 'Performance', club: 'Drama' },
-    { id: 5, title: 'Robotics Showcase', date: 'Apr 22, 2025', type: 'Showcase', club: 'Robotics' },
-    { id: 6, title: 'Art Exhibition Opening', date: 'May 1, 2025', type: 'Exhibition', club: 'Art Club' },
-  ];
-
-  const resources = [
-    { id: 1, title: 'Club Officer Handbook', category: 'Guides', icon: '📘', description: 'Complete guide for leading your club effectively' },
-    { id: 2, title: 'Event Planning Templates', category: 'Templates', icon: '📋', description: 'Ready-to-use templates for organizing events' },
-    { id: 3, title: 'Fundraising Ideas', category: 'Fundraising', icon: '💰', description: 'Creative ways to raise money for your club' },
-    { id: 4, title: 'Meeting Agenda Templates', category: 'Templates', icon: '📝', description: 'Structure your meetings for maximum productivity' },
-    { id: 5, title: 'Social Media Guide', category: 'Marketing', icon: '📱', description: 'Grow your club presence online' },
-    { id: 6, title: 'Member Recruitment Tips', category: 'Guides', icon: '👥', description: 'Strategies to attract and retain members' },
-  ];
-
-  const categories = ['All', 'STEM', 'Business', 'Academic', 'Arts', 'Service'];
+  const clubs = exploreClubs;
+  const events = exploreEvents;
+  const resources = exploreResources;
+  const categories = exploreCategories;
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   const filteredClubs = selectedCategory === 'All' 

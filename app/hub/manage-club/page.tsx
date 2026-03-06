@@ -3,6 +3,15 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import {
+  manageClubDemo as demoClub,
+  manageClubDemoEvents as initialDemoEvents,
+  manageClubDemoAnnouncements as initialDemoAnnouncements,
+  clubCategoryOptions as categoryOptions,
+  clubColorOptions as colorOptions,
+  clubLogoOptions as logoOptions,
+  socialPlatforms,
+} from '@/lib/exampleData';
 
 interface ClubDraft {
   id: string;
@@ -57,62 +66,10 @@ interface Announcement {
   pinned: boolean;
 }
 
-const demoClub: ClubDraft = {
-  id: '1',
-  name: 'Technology Student Association',
-  category: 'STEM',
-  description: 'A national organization dedicated to preparing students for careers in technology, innovation, design, and engineering.',
-  mission: 'To empower students through STEM competitions, leadership opportunities, and community service.',
-  meetingSchedule: 'Every Tuesday, 3:30 PM - 4:30 PM',
-  meetingLocation: 'Room 204, Technology Wing',
-  advisorName: 'Ms. Sarah Johnson',
-  advisorEmail: 's.johnson@school.edu',
-  officers: [
-    { id: '1', name: 'Alex Martinez', role: 'President', email: 'alex.m@school.edu', bio: 'Junior passionate about robotics and web development' },
-    { id: '2', name: 'Jordan Lee', role: 'Vice President', email: 'jordan.l@school.edu', bio: 'Senior focusing on cybersecurity and networking' },
-  ],
-  socialLinks: [
-    { platform: 'Instagram', url: 'https://instagram.com/schooltsa' },
-    { platform: 'Discord', url: 'https://discord.gg/schooltsa' },
-  ],
-  requirements: ['Maintain good academic standing', 'Pay annual dues ($15)', 'Attend at least 2 meetings per month'],
-  benefits: ['Compete at regional/state/national level', 'Develop technical skills', 'Network with industry professionals', 'Earn service hours'],
-  coverImage: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&q=80',
-  logo: '🔧',
-  color: 'bg-blue-600',
-  status: 'active',
-  createdAt: '2025-08-15',
-  lastUpdated: '2026-02-08'
-};
-
-const demoEvents: Event[] = [
-  { id: '1', title: 'Weekly Chapter Meeting', date: '2026-02-11', time: '3:30 PM', location: 'Room 204', description: 'Regular meeting to discuss upcoming competitions', type: 'meeting' },
-  { id: '2', title: 'Regional Conference', date: '2026-02-25', time: '8:00 AM', location: 'Convention Center', description: 'TSA Regional Competition', type: 'competition' },
-];
-
-const demoAnnouncements: Announcement[] = [
-  { id: '1', title: 'Webmaster Project Deadline', content: 'All Webmaster teams must submit their projects by February 20th.', date: '2026-02-07', pinned: true },
-  { id: '2', title: 'Competition Registration Open', content: 'Sign up for individual events for regionals!', date: '2026-02-05', pinned: false },
-];
-
-const categoryOptions = ['STEM', 'Arts', 'Academic', 'Service', 'Cultural', 'Sports', 'Social', 'Business', 'Environmental', 'Other'];
-const colorOptions = [
-  { value: 'bg-blue-600', label: 'Blue' },
-  { value: 'bg-green-600', label: 'Green' },
-  { value: 'bg-purple-600', label: 'Purple' },
-  { value: 'bg-red-600', label: 'Red' },
-  { value: 'bg-amber-600', label: 'Amber' },
-  { value: 'bg-pink-600', label: 'Pink' },
-  { value: 'bg-teal-600', label: 'Teal' },
-  { value: 'bg-indigo-600', label: 'Indigo' },
-];
-const logoOptions = ['🔧', '🎨', '📚', '🎭', '🌍', '💻', '🎵', '⚽', '🔬', '📷', '✍️', '🤝', '🌱', '💼', '🎯'];
-const socialPlatforms = ['Instagram', 'Twitter', 'Discord', 'Facebook', 'YouTube', 'TikTok', 'Website', 'Email'];
-
 export default function ClubManagerPage() {
-  const [club, setClub] = useState<ClubDraft>(demoClub);
-  const [events, setEvents] = useState<Event[]>(demoEvents);
-  const [announcements, setAnnouncements] = useState<Announcement[]>(demoAnnouncements);
+  const [club, setClub] = useState<ClubDraft>(demoClub as unknown as ClubDraft);
+  const [events, setEvents] = useState<Event[]>(initialDemoEvents as unknown as Event[]);
+  const [announcements, setAnnouncements] = useState<Announcement[]>(initialDemoAnnouncements as unknown as Announcement[]);
   const [activeTab, setActiveTab] = useState<'profile' | 'officers' | 'events' | 'announcements' | 'settings' | 'preview'>('profile');
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({ ...club });

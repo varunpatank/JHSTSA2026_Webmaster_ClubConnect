@@ -2,50 +2,17 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { mySpaceGoals, mySpaceCollections, mySpaceClubs, mySpaceRecentActivity, mySpaceNotifications } from '@/lib/pageData';
+import { mySpaceUser as user } from '@/lib/exampleData';
 
 export default function MySpacePage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'goals' | 'collections' | 'clubs'>('overview');
 
-  // Mock user data
-  const user = {
-    name: 'Alex Johnson',
-    grade: '11th Grade',
-    clubs: ['TSA', 'Robotics Club', 'NHS'],
-    role: 'TSA Chapter President',
-    joinDate: 'August 2023',
-  };
-
-  const goals = [
-    { id: 1, title: 'Win TSA State Competition', progress: 65, deadline: 'Mar 2025', status: 'in-progress' },
-    { id: 2, title: 'Recruit 10 new members', progress: 80, deadline: 'Dec 2024', status: 'in-progress' },
-    { id: 3, title: 'Complete leadership training', progress: 100, deadline: 'Nov 2024', status: 'completed' },
-    { id: 4, title: 'Organize spring fundraiser', progress: 20, deadline: 'Apr 2025', status: 'in-progress' },
-  ];
-
-  const collections = [
-    { id: 1, name: 'Competition Resources', items: 12, icon: '🏆' },
-    { id: 2, name: 'Meeting Templates', items: 8, icon: '📋' },
-    { id: 3, name: 'Fundraising Ideas', items: 15, icon: '💰' },
-  ];
-
-  const myClubs = [
-    { id: 'tsa', name: 'Technology Student Association', role: 'President', status: 'Active' },
-    { id: 'robotics', name: 'Robotics Club', role: 'Member', status: 'Active' },
-    { id: 'nhs', name: 'National Honor Society', role: 'Member', status: 'Active' },
-  ];
-
-  const recentActivity = [
-    { id: 1, action: 'Completed goal: Leadership training', time: '2 hours ago', icon: '✅' },
-    { id: 2, action: 'Added resource to Competition collection', time: '1 day ago', icon: '📚' },
-    { id: 3, action: 'Posted in TSA discussion forum', time: '2 days ago', icon: '💬' },
-    { id: 4, action: 'Updated goal progress: State Competition', time: '3 days ago', icon: '📊' },
-  ];
-
-  const notifications = [
-    { id: 1, message: 'TSA meeting tomorrow at 3pm', type: 'reminder', unread: true },
-    { id: 2, message: 'New competition deadline announced', type: 'alert', unread: true },
-    { id: 3, message: 'Your fundraiser proposal was approved', type: 'success', unread: false },
-  ];
+  const goals = mySpaceGoals;
+  const collections = mySpaceCollections;
+  const myClubs = mySpaceClubs;
+  const recentActivity = mySpaceRecentActivity;
+  const notifications = mySpaceNotifications;
 
   return (
     <div className="min-h-screen bg-neutral-100">

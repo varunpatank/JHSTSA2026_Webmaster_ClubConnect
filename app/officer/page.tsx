@@ -3,24 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { chapters, events } from '@/lib/data';
+import { chapters, events, memberRoster, pendingJoinRequests } from '@/lib/data';
 
 const myChapter = chapters[0];
-const memberRoster = [
-  { id: 1, name: 'James Chen', role: 'President', grade: 12, attendance: 95, duesPaid: true },
-  { id: 2, name: 'Maria Santos', role: 'Vice President', grade: 11, attendance: 92, duesPaid: true },
-  { id: 3, name: 'David Kim', role: 'Secretary', grade: 11, attendance: 88, duesPaid: true },
-  { id: 4, name: 'Emma Wilson', role: 'Treasurer', grade: 10, attendance: 90, duesPaid: true },
-  { id: 5, name: 'Alex Thompson', role: 'Member', grade: 10, attendance: 78, duesPaid: false },
-  { id: 6, name: 'Sophie Brown', role: 'Member', grade: 9, attendance: 85, duesPaid: true },
-  { id: 7, name: 'Michael Lee', role: 'Member', grade: 11, attendance: 82, duesPaid: false },
-  { id: 8, name: 'Olivia Davis', role: 'Member', grade: 10, attendance: 91, duesPaid: true },
-];
-
-const pendingJoinRequests = [
-  { id: 1, name: 'Ryan Foster', grade: 10, date: '2026-01-10', message: 'I have always been interested in international relations.' },
-  { id: 2, name: 'Lisa Wang', grade: 9, date: '2026-01-08', message: 'I want to improve my public speaking skills.' },
-];
 
 export default function OfficerPortal() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'members' | 'communication' | 'resources' | 'events'>('dashboard');

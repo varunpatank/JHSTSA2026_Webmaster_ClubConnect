@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { chapters } from '@/lib/data';
+import { comparisonCategories } from '@/lib/exampleData';
 
 export default function ClubComparePage() {
   const [selectedClubs, setSelectedClubs] = useState<string[]>([]);
@@ -21,41 +22,6 @@ export default function ClubComparePage() {
   const handleRemoveClub = (clubId: string) => {
     setSelectedClubs(selectedClubs.filter(id => id !== clubId));
   };
-
-  const comparisonCategories = [
-    {
-      name: 'Basic Info',
-      metrics: [
-        { key: 'category', label: 'Category' },
-        { key: 'memberCount', label: 'Members' },
-        { key: 'meetingSchedule', label: 'Meeting Schedule' }
-      ]
-    },
-    {
-      name: 'Commitment',
-      metrics: [
-        { key: 'timeCommitment', label: 'Time Commitment', compute: () => 'Moderate' },
-        { key: 'duesRequired', label: 'Dues Required', compute: () => 'Varies' },
-        { key: 'attendancePolicy', label: 'Attendance Policy', compute: () => 'Flexible' }
-      ]
-    },
-    {
-      name: 'Opportunities',
-      metrics: [
-        { key: 'competitions', label: 'Competitions', compute: (club: typeof chapters[0]) => club.category === 'STEM' || club.category === 'Academic' ? 'Yes' : 'Limited' },
-        { key: 'leadership', label: 'Leadership Roles', compute: () => 'Available' },
-        { key: 'communityService', label: 'Community Service', compute: (club: typeof chapters[0]) => club.category === 'Service' ? 'Primary Focus' : 'Occasional' }
-      ]
-    },
-    {
-      name: 'Culture & Experience',
-      metrics: [
-        { key: 'beginnerFriendly', label: 'Beginner Friendly', compute: () => 'Yes' },
-        { key: 'socialEvents', label: 'Social Events', compute: () => 'Regular' },
-        { key: 'mentorship', label: 'Mentorship Program', compute: () => 'Available' }
-      ]
-    }
-  ];
 
   const getMetricValue = (club: typeof chapters[0], metric: { key: string; label: string; compute?: (club: typeof chapters[0]) => string }) => {
     if (metric.compute) {

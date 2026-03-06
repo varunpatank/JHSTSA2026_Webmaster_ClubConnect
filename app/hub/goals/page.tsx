@@ -3,6 +3,13 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import {
+  demoGoals as initialGoals,
+  demoJournal as initialJournal,
+  goalCategoryColors as categoryColors,
+  goalCategoryIcons as categoryIcons,
+  goalMoodEmojis as moodEmojis,
+} from '@/lib/exampleData';
 
 interface Goal {
   id: string;
@@ -34,114 +41,9 @@ interface JournalEntry {
   relatedGoal?: string;
 }
 
-const demoGoals: Goal[] = [
-  {
-    id: '1',
-    title: 'Become TSA Chapter President',
-    description: 'Run for and win the TSA chapter president election for the 2026-2027 school year',
-    category: 'leadership',
-    targetDate: '2026-05-15',
-    progress: 40,
-    status: 'in-progress',
-    createdAt: '2026-01-10',
-    milestones: [
-      { id: '1a', title: 'Attend all chapter meetings this semester', completed: true, completedAt: '2026-02-01' },
-      { id: '1b', title: 'Lead a committee or project', completed: true, completedAt: '2026-02-05' },
-      { id: '1c', title: 'Create campaign platform', completed: false },
-      { id: '1d', title: 'Get endorsements from officers', completed: false },
-      { id: '1e', title: 'Win election', completed: false },
-    ]
-  },
-  {
-    id: '2',
-    title: 'Complete 50 Service Hours',
-    description: 'Volunteer in the community to fulfill NHS requirements and give back',
-    category: 'service',
-    targetDate: '2026-06-01',
-    progress: 64,
-    status: 'in-progress',
-    createdAt: '2026-01-15',
-    milestones: [
-      { id: '2a', title: 'Food bank volunteer (10 hours)', completed: true, completedAt: '2026-01-20' },
-      { id: '2b', title: 'Tutoring program (15 hours)', completed: true, completedAt: '2026-02-01' },
-      { id: '2c', title: 'Environmental cleanup (7 hours)', completed: true, completedAt: '2026-02-08' },
-      { id: '2d', title: 'Community event volunteer (18 hours)', completed: false },
-    ]
-  },
-  {
-    id: '3',
-    title: 'Place at State TSA Competition',
-    description: 'Win a top 3 placement in Webmaster or another TSA event at state',
-    category: 'competition',
-    targetDate: '2026-04-20',
-    progress: 25,
-    status: 'in-progress',
-    createdAt: '2026-02-01',
-    milestones: [
-      { id: '3a', title: 'Form competition team', completed: true, completedAt: '2026-02-03' },
-      { id: '3b', title: 'Complete project by deadline', completed: false },
-      { id: '3c', title: 'Qualify at regionals', completed: false },
-      { id: '3d', title: 'Place top 3 at state', completed: false },
-    ]
-  }
-];
-
-const demoJournal: JournalEntry[] = [
-  {
-    id: '1',
-    date: '2026-02-09',
-    title: 'Productive club meeting today!',
-    content: 'Led the discussion on our Webmaster project theme. Everyone loved my ideas for the Community Resource Hub concept. Feeling really confident about our chances at regionals.',
-    mood: 'great',
-    tags: ['tsa', 'leadership', 'webmaster'],
-    relatedGoal: '3'
-  },
-  {
-    id: '2',
-    date: '2026-02-07',
-    title: 'Finished my tutoring hours',
-    content: 'Completed my 15 hours of tutoring for the semester. The kids really improved their math scores and it felt rewarding to help them succeed.',
-    mood: 'good',
-    tags: ['service', 'tutoring', 'accomplishment'],
-    relatedGoal: '2'
-  },
-  {
-    id: '3',
-    date: '2026-02-05',
-    title: 'Stressed about upcoming deadlines',
-    content: 'Feeling overwhelmed with competition prep and schoolwork. Need to better manage my time. Made a new schedule to help.',
-    mood: 'challenging',
-    tags: ['stress', 'time-management'],
-  }
-];
-
-const categoryColors: Record<string, string> = {
-  'leadership': 'bg-purple-500',
-  'academic': 'bg-blue-500',
-  'service': 'bg-green-500',
-  'personal': 'bg-pink-500',
-  'competition': 'bg-amber-500'
-};
-
-const categoryIcons: Record<string, string> = {
-  'leadership': '👑',
-  'academic': '📚',
-  'service': '🤝',
-  'personal': '🌟',
-  'competition': '🏆'
-};
-
-const moodEmojis: Record<string, string> = {
-  'great': '😄',
-  'good': '🙂',
-  'okay': '😐',
-  'challenging': '😓',
-  'difficult': '😔'
-};
-
 export default function GoalsTrackerPage() {
-  const [goals, setGoals] = useState<Goal[]>(demoGoals);
-  const [journal, setJournal] = useState<JournalEntry[]>(demoJournal);
+  const [goals, setGoals] = useState<Goal[]>(initialGoals as unknown as Goal[]);
+  const [journal, setJournal] = useState<JournalEntry[]>(initialJournal as unknown as JournalEntry[]);
   const [activeTab, setActiveTab] = useState<'goals' | 'journal' | 'insights'>('goals');
   const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
   const [isCreatingGoal, setIsCreatingGoal] = useState(false);

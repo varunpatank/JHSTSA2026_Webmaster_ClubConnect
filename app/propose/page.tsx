@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { proposeCategories, proposeFrequencies, proposeMeetingTimes, proposeGrades } from '@/lib/pageData';
 
 interface FormData {
   chapterName: string;
@@ -24,10 +25,10 @@ interface FormData {
   submitterGrade: string;
 }
 
-const categories = ['Academic', 'Arts', 'Service', 'Cultural', 'STEM', 'Sports', 'Leadership', 'Media', 'Other'];
-const frequencies = ['Daily', 'Weekly', 'Bi-weekly', 'Monthly'];
-const meetingTimes = ['Before School', 'Lunch', 'After School', 'Weekends'];
-const grades = ['9', '10', '11', '12'];
+const categories = proposeCategories;
+const frequencies = proposeFrequencies;
+const meetingTimes = proposeMeetingTimes;
+const grades = proposeGrades;
 
 export default function ProposePage() {
   const [step, setStep] = useState(1);

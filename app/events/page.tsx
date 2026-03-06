@@ -5,8 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { events } from '@/lib/data';
 import { ChapterCategory } from '@/types';
+import { eventsCategories } from '@/lib/pageData';
 
-const categories: ChapterCategory[] = ['Academic', 'Arts', 'Service', 'Cultural', 'STEM', 'Sports', 'Leadership', 'Media', 'Other'];
+const categories: ChapterCategory[] = eventsCategories;
 
 export default function EventsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('');

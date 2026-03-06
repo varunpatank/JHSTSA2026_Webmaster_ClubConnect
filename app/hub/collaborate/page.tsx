@@ -4,14 +4,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { collaborationOpportunities } from '@/lib/hubData';
-
-const typeFilters = ['All', 'Joint Event', 'Fundraiser', 'Community Service', 'Competition Team', 'Workshop', 'Resource Sharing'];
-const statusColors = {
-  'Open': 'bg-green-500',
-  'In Progress': 'bg-blue-500',
-  'Completed': 'bg-neutral-500',
-  'Cancelled': 'bg-red-500'
-};
+import { collaborateTypeFilters as typeFilters, collaborateStatusColors as statusColors } from '@/lib/exampleData';
 
 export default function CollaboratePage() {
   const [selectedType, setSelectedType] = useState('All');

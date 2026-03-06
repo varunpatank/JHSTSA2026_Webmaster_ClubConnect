@@ -1,14 +1,6 @@
-export default function WebmasterRubric() {
-  const categories = [
-    { name: 'Theme (X2)', max: 10 },
-    { name: 'Challenge (X3)', max: 10 },
-    { name: 'Content (X2)', max: 10 },
-    { name: 'Layout & Navigation (X2)', max: 10 },
-    { name: 'Graphics & Color Scheme (X2)', max: 10 },
-    { name: 'Function & Compatibility (X1)', max: 10 },
-    { name: 'Spelling & Grammar (X1)', max: 10 },
-  ];
+import { rubricCategories as categories } from '@/lib/exampleData';
 
+export default function WebmasterRubric() {
   return (
     <div className="min-h-screen bg-neutral-100 py-12">
       <div className="max-w-4xl mx-auto px-4">

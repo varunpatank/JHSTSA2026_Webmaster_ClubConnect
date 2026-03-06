@@ -4,8 +4,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { successStories } from '@/lib/hubData';
-
-const categories = ['All', 'Growth', 'Competition', 'Community Impact', 'Innovation', 'Fundraising'];
+import { storyCategories as categories } from '@/lib/exampleData';
 
 export default function SuccessStoriesPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');

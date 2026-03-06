@@ -1,13 +1,13 @@
 import { Chapter, Event, Resource, Spotlight, Stats } from '@/types';
 
 // Mock data for admin dashboard
-const pendingProposals = [
+export const pendingProposals = [
   { id: 'prop-1', name: 'Photography Club', submitter: 'Emily Chen', date: '2026-01-10', status: 'Under Review' },
   { id: 'prop-2', name: 'Chess Club', submitter: 'Marcus Johnson', date: '2026-01-08', status: 'Pending Advisor' },
   { id: 'prop-3', name: 'Entrepreneurship Society', submitter: 'Sarah Williams', date: '2026-01-05', status: 'Under Review' },
 ];
 
-const recentActivity = [
+export const recentActivity = [
   { action: 'New member joined Model UN', time: '2 hours ago', type: 'member' },
   { action: 'Robotics Team updated meeting schedule', time: '5 hours ago', type: 'update' },
   { action: 'Drama Club event approved', time: '1 day ago', type: 'event' },
@@ -15,7 +15,7 @@ const recentActivity = [
   { action: 'Community Service Club hours verified', time: '3 days ago', type: 'verification' },
 ];
 
-const chapterHealth = [
+export const chapterHealth = [
   { name: 'Model UN', score: 95, status: 'Excellent', color: 'bg-green-500' },
   { name: 'Robotics Team', score: 92, status: 'Excellent', color: 'bg-green-500' },
   { name: 'Drama Club', score: 88, status: 'Good', color: 'bg-blue-500' },
@@ -24,7 +24,7 @@ const chapterHealth = [
 ];
 
 // Mock alumni data
-const featuredAlumni = [
+export const featuredAlumni = [
   {
     id: 1,
     name: 'Jessica Chen',
@@ -60,7 +60,7 @@ const featuredAlumni = [
   },
 ];
 
-const careerPanels = [
+export const careerPanels = [
   {
     id: 1,
     title: 'Careers in Technology',
@@ -87,7 +87,7 @@ const careerPanels = [
   },
 ];
 
-const internships = [
+export const internships = [
   {
     id: 1,
     title: 'Summer Research Internship',
@@ -115,7 +115,7 @@ const internships = [
 ];
 
 // Mock funding data
-const budgetAllocations = [
+export const budgetAllocations = [
   { chapter: 'Model United Nations', allocated: 3500, spent: 2100, remaining: 1400 },
   { chapter: 'Robotics Team', allocated: 8000, spent: 5500, remaining: 2500 },
   { chapter: 'Drama Club', allocated: 4500, spent: 3200, remaining: 1300 },
@@ -124,13 +124,13 @@ const budgetAllocations = [
   { chapter: 'Environmental Club', allocated: 1200, spent: 650, remaining: 550 },
 ];
 
-const purchaseRequests = [
+export const purchaseRequests = [
   { id: 1, chapter: 'Robotics Team', item: 'Motor Controllers (x5)', amount: 450, status: 'Pending', date: '2026-01-10' },
   { id: 2, chapter: 'Drama Club', item: 'Costume Materials', amount: 320, status: 'Approved', date: '2026-01-08' },
   { id: 3, chapter: 'Model UN', item: 'Conference Registration', amount: 800, status: 'Pending', date: '2026-01-05' },
 ];
 
-const grants = [
+export const grants = [
   { 
     id: 1, 
     title: 'Innovation Grant', 
@@ -159,7 +159,7 @@ const grants = [
 
 // Mock officer data
 
-const memberRoster = [
+export const memberRoster = [
   { id: 1, name: 'James Chen', role: 'President', grade: 12, attendance: 95, duesPaid: true },
   { id: 2, name: 'Maria Santos', role: 'Vice President', grade: 11, attendance: 92, duesPaid: true },
   { id: 3, name: 'David Kim', role: 'Secretary', grade: 11, attendance: 88, duesPaid: true },
@@ -170,20 +170,20 @@ const memberRoster = [
   { id: 8, name: 'Olivia Davis', role: 'Member', grade: 10, attendance: 91, duesPaid: true },
 ];
 
-const pendingJoinRequests = [
+export const pendingJoinRequests = [
   { id: 1, name: 'Ryan Foster', grade: 10, date: '2026-01-10', message: 'I have always been interested in international relations.' },
   { id: 2, name: 'Lisa Wang', grade: 9, date: '2026-01-08', message: 'I want to improve my public speaking skills.' },
 ];
 
 // Mock user data
 
-const upcomingDeadlines = [
+export const upcomingDeadlines = [
   { id: 1, title: 'Model UN Conference Registration', date: '2026-01-20', type: 'event' },
   { id: 2, title: 'Robotics Team Dues Payment', date: '2026-01-25', type: 'dues' },
   { id: 3, title: 'Drama Club Audition Sign-up', date: '2026-01-16', type: 'application' },
 ];
 
-const quizQuestions = [
+export const quizQuestions = [
   {
     id: 1,
     question: 'What activities interest you most?',
