@@ -1,0 +1,16 @@
+node_modules
+.next
+dist
+build
+.env
+.env.*
+*.log
+pnpm-debug.log
+coverage
+.DS_Store
+.git
+README.md
+supabase/seed.sql
+/.idea
+/.vscode
+/.next/cache

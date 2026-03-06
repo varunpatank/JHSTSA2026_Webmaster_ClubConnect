@@ -1,7 +1,5 @@
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
-
-const ClubBuilder = dynamic(() => import('@/components/ClubBuilder'), { ssr: false });
+import ClubBuilderClient from '@/components/ClubBuilderClient';
 
 export default function CommunityHubPage() {
   return (
@@ -104,7 +102,7 @@ export default function CommunityHubPage() {
             <div>
               {/* ClubBuilder client component */}
               <div id="club-builder-root">
-                <ClubBuilder />
+                <ClubBuilderClient />
               </div>
             </div>
           </div>

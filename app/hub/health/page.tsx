@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { clubHealthMetrics } from '@/lib/hubData';
 import { healthBenchmarkValues as benchmarkValues, healthMetricInfo as metricInfo } from '@/lib/exampleData';
 
-type MetricKey = keyof typeof metricInfo;
+type MetricKey = 'memberRetention' | 'eventAttendance' | 'memberSatisfaction' | 'leadershipDevelopment' | 'financialHealth' | 'growthRate';
 
 export default function ClubHealthPage() {
   const [selectedClub, setSelectedClub] = useState(clubHealthMetrics[0]);
