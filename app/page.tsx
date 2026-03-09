@@ -148,21 +148,6 @@ export default function HomePage() {
                 className="mt-8 grid sm:grid-cols-3 gap-3 animate-fade-up"
                 style={{ animationDelay: "300ms" }}
               >
-                {credibilityItems.map((item, index) => (
-                  <div
-                    key={item}
-                    style={{ animationDelay: `${360 + index * 70}ms` }}
-                    className={`rounded-xl border px-4 py-3 text-sm shadow-sm ${
-                      index === 0
-                        ? "border-primary-200 bg-primary-50/60 text-primary-800"
-                        : index === 1
-                          ? "border-secondary-200 bg-secondary-50/60 text-neutral-800"
-                          : "border-accent-200 bg-red-50/60 text-neutral-800"
-                    }`}
-                  >
-                    {item}
-                  </div>
-                ))}
               </div>
             </div>
 
