@@ -148,6 +148,8 @@ export default function HomePage() {
                 className="mt-8 grid sm:grid-cols-3 gap-3 animate-fade-up"
                 style={{ animationDelay: "300ms" }}
               >
+
+
               </div>
             </div>
 
@@ -395,7 +397,7 @@ export default function HomePage() {
       </section>
 
       <section
-        className="max-w-7xl mx-auto px-4 sm:px-6 py-2 animate-fade-up"
+        className="max-w-7xl mx-auto px-4 sm:px-6 pt-2 pb-8 animate-fade-up"
         style={{ animationDelay: "240ms" }}
       >
         <article className="card p-6 md:p-8 bg-gradient-to-br from-primary-50/60 to-white border-primary-100">
@@ -407,28 +409,6 @@ export default function HomePage() {
             for students, advisors, and administrators.
           </p>
         </article>
-      </section>
-
-      <section
-        className="max-w-7xl mx-auto px-4 sm:px-6 py-8 animate-fade-up"
-        style={{ animationDelay: "250ms" }}
-      >
-        <div className="text-center max-w-3xl mx-auto">
-          <p className="eyebrow">Philosophical Quotes</p>
-          <h2 className="mt-2 text-3xl md:text-4xl font-heading text-primary-800">
-            Ideas that shape strong communities
-          </h2>
-        </div>
-        <div className="mt-6 grid md:grid-cols-3 gap-4">
-          {quotes.map((quote) => (
-            <blockquote
-              key={quote}
-              className="card p-5 bg-gradient-to-br from-secondary-50/50 to-white border-secondary-100 text-sm leading-relaxed text-neutral-700 ux-hover-lift-sm"
-            >
-              “{quote}”
-            </blockquote>
-          ))}
-        </div>
       </section>
 
       <section
