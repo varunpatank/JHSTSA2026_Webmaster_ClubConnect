@@ -59,13 +59,7 @@ export default function HomePage() {
       role: "Faculty Advisor",
     },
   ];
-
-  const quotes = [
-    "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
-    "The unexamined life is not worth living.",
-    "Knowing yourself is the beginning of all wisdom.",
-  ];
-
+  
   useEffect(() => {
     const timer = window.setInterval(() => {
       setActiveSlide((current) => (current + 1) % carouselSlides.length);
