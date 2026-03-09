@@ -10,7 +10,7 @@ export interface Chapter {
   advisor: Advisor;
   officers: Officer[];
   meetingSchedule: string;
-  meetingLocation: string;
+  meetingLocation: ChapterMeetingLocation;
   membershipRequirements: string;
   dues: string;
   socialLinks: SocialLinks;
@@ -21,38 +21,39 @@ export interface Chapter {
   isActive: boolean;
 }
 
-export type ChapterCategory = 
-  | 'Academic'
-  | 'Arts'
-  | 'Service'
-  | 'Cultural'
-  | 'STEM'
-  | 'Sports'
-  | 'Leadership'
-  | 'Media'
-  | 'Other';
+export interface ChapterMeetingLocation {
+  lat: number;
+  lng: number;
+  parentOrg?: string;
+  room?: string;
+  internalLocation?: string;
+}
 
-export type MeetingFrequency = 
-  | 'Daily'
-  | 'Weekly'
-  | 'Bi-weekly'
-  | 'Monthly';
+export type ChapterCategory =
+  | "Academic"
+  | "Arts"
+  | "Service"
+  | "Cultural"
+  | "STEM"
+  | "Sports"
+  | "Leadership"
+  | "Media"
+  | "Other";
 
-export type MembershipStatus = 
-  | 'Open Enrollment'
-  | 'Tryout Required'
-  | 'Application Required';
+export type MeetingFrequency = "Daily" | "Weekly" | "Bi-weekly" | "Monthly";
 
-export type GradeLevel = 
-  | '9th Only'
-  | '10th-12th'
-  | 'All Grades';
+export type MembershipStatus =
+  | "Open Enrollment"
+  | "Tryout Required"
+  | "Application Required";
 
-export type MeetingTime = 
-  | 'Before School'
-  | 'Lunch'
-  | 'After School'
-  | 'Weekends';
+export type GradeLevel = "9th Only" | "10th-12th" | "All Grades";
+
+export type MeetingTime =
+  | "Before School"
+  | "Lunch"
+  | "After School"
+  | "Weekends";
 
 export interface Advisor {
   name: string;
@@ -103,12 +104,12 @@ export interface Resource {
   dateAdded: string;
 }
 
-export type ResourceCategory = 
-  | 'Templates'
-  | 'Training Materials'
-  | 'Forms'
-  | 'Guides'
-  | 'Handbooks';
+export type ResourceCategory =
+  | "Templates"
+  | "Training Materials"
+  | "Forms"
+  | "Guides"
+  | "Handbooks";
 
 export interface Spotlight {
   id: string;
@@ -143,12 +144,12 @@ export interface ChapterProposal {
   status: ProposalStatus;
 }
 
-export type ProposalStatus = 
-  | 'Submitted'
-  | 'Under Review'
-  | 'Approved'
-  | 'Denied'
-  | 'Needs Revision';
+export type ProposalStatus =
+  | "Submitted"
+  | "Under Review"
+  | "Approved"
+  | "Denied"
+  | "Needs Revision";
 
 export interface User {
   id: string;
@@ -159,11 +160,7 @@ export interface User {
   chapters: string[];
 }
 
-export type UserRole = 
-  | 'Student'
-  | 'Officer'
-  | 'Advisor'
-  | 'Admin';
+export type UserRole = "Student" | "Officer" | "Advisor" | "Admin";
 
 export interface Stats {
   activeChapters: number;
@@ -182,7 +179,7 @@ export interface StarterGuide {
   title: string;
   description: string;
   category: StarterGuideCategory;
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
   estimatedTime: string;
   steps: GuideStep[];
   downloadUrl?: string;
@@ -193,17 +190,17 @@ export interface StarterGuide {
   dateUpdated: string;
 }
 
-export type StarterGuideCategory = 
-  | 'Getting Started'
-  | 'Constitution & Bylaws'
-  | 'Recruiting Members'
-  | 'Running Meetings'
-  | 'Event Planning'
-  | 'Fundraising'
-  | 'Marketing'
-  | 'Leadership'
-  | 'Advisor Relations'
-  | 'Competitions';
+export type StarterGuideCategory =
+  | "Getting Started"
+  | "Constitution & Bylaws"
+  | "Recruiting Members"
+  | "Running Meetings"
+  | "Event Planning"
+  | "Fundraising"
+  | "Marketing"
+  | "Leadership"
+  | "Advisor Relations"
+  | "Competitions";
 
 export interface GuideStep {
   stepNumber: number;
@@ -222,9 +219,9 @@ export interface ClubIdea {
   description: string;
   category: ChapterCategory;
   targetAudience: string[];
-  estimatedInterest: 'Low' | 'Medium' | 'High' | 'Very High';
-  startupCost: 'Free' | 'Low ($0-50)' | 'Medium ($50-200)' | 'High ($200+)';
-  difficultyToStart: 'Easy' | 'Moderate' | 'Challenging';
+  estimatedInterest: "Low" | "Medium" | "High" | "Very High";
+  startupCost: "Free" | "Low ($0-50)" | "Medium ($50-200)" | "High ($200+)";
+  difficultyToStart: "Easy" | "Moderate" | "Challenging";
   suggestedActivities: string[];
   potentialPartners: string[];
   successTips: string[];
@@ -257,11 +254,11 @@ export interface Competition {
   registrationDeadline: string;
   competitionDates: string;
   location: string;
-  locationType: 'In-Person' | 'Virtual' | 'Hybrid';
+  locationType: "In-Person" | "Virtual" | "Hybrid";
   entryFee: string;
   prizes: string[];
   websiteUrl: string;
-  difficulty: 'Beginner-Friendly' | 'Intermediate' | 'Advanced' | 'Elite';
+  difficulty: "Beginner-Friendly" | "Intermediate" | "Advanced" | "Elite";
   teamSize: string;
   preparationResources: CompetitionResource[];
   pastWinners?: string[];
@@ -271,7 +268,7 @@ export interface Competition {
 
 export interface CompetitionResource {
   title: string;
-  type: 'Guide' | 'Video' | 'Practice' | 'Template' | 'External';
+  type: "Guide" | "Video" | "Practice" | "Template" | "External";
   url: string;
 }
 
@@ -286,7 +283,7 @@ export interface CompetitionTracker {
   id: string;
   competitionId: string;
   chapterId: string;
-  status: 'Interested' | 'Registered' | 'Preparing' | 'Completed' | 'Won';
+  status: "Interested" | "Registered" | "Preparing" | "Completed" | "Won";
   teamMembers: string[];
   notes: string;
   preparationChecklist: { task: string; completed: boolean }[];
@@ -322,7 +319,7 @@ export interface ClubHealthMetrics {
   newMembersLast30Days: number;
   trends: {
     metric: string;
-    direction: 'up' | 'down' | 'stable';
+    direction: "up" | "down" | "stable";
     change: number;
   }[];
   recommendations: string[];
@@ -341,14 +338,14 @@ export interface ClubBenchmark {
 export interface Mentor {
   id: string;
   name: string;
-  type: 'Alumni' | 'Current Officer' | 'Advisor' | 'Community Partner';
+  type: "Alumni" | "Current Officer" | "Advisor" | "Community Partner";
   title: string;
   organization?: string;
   bio: string;
   expertise: string[];
   chaptersAdvised: string[];
-  availability: 'Available' | 'Limited' | 'Full';
-  contactMethod: 'Email' | 'Platform Message' | 'Schedule Meeting';
+  availability: "Available" | "Limited" | "Full";
+  contactMethod: "Email" | "Platform Message" | "Schedule Meeting";
   email?: string;
   linkedIn?: string;
   testimonials: MentorTestimonial[];
@@ -374,7 +371,7 @@ export interface MentorshipRequest {
   topics: string[];
   message: string;
   preferredSchedule: string;
-  status: 'Pending' | 'Accepted' | 'Declined' | 'Completed';
+  status: "Pending" | "Accepted" | "Declined" | "Completed";
   dateSubmitted: string;
 }
 
@@ -394,20 +391,24 @@ export interface CollaborationOpportunity {
   deadline: string;
   maxParticipants?: number;
   currentInterest: number;
-  status: 'Open' | 'In Progress' | 'Completed' | 'Cancelled';
-  interestedChapters: { chapterId: string; chapterName: string; dateExpressed: string }[];
+  status: "Open" | "In Progress" | "Completed" | "Cancelled";
+  interestedChapters: {
+    chapterId: string;
+    chapterName: string;
+    dateExpressed: string;
+  }[];
   datePosted: string;
 }
 
-export type CollaborationType = 
-  | 'Joint Event'
-  | 'Fundraiser'
-  | 'Community Service'
-  | 'Competition Team'
-  | 'Workshop'
-  | 'Mentorship Exchange'
-  | 'Resource Sharing'
-  | 'Cross-Promotion';
+export type CollaborationType =
+  | "Joint Event"
+  | "Fundraiser"
+  | "Community Service"
+  | "Competition Team"
+  | "Workshop"
+  | "Mentorship Exchange"
+  | "Resource Sharing"
+  | "Cross-Promotion";
 
 export interface CollaborationProposal {
   title: string;
@@ -446,16 +447,16 @@ export interface SuccessStory {
   datePublished: string;
 }
 
-export type SuccessCategory = 
-  | 'Personal Growth'
-  | 'Competition Victory'
-  | 'Community Impact'
-  | 'Club Turnaround'
-  | 'Innovative Event'
-  | 'Leadership Journey'
-  | 'Collaboration Success'
-  | 'Fundraising Achievement'
-  | 'Alumni Career';
+export type SuccessCategory =
+  | "Personal Growth"
+  | "Competition Victory"
+  | "Community Impact"
+  | "Club Turnaround"
+  | "Innovative Event"
+  | "Leadership Journey"
+  | "Collaboration Success"
+  | "Fundraising Achievement"
+  | "Alumni Career";
 
 export interface StorySubmission {
   title: string;
@@ -475,14 +476,23 @@ export interface ResourceRequest {
   id: string;
   title: string;
   description: string;
-  category: ResourceCategory | 'New Category';
-  requestType: 'New Resource' | 'Update Existing' | 'Translation' | 'Accessibility';
-  urgency: 'Low' | 'Medium' | 'High' | 'Critical';
+  category: ResourceCategory | "New Category";
+  requestType:
+    | "New Resource"
+    | "Update Existing"
+    | "Translation"
+    | "Accessibility";
+  urgency: "Low" | "Medium" | "High" | "Critical";
   suggestedFormat?: string;
   requesterName: string;
   requesterEmail: string;
   chapterName?: string;
-  status: 'Submitted' | 'Under Review' | 'In Progress' | 'Completed' | 'Declined';
+  status:
+    | "Submitted"
+    | "Under Review"
+    | "In Progress"
+    | "Completed"
+    | "Declined";
   adminNotes?: string;
   dateSubmitted: string;
   dateResolved?: string;
@@ -495,7 +505,7 @@ export interface ComparisonCriteria {
   id: string;
   label: string;
   description: string;
-  category: 'Basic Info' | 'Commitment' | 'Opportunities' | 'Culture';
+  category: "Basic Info" | "Commitment" | "Opportunities" | "Culture";
 }
 
 // Achievement System Types
@@ -506,19 +516,19 @@ export interface Achievement {
   icon: string;
   category: AchievementCategory;
   points: number;
-  rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary';
+  rarity: "Common" | "Uncommon" | "Rare" | "Epic" | "Legendary";
   requirements: string[];
   unlockedBy: number; // percentage of users
 }
 
-export type AchievementCategory = 
-  | 'Participation'
-  | 'Leadership'
-  | 'Events'
-  | 'Service'
-  | 'Competitions'
-  | 'Mentorship'
-  | 'Community';
+export type AchievementCategory =
+  | "Participation"
+  | "Leadership"
+  | "Events"
+  | "Service"
+  | "Competitions"
+  | "Mentorship"
+  | "Community";
 
 export interface UserAchievements {
   odingerId: string;
@@ -548,10 +558,10 @@ export interface CalendarEvent {
   location: string;
   chapterId?: string;
   chapterName?: string;
-  eventType: 'Meeting' | 'Event' | 'Competition' | 'Deadline' | 'Workshop';
+  eventType: "Meeting" | "Event" | "Competition" | "Deadline" | "Workshop";
   isRecurring: boolean;
   recurrencePattern?: string;
-  reminders: { time: string; method: 'Email' | 'Push' | 'Both' }[];
+  reminders: { time: string; method: "Email" | "Push" | "Both" }[];
   attendees?: string[];
   color: string;
   icsUrl?: string;
@@ -564,7 +574,7 @@ export interface CalendarSubscription {
   categories: ChapterCategory[];
   includeDeadlines: boolean;
   includeCompetitions: boolean;
-  syncMethod: 'Google' | 'Apple' | 'Outlook' | 'ICS';
+  syncMethod: "Google" | "Apple" | "Outlook" | "ICS";
   lastSynced: string;
 }
 
@@ -572,7 +582,7 @@ export interface CalendarSubscription {
 export interface ClubFinderQuiz {
   id: string;
   question: string;
-  questionType: 'single' | 'multiple' | 'scale' | 'ranking';
+  questionType: "single" | "multiple" | "scale" | "ranking";
   options: QuizOption[];
   weight: number;
 }
@@ -623,11 +633,11 @@ export interface Notification {
   dateCreated: string;
 }
 
-export type NotificationType = 
-  | 'Event Reminder'
-  | 'New Resource'
-  | 'Competition Deadline'
-  | 'Mentorship Update'
-  | 'Achievement Unlocked'
-  | 'Collaboration Request'
-  | 'Announcement';
+export type NotificationType =
+  | "Event Reminder"
+  | "New Resource"
+  | "Competition Deadline"
+  | "Mentorship Update"
+  | "Achievement Unlocked"
+  | "Collaboration Request"
+  | "Announcement";

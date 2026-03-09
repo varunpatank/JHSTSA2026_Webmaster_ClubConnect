@@ -1,495 +1,478 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { stats, events, announcements, chapters } from '@/lib/data';
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { events, stats } from "@/lib/data";
+import {
+  ArrowRight,
+  CalendarCheck,
+  GraduationCap,
+  Handshake,
+  ShieldCheck,
+  Sparkles,
+  Users,
+} from "lucide-react";
 
 export default function HomePage() {
+  const [activeSlide, setActiveSlide] = useState(0);
   const upcomingEvents = events.slice(0, 4);
-  const featuredChapters = chapters.slice(0, 4);
+
+  const carouselSlides = [
+    {
+      src: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1200&q=80",
+      alt: "Students collaborating in a school club environment",
+      title: "Student-Led Innovation",
+      subtitle: "Real projects, real teamwork, real impact.",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80",
+      alt: "Students discussing ideas in a team setting",
+      title: "Collaborative Culture",
+      subtitle: "Clubs where every voice contributes.",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80",
+      alt: "Students in a focused school workshop",
+      title: "Leadership Growth",
+      subtitle: "Build confidence through meaningful roles.",
+    },
+  ];
+
+  const reviews = [
+    {
+      quote:
+        "ClubConnect made discovery simple. Students now find the right chapter much faster.",
+      name: "A. Reynolds",
+      role: "Activities Coordinator",
+    },
+    {
+      quote:
+        "Our officer team coordinates meetings and announcements with far less confusion now.",
+      name: "M. Chen",
+      role: "Chapter President",
+    },
+    {
+      quote:
+        "The structure feels school-ready and clear for both advisors and student leaders.",
+      name: "J. Patel",
+      role: "Faculty Advisor",
+    },
+  ];
+
+  const quotes = [
+    "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
+    "The unexamined life is not worth living.",
+    "Knowing yourself is the beginning of all wisdom.",
+  ];
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % carouselSlides.length);
+    }, 5200);
+
+    return () => window.clearInterval(timer);
+  }, [carouselSlides.length]);
+  const features = [
+    {
+      title: "Discover Clubs Fast",
+      description:
+        "Explore chapters by interest, schedule, and membership status in one organized directory.",
+      icon: Users,
+    },
+    {
+      title: "Run Better Events",
+      description:
+        "Publish meetings and campus events with clear details students can act on quickly.",
+      icon: CalendarCheck,
+    },
+    {
+      title: "School-Ready Workflow",
+      description:
+        "Built for advisors and student leaders with structured processes and accountability.",
+      icon: ShieldCheck,
+    },
+  ];
+
+  const credibilityItems = [
+    "47 active student chapters",
+    "1,283 engaged members",
+    "Trusted by advisors and officers",
+  ];
 
   return (
-    <div>
-      {/* Hero Section */}
-      <section className="relative min-h-[600px] flex items-center">
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1920&q=80"
-            alt="Students collaborating"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-500/95 via-primary-500/80 to-primary-500/60"></div>
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 py-20">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <span className="inline-block bg-secondary-500 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
-                 Your School Community Hub
-              </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-6 text-white">
-                Welcome to ClubConnect
+    <div className="relative bg-gradient-to-b from-primary-50 via-primary-100/40 to-secondary-50/30 min-h-screen overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-24 right-[-8rem] h-72 w-72 rounded-full bg-primary-200/40 blur-3xl animate-drift-slower" />
+        <div className="absolute top-[38%] left-[-7rem] h-80 w-80 rounded-full bg-secondary-200/30 blur-3xl animate-drift-slow" />
+        <div className="absolute bottom-[-8rem] right-[12%] h-72 w-72 rounded-full bg-primary-300/20 blur-3xl animate-drift-slower" />
+      </div>
+
+      <section className="relative z-10 border-b border-primary-200 bg-gradient-to-b from-primary-50/90 to-primary-100/50">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-14 md:py-20">
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            <div className="animate-fade-up">
+              <h1
+                className="mt-3 text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-800 leading-tight animate-fade-up"
+                style={{ animationDelay: "120ms" }}
+              >
+                The modern hub for school clubs and chapters.
               </h1>
-              <p className="text-xl text-white/90 mb-8 leading-relaxed">
-                Your central hub for school clubs, chapters, and student organizations. 
-                Discover, connect, and thrive with fellow students who share your passions.
+              <p
+                className="mt-5 max-w-xl text-neutral-600 text-lg leading-relaxed animate-fade-up"
+                style={{ animationDelay: "180ms" }}
+              >
+                ClubConnect helps students discover opportunities, join
+                chapters, and launch new organizations with a clear and
+                school-approved process.
               </p>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/directory" className="btn-secondary">
+              <div
+                className="mt-8 flex flex-col sm:flex-row gap-3 animate-fade-up"
+                style={{ animationDelay: "240ms" }}
+              >
+                <Link
+                  href="/directory"
+                  className="btn-primary inline-flex items-center justify-center gap-2"
+                >
                   Browse Clubs
+                  <ArrowRight size={18} />
                 </Link>
-                <Link href="/propose" className="bg-white/20 backdrop-blur text-white px-6 py-2.5 font-semibold border-2 border-white/50 hover:bg-white hover:text-primary-500 transition-all rounded-lg">
+                <Link
+                  href="/start-a-club"
+                  className="btn-outline inline-flex items-center justify-center"
+                >
                   Start a New Club
                 </Link>
               </div>
-            </div>
-            
-            <div className="hidden md:grid grid-cols-2 gap-4">
-              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 text-center">
-                <div className="text-5xl font-bold text-secondary-400 font-heading">{stats.activeChapters}</div>
-                <div className="text-white/80 mt-2">Active Clubs</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 text-center">
-                <div className="text-5xl font-bold text-secondary-400 font-heading">{stats.totalMembers.toLocaleString()}</div>
-                <div className="text-white/80 mt-2">Student Members</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 text-center">
-                <div className="text-5xl font-bold text-secondary-400 font-heading">{stats.upcomingEvents}</div>
-                <div className="text-white/80 mt-2">Upcoming Events</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 text-center">
-                <div className="text-5xl font-bold text-secondary-400 font-heading">+{stats.newMembersThisMonth}</div>
-                <div className="text-white/80 mt-2">New This Month</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mobile Stats */}
-      <section className="md:hidden bg-gradient-to-b from-neutral-100 to-white py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="stat-card">
-              <div className="stat-number">{stats.activeChapters}</div>
-              <div className="stat-label">Active Clubs</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-number">{stats.totalMembers.toLocaleString()}</div>
-              <div className="stat-label">Members</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-number">{stats.upcomingEvents}</div>
-              <div className="stat-label">Upcoming Events</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-number">{stats.newMembersThisMonth}</div>
-              <div className="stat-label">New This Month</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Announcement Banner */}
-      <section className="bg-gradient-to-r from-secondary-500 to-secondary-600 text-white py-4">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center gap-4">
-            <span className="bg-white text-secondary-500 px-3 py-1 font-bold text-sm rounded-full">
-               NEW
-            </span>
-            <p className="font-medium">{announcements[0].title}</p>
-            <Link href="/announcements" className="ml-auto text-sm underline hover:no-underline whitespace-nowrap">
-              View All 
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Quick Navigation - 6 Main Sections */}
-      <section className="py-16 bg-gradient-to-b from-neutral-100 to-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold font-heading text-primary-500 mb-4">
-              Explore ClubConnect
-            </h2>
-            <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
-              Everything you need to discover, join, and lead student organizations.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link href="/directory" className="group bg-white border-2 border-neutral-200 p-8 hover:border-primary-500 hover:shadow-xl transition-all">
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-3xl text-white shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                  
-                </div>
-                <div>
-                  <h3 className="font-bold text-xl mb-2 font-heading text-primary-500">Club Directory</h3>
-                  <p className="text-neutral-600 text-sm">Browse all {stats.activeChapters} active clubs and find the perfect fit for your interests.</p>
-                </div>
-              </div>
-            </Link>
-
-            <Link href="/events" className="group bg-white border-2 border-neutral-200 p-8 hover:border-secondary-500 hover:shadow-xl transition-all">
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-xl flex items-center justify-center text-3xl text-white shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                  
-                </div>
-                <div>
-                  <h3 className="font-bold text-xl mb-2 font-heading text-primary-500">Events Calendar</h3>
-                  <p className="text-neutral-600 text-sm">Stay updated with {stats.upcomingEvents} upcoming meetings, competitions, and activities.</p>
-                </div>
-              </div>
-            </Link>
-
-            <Link href="/resources" className="group bg-white border-2 border-neutral-200 p-8 hover:border-purple-500 hover:shadow-xl transition-all">
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center text-3xl text-white shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                  
-                </div>
-                <div>
-                  <h3 className="font-bold text-xl mb-2 font-heading text-primary-500">Resources</h3>
-                  <p className="text-neutral-600 text-sm">Templates, guides, training materials, and tools for club success.</p>
-                </div>
-              </div>
-            </Link>
-
-            <Link href="/community" className="group bg-white border-2 border-neutral-200 p-8 hover:border-green-500 hover:shadow-xl transition-all">
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center text-3xl text-white shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                  
-                </div>
-                <div>
-                  <h3 className="font-bold text-xl mb-2 font-heading text-primary-500">Community</h3>
-                  <p className="text-neutral-600 text-sm">Discussions, success stories, spotlights, and alumni connections.</p>
-                </div>
-              </div>
-            </Link>
-
-            <Link href="/my-space" className="group bg-white border-2 border-neutral-200 p-8 hover:border-accent-500 hover:shadow-xl transition-all">
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-accent-500 to-accent-600 rounded-xl flex items-center justify-center text-3xl text-white shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                  
-                </div>
-                <div>
-                  <h3 className="font-bold text-xl mb-2 font-heading text-primary-500">My Space</h3>
-                  <p className="text-neutral-600 text-sm">Your personal dashboard, goals, collections, and club management.</p>
-                </div>
-              </div>
-            </Link>
-
-            <Link href="/propose" className="group bg-white border-2 border-neutral-200 p-8 hover:border-yellow-500 hover:shadow-xl transition-all">
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center text-3xl text-white shadow-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                  
-                </div>
-                <div>
-                  <h3 className="font-bold text-xl mb-2 font-heading text-primary-500">Start a Club</h3>
-                  <p className="text-neutral-600 text-sm">Have an idea? Submit a proposal to start your own student organization.</p>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Events & Quick Actions */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
-              <h2 className="section-title flex items-center gap-3">
-                <span className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center rounded-xl shadow-md">
-                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </span>
-                Upcoming Events
-              </h2>
-              <div className="space-y-4">
-                {upcomingEvents.map((event) => (
-                  <div key={event.id} className="card p-5 flex flex-col md:flex-row gap-4 hover:shadow-lg transition-shadow">
-                    <div className="bg-gradient-to-br from-primary-500 to-primary-600 text-white p-4 text-center min-w-[80px] rounded-xl shadow-md">
-                      <div className="text-2xl font-bold">{new Date(event.date).getDate()}</div>
-                      <div className="text-sm opacity-90">{new Date(event.date).toLocaleDateString('en-US', { month: 'short' })}</div>
-                    </div>
-                    <div className="flex-grow">
-                      <h3 className="font-bold text-lg text-primary-500">{event.title}</h3>
-                      <p className="text-neutral-600 text-sm mb-2">{event.chapterName}</p>
-                      <div className="flex flex-wrap gap-4 text-sm text-neutral-500">
-                        <span className="flex items-center gap-1">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          {event.startTime} - {event.endTime}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                          </svg>
-                          {event.location}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <span className={`badge ${event.isPublic ? 'badge-primary' : 'badge-outline'}`}>
-                        {event.isPublic ? 'Open Event' : 'Members Only'}
-                      </span>
-                    </div>
+              <div
+                className="mt-8 grid sm:grid-cols-3 gap-3 animate-fade-up"
+                style={{ animationDelay: "300ms" }}
+              >
+                {credibilityItems.map((item, index) => (
+                  <div
+                    key={item}
+                    style={{ animationDelay: `${360 + index * 70}ms` }}
+                    className={`rounded-xl border px-4 py-3 text-sm shadow-sm ${
+                      index === 0
+                        ? "border-primary-200 bg-primary-50/60 text-primary-800"
+                        : index === 1
+                          ? "border-secondary-200 bg-secondary-50/60 text-neutral-800"
+                          : "border-accent-200 bg-red-50/60 text-neutral-800"
+                    }`}
+                  >
+                    {item}
                   </div>
                 ))}
               </div>
-              <div className="mt-8">
-                <Link href="/events" className="btn-outline inline-flex items-center gap-2">
-                  View Full Calendar
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
-              </div>
             </div>
 
-            <div className="space-y-6">
-              <div className="card p-6">
-                <h3 className="font-bold text-lg text-primary-500 mb-4 font-heading">Quick Tools</h3>
-                <div className="space-y-3">
-                  <Link href="/hub/quiz" className="flex items-center gap-3 p-3 border border-neutral-200 hover:border-primary-400 hover:bg-neutral-50 transition-colors">
-                    <span className="text-2xl"></span>
-                    <div>
-                      <div className="font-medium text-primary-600">Club Finder Quiz</div>
-                      <div className="text-xs text-neutral-500">Find your perfect club match</div>
-                    </div>
-                  </Link>
-                  <Link href="/hub/compare" className="flex items-center gap-3 p-3 border border-neutral-200 hover:border-primary-400 hover:bg-neutral-50 transition-colors">
-                    <span className="text-2xl"></span>
-                    <div>
-                      <div className="font-medium text-primary-600">Compare Clubs</div>
-                      <div className="text-xs text-neutral-500">Side-by-side comparison</div>
-                    </div>
-                  </Link>
-                  <Link href="/hub/health" className="flex items-center gap-3 p-3 border border-neutral-200 hover:border-primary-400 hover:bg-neutral-50 transition-colors">
-                    <span className="text-2xl"></span>
-                    <div>
-                      <div className="font-medium text-primary-600">Club Health Check</div>
-                      <div className="text-xs text-neutral-500">Diagnose & improve your club</div>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-
-              <div className="card p-6">
-                <h3 className="font-bold text-lg text-primary-500 mb-4 font-heading">Announcements</h3>
-                <div className="space-y-4">
-                  {announcements.map((announcement) => (
-                    <div key={announcement.id} className="border-l-4 border-secondary-500 pl-4">
-                      <p className="font-semibold text-sm">{announcement.title}</p>
-                      <p className="text-xs text-neutral-500 mt-1">{announcement.date}</p>
+            <div
+              className="relative animate-zoom-in"
+              style={{ animationDelay: "0ms" }}
+            >
+              <div className="rounded-2xl border border-primary-200 bg-primary-50 shadow-card overflow-hidden ux-hover-lift-sm">
+                <div className="relative h-[320px] md:h-[390px] w-full">
+                  {carouselSlides.map((slide, index) => (
+                    <div
+                      key={slide.src}
+                      className={`absolute inset-0 transition-opacity duration-300 ${
+                        index === activeSlide ? "opacity-100" : "opacity-0"
+                      }`}
+                    >
+                      <Image
+                        src={slide.src}
+                        alt={slide.alt}
+                        width={1200}
+                        height={900}
+                        priority={index === 0}
+                        className="h-full w-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/15 to-transparent" />
+                      <div className="absolute bottom-4 left-4 right-4 text-white">
+                        <p className="text-sm font-semibold">{slide.title}</p>
+                        <p className="text-xs text-white/90 mt-1">
+                          {slide.subtitle}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>
+
+                <div className="p-4 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    {carouselSlides.map((slide, index) => (
+                      <button
+                        key={slide.title}
+                        type="button"
+                        onClick={() => setActiveSlide(index)}
+                        className={`h-2.5 rounded-full transition-all ${
+                          index === activeSlide
+                            ? "w-6 bg-primary-600"
+                            : "w-2.5 bg-primary-200 hover:bg-primary-300"
+                        }`}
+                        aria-label={`Go to slide ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-xs text-neutral-600">Campus moments</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Clubs */}
-      <section className="py-16 bg-gradient-to-b from-neutral-100 to-neutral-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="section-title inline-block">Featured Clubs</h2>
-            <p className="text-neutral-600 mt-2 max-w-2xl mx-auto">Discover some of our most active and impactful student organizations</p>
+      <section
+        className="max-w-7xl mx-auto px-4 sm:px-6 py-8 animate-fade-up"
+        style={{ animationDelay: "120ms" }}
+      >
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="card p-5 bg-gradient-to-br from-primary-50 to-white border-primary-100 ux-hover-lift-sm">
+            <p className="text-3xl font-heading font-bold text-primary-600">
+              {stats.activeChapters}
+            </p>
+            <p className="text-sm text-neutral-600">Active Clubs</p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredChapters.map((chapter, index) => {
-              const images = [
-                'https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&q=80',
-                'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&q=80',
-                'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&q=80',
-                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
-              ];
-              return (
-                <Link key={chapter.id} href={`/directory/${chapter.id}`} className="card-hover block group overflow-hidden">
-                  <div className="relative h-40 overflow-hidden">
-                    <Image
-                      src={images[index % images.length]}
-                      alt={chapter.name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <span className="absolute bottom-3 left-3 badge badge-secondary text-xs">{chapter.category}</span>
-                  </div>
-                  <div className="p-5">
-                    <h3 className="font-bold text-primary-500 text-lg">{chapter.name}</h3>
-                    <p className="text-sm text-neutral-600 mt-1 flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
-                      {chapter.memberCount} members
-                    </p>
-                    <p className="text-sm text-neutral-500 mt-3 line-clamp-2">{chapter.description}</p>
-                  </div>
-                </Link>
-              );
-            })}
+          <div className="card p-5 bg-gradient-to-br from-secondary-50 to-white border-secondary-100 ux-hover-lift-sm">
+            <p className="text-3xl font-heading font-bold text-primary-600">
+              {stats.totalMembers}
+            </p>
+            <p className="text-sm text-neutral-600">Student Members</p>
           </div>
-          <div className="mt-10 text-center">
-            <Link href="/directory" className="btn-primary inline-flex items-center gap-2">
-              View All Clubs
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
+          <div className="card p-5 bg-gradient-to-br from-blue-50 to-white border-blue-100 ux-hover-lift-sm">
+            <p className="text-3xl font-heading font-bold text-primary-600">
+              {stats.upcomingEvents}
+            </p>
+            <p className="text-sm text-neutral-600">Upcoming Events</p>
+          </div>
+          <div className="card p-5 bg-gradient-to-br from-red-50 to-white border-red-100 ux-hover-lift-sm">
+            <p className="text-3xl font-heading font-bold text-primary-600">
+              +{stats.newMembersThisMonth}
+            </p>
+            <p className="text-sm text-neutral-600">New This Month</p>
           </div>
         </div>
       </section>
 
-      {/* Resource Highlights */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="section-title inline-block">Resources & Tools</h2>
-            <p className="text-neutral-600 mt-2 max-w-2xl mx-auto">Everything you need to succeed as a club member or leader</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Link href="/hub" className="card p-6 hover:shadow-lg transition-all group">
-              <div className="text-4xl mb-4"></div>
-              <h3 className="font-bold text-primary-500 mb-2">Starter Guides</h3>
-              <p className="text-sm text-neutral-600">Step-by-step guides to start and run clubs successfully.</p>
-            </Link>
-            <Link href="/hub/competitions" className="card p-6 hover:shadow-lg transition-all group">
-              <div className="text-4xl mb-4"></div>
-              <h3 className="font-bold text-primary-500 mb-2">Competitions</h3>
-              <p className="text-sm text-neutral-600">Find and track student competitions nationwide.</p>
-            </Link>
-            <Link href="/hub/mentors" className="card p-6 hover:shadow-lg transition-all group">
-              <div className="text-4xl mb-4"></div>
-              <h3 className="font-bold text-primary-500 mb-2">Mentorship</h3>
-              <p className="text-sm text-neutral-600">Connect with alumni and advisors for guidance.</p>
-            </Link>
-            <Link href="/hub/external" className="card p-6 hover:shadow-lg transition-all group">
-              <div className="text-4xl mb-4"></div>
-              <h3 className="font-bold text-primary-500 mb-2">External Resources</h3>
-              <p className="text-sm text-neutral-600">100+ curated links to helpful external resources.</p>
-            </Link>
-          </div>
-          <div className="mt-10 text-center">
-            <Link href="/resources" className="btn-outline inline-flex items-center gap-2">
-              View All Resources
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-          </div>
+      <section
+        className="max-w-7xl mx-auto px-4 sm:px-6 py-10 rounded-2xl bg-gradient-to-r from-primary-100/60 via-primary-50/80 to-secondary-50/60 border border-primary-200/70 animate-fade-up"
+        style={{ animationDelay: "160ms" }}
+      >
+        <div className="text-center max-w-3xl mx-auto">
+          <p className="eyebrow">Features</p>
+          <h2 className="mt-2 text-3xl md:text-4xl font-heading text-primary-800">
+            Everything students and advisors need in one place
+          </h2>
         </div>
-      </section>
-
-      {/* Suggested Clubs (new) */}
-      <section className="py-8 bg-neutral-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-6">
-            <h2 className="section-title inline-block">Suggested Clubs For You</h2>
-            <p className="text-neutral-600 mt-2 max-w-2xl mx-auto">Personalized suggestions based on popularity and recent activity.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredChapters.slice(0,3).map((chapter) => (
-              <Link key={chapter.id} href={`/directory/${chapter.id}`} className="card p-6 hover:shadow-lg transition-all group">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-neutral-100 flex items-center justify-center rounded-lg text-xl">{chapter.name.charAt(0)}</div>
-                  <div>
-                    <h3 className="font-bold text-primary-500 mb-1">{chapter.name}</h3>
-                    <p className="text-sm text-neutral-600">{chapter.description.slice(0, 80)}...</p>
-                    <div className="text-xs text-neutral-400 mt-3">{chapter.memberCount} members — {chapter.meetingFrequency}</div>
-                  </div>
+        <div className="mt-8 grid md:grid-cols-3 gap-4">
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
+            return (
+              <article
+                key={feature.title}
+                className="card-hover p-6 bg-primary-50/90 ux-hover-lift"
+                style={{ animationDelay: `${240 + index * 80}ms` }}
+              >
+                <div
+                  className={`w-11 h-11 rounded-xl flex items-center justify-center ${
+                    index === 0
+                      ? "bg-primary-100 text-primary-700"
+                      : index === 1
+                        ? "bg-secondary-100 text-secondary-700"
+                        : "bg-red-100 text-accent-500"
+                  }`}
+                >
+                  <Icon size={20} aria-hidden="true" />
                 </div>
+                <h3 className="mt-4 text-lg font-bold text-primary-800">
+                  {feature.title}
+                </h3>
+                <p className="mt-2 text-sm text-neutral-600">
+                  {feature.description}
+                </p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section
+        className="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid lg:grid-cols-3 gap-6 animate-fade-up"
+        style={{ animationDelay: "180ms" }}
+      >
+        <div className="lg:col-span-2 card p-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-heading font-bold text-primary-700">
+              Upcoming Events
+            </h2>
+            <Link
+              href="/events"
+              className="text-sm font-semibold text-primary-600 hover:underline"
+            >
+              View all
+            </Link>
+          </div>
+          <div className="mt-5 space-y-4">
+            {upcomingEvents.map((event) => (
+              <Link
+                href={`/events/${event.id}`}
+                key={event.id}
+                className="block rounded-xl border border-neutral-200 p-4 hover:border-primary-300 hover:bg-primary-50/40 ux-hover-lift-sm"
+              >
+                <p className="font-semibold text-primary-600">{event.title}</p>
+                <p className="text-sm text-neutral-600">{event.chapterName}</p>
+                <p className="text-sm text-neutral-600">
+                  {event.date} · {event.startTime} - {event.endTime} ·{" "}
+                  {event.location}
+                </p>
               </Link>
             ))}
           </div>
         </div>
-      </section>
 
-      {/* Promo cards: About / Partners / Meetings (moved to their own pages) */}
-      <section className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-6">
-            <h2 className="section-title">Learn more about ClubConnect</h2>
-            <p className="text-neutral-600 mt-2 max-w-2xl mx-auto">Detailed pages for our mission, partners, and meeting management have their own dedicated spaces — cleaner, faster, and focused.</p>
+        <div className="space-y-6">
+          <div className="card p-6 bg-gradient-to-br from-primary-50/60 to-white border-primary-100">
+            <h2 className="text-xl font-heading font-bold text-primary-700">
+              Why schools choose ClubConnect
+            </h2>
+            <div className="mt-4 space-y-3 text-sm text-neutral-700">
+              <div className="flex gap-2 items-start">
+                <Sparkles size={16} className="text-primary-600 mt-0.5" />
+                <p>Simple onboarding for students and officers.</p>
+              </div>
+              <div className="flex gap-2 items-start">
+                <Handshake size={16} className="text-primary-600 mt-0.5" />
+                <p>Clear collaboration between chapters and advisors.</p>
+              </div>
+              <div className="flex gap-2 items-start">
+                <GraduationCap size={16} className="text-primary-600 mt-0.5" />
+                <p>Professional school-ready experience for every grade.</p>
+              </div>
+            </div>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <a href="/about" className="card p-6 hover:shadow-lg transition-all group animate-fade-up">
-              <div className="text-3xl mb-2">📘</div>
-              <h3 className="font-bold text-lg">About</h3>
-              <p className="text-neutral-500 text-sm mt-2">Our mission, principles, and how ClubConnect supports student leaders.</p>
-            </a>
-
-            <a href="/about#partners" className="card p-6 hover:shadow-lg transition-all group animate-fade-up" style={{ animationDelay: '80ms' }}>
-              <div className="text-3xl mb-2">🤝</div>
-              <h3 className="font-bold text-lg">Partners</h3>
-              <p className="text-neutral-500 text-sm mt-2">See our partner organizations — now included on the About page.</p>
-            </a>
-
-            <a href="/meetings" className="card p-6 hover:shadow-lg transition-all group animate-fade-up" style={{ animationDelay: '160ms' }}>
-              <div className="text-3xl mb-2">📅</div>
-              <h3 className="font-bold text-lg">Meetings</h3>
-              <p className="text-neutral-500 text-sm mt-2">Manage your scheduled meetings, invites, and join full‑screen ClubConnect calls.</p>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Partners — scrolling marquee */}
-      <section className="py-8 bg-neutral-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <h3 className="section-title">Partners & Supporters</h3>
-          <p className="text-neutral-600 mb-4">Proud partners who support student leadership, competitions, and programs.</p>
-
-          <div className="marquee">
-            <div className="marquee-track">
-              {['State TSA','Local Library','City Bank','TechCo','Arts Guild','University Partner','Community Center'].map((p) => (
-                <div key={p} className="marquee-item" aria-hidden>
-                  <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-sm font-bold text-primary-600">{p.split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
-                  <div className="text-sm text-neutral-700">{p}</div>
-                </div>
-              ))}
-
-              {/* duplicate for continuous scroll */}
-              {['State TSA','Local Library','City Bank','TechCo','Arts Guild','University Partner','Community Center'].map((p, i) => (
-                <div key={`${p}-repeat-${i}`} className="marquee-item" aria-hidden>
-                  <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-sm font-bold text-primary-600">{p.split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
-                  <div className="text-sm text-neutral-700">{p}</div>
-                </div>
-              ))}
+          <div className="card p-6 bg-gradient-to-br from-secondary-50/50 to-white border-secondary-100">
+            <h2 className="text-xl font-heading font-bold text-primary-700">
+              Resources & Support
+            </h2>
+            <div className="mt-4 space-y-2">
+              <Link
+                href="/resources"
+                className="block rounded-xl border border-neutral-200 p-3 text-sm font-semibold text-primary-600 hover:border-primary-300 hover:bg-primary-50/40 ux-hover-lift-sm"
+              >
+                Start-Club Guidance
+              </Link>
+              <Link
+                href="/profile"
+                className="block rounded-xl border border-neutral-200 p-3 text-sm font-semibold text-primary-600 hover:border-primary-300 hover:bg-primary-50/40 ux-hover-lift-sm"
+              >
+                Your Clubs & Notifications
+              </Link>
+              <Link
+                href="/donate"
+                className="block rounded-xl border border-neutral-200 p-3 text-sm font-semibold text-primary-600 hover:border-primary-300 hover:bg-primary-50/40 ux-hover-lift-sm"
+              >
+                Donation Options
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80"
-            alt="Students celebrating"
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-primary-500/90"></div>
+      <section
+        className="max-w-7xl mx-auto px-4 sm:px-6 py-8 animate-fade-up"
+        style={{ animationDelay: "220ms" }}
+      >
+        <div className="text-center max-w-3xl mx-auto">
+          <p className="eyebrow">Reviews</p>
+          <h2 className="mt-2 text-3xl md:text-4xl font-heading text-primary-800">
+            What students and advisors are saying
+          </h2>
         </div>
-        <div className="relative max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold font-heading mb-4 text-white">Have an Idea for a New Club?</h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            We&apos;re always looking for new student organizations. If you have a passion and want to share it with others,
-            submit a proposal to start your own club.
+        <div className="mt-8 grid md:grid-cols-3 gap-4">
+          {reviews.map((review) => (
+            <article
+              key={review.name}
+              className="card p-5 bg-gradient-to-br from-primary-50/70 to-white border-primary-100 ux-hover-lift-sm"
+            >
+              <div className="text-secondary-500 text-sm tracking-wide">
+                ★★★★★
+              </div>
+              <blockquote className="mt-3 text-sm leading-relaxed text-neutral-700">
+                “{review.quote}”
+              </blockquote>
+              <p className="mt-4 text-sm font-semibold text-primary-700">
+                {review.name}
+              </p>
+              <p className="text-xs text-neutral-500">{review.role}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section
+        className="max-w-7xl mx-auto px-4 sm:px-6 py-2 animate-fade-up"
+        style={{ animationDelay: "240ms" }}
+      >
+        <article className="card p-6 md:p-8 bg-gradient-to-br from-primary-50/60 to-white border-primary-100">
+          <p className="eyebrow">About ClubConnect</p>
+          <p className="mt-3 text-neutral-700 leading-relaxed">
+            ClubConnect is a school-focused platform for chapter discovery,
+            event communication, and responsible growth of student
+            organizations. It is designed to be clear, accessible, and reliable
+            for students, advisors, and administrators.
           </p>
-          <Link href="/propose" className="btn-secondary inline-flex items-center gap-2">
-            Submit a Proposal
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </Link>
+        </article>
+      </section>
+
+      <section
+        className="max-w-7xl mx-auto px-4 sm:px-6 py-8 animate-fade-up"
+        style={{ animationDelay: "250ms" }}
+      >
+        <div className="text-center max-w-3xl mx-auto">
+          <p className="eyebrow">Philosophical Quotes</p>
+          <h2 className="mt-2 text-3xl md:text-4xl font-heading text-primary-800">
+            Ideas that shape strong communities
+          </h2>
+        </div>
+        <div className="mt-6 grid md:grid-cols-3 gap-4">
+          {quotes.map((quote) => (
+            <blockquote
+              key={quote}
+              className="card p-5 bg-gradient-to-br from-secondary-50/50 to-white border-secondary-100 text-sm leading-relaxed text-neutral-700 ux-hover-lift-sm"
+            >
+              “{quote}”
+            </blockquote>
+          ))}
+        </div>
+      </section>
+
+      <section
+        className="max-w-7xl mx-auto px-4 sm:px-6 pb-12 animate-fade-up"
+        style={{ animationDelay: "260ms" }}
+      >
+        <div className="rounded-2xl border border-primary-200 bg-gradient-to-r from-primary-700 via-primary-600 to-secondary-600 p-8 md:p-10 shadow-card text-center ux-hover-lift-sm">
+          <h2 className="text-3xl font-heading text-white">
+            Ready to find your chapter?
+          </h2>
+          <p className="mt-3 max-w-2xl mx-auto text-white/90">
+            Explore opportunities, connect with peers, and build meaningful
+            projects through the ClubConnect community.
+          </p>
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              href="/directory"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white text-primary-700 font-semibold hover:bg-neutral-100"
+            >
+              Explore Directory
+              <ArrowRight size={18} />
+            </Link>
+            <Link
+              href="/propose"
+              className="inline-flex items-center px-6 py-2.5 rounded-xl border-2 border-white text-white font-semibold hover:bg-white hover:text-primary-700"
+            >
+              Propose a New Chapter
+            </Link>
+          </div>
         </div>
       </section>
     </div>

@@ -1,264 +1,284 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { chapters } from '@/lib/data';
-import { ChapterCategory, MeetingFrequency, MembershipStatus, GradeLevel, MeetingTime } from '@/types';
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+import { chapters } from "@/lib/data";
+import { formatChapterLocation, getPrimaryLocation } from "@/lib/location";
 
-const categories: ChapterCategory[] = ['Academic', 'Arts', 'Service', 'Cultural', 'STEM', 'Sports', 'Leadership', 'Media', 'Other'];
-const frequencies: MeetingFrequency[] = ['Daily', 'Weekly', 'Bi-weekly', 'Monthly'];
-const membershipStatuses: MembershipStatus[] = ['Open Enrollment', 'Tryout Required', 'Application Required'];
-const gradeLevels: GradeLevel[] = ['9th Only', '10th-12th', 'All Grades'];
-const meetingTimes: MeetingTime[] = ['Before School', 'Lunch', 'After School', 'Weekends'];
+const DirectoryLeafletMap = dynamic(
+  () => import("@/components/DirectoryLeafletMap"),
+  { ssr: false },
+);
+
+const meetingDayFilters = [
+  "Any",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+];
+const meetingTimeFilters = [
+  "Any",
+  "Before School",
+  "Lunch",
+  "After School",
+  "Weekends",
+];
+const categoryFilters = [
+  "Any",
+  "Academic",
+  "Arts",
+  "Service",
+  "Cultural",
+  "STEM",
+  "Sports",
+  "Leadership",
+  "Media",
+  "Other",
+];
+
+function inferDay(schedule: string) {
+  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  return days.find((day) => schedule.includes(day)) || "Varies";
+}
 
 export default function DirectoryPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [selectedFrequency, setSelectedFrequency] = useState<string>('');
-  const [selectedMembership, setSelectedMembership] = useState<string>('');
-  const [selectedGradeLevel, setSelectedGradeLevel] = useState<string>('');
-  const [selectedMeetingTime, setSelectedMeetingTime] = useState<string>('');
-  const [showFilters, setShowFilters] = useState(false);
+  const [search, setSearch] = useState("");
+  const [meetingDay, setMeetingDay] = useState("Any");
+  const [meetingTime, setMeetingTime] = useState("Any");
+  const [category, setCategory] = useState("Any");
+  const [roomFilter, setRoomFilter] = useState("Any");
 
-  const filteredChapters = useMemo(() => {
+  const rooms = useMemo(() => {
+    const uniqueRooms = new Set(
+      chapters.map((chapter) => getPrimaryLocation(chapter.meetingLocation)),
+    );
+    return ["Any", ...Array.from(uniqueRooms)];
+  }, []);
+
+  const filtered = useMemo(() => {
     return chapters.filter((chapter) => {
-      if (searchQuery) {
-        const query = searchQuery.toLowerCase();
-        const matchesSearch = 
-          chapter.name.toLowerCase().includes(query) ||
-          chapter.description.toLowerCase().includes(query) ||
-          chapter.category.toLowerCase().includes(query);
-        if (!matchesSearch) return false;
+      const query = search.trim().toLowerCase();
+      if (query) {
+        const fields = [
+          chapter.name,
+          chapter.description,
+          chapter.category,
+          chapter.meetingLocation.parentOrg,
+          chapter.meetingLocation.room,
+          chapter.meetingLocation.internalLocation,
+        ]
+          .join(" ")
+          .toLowerCase();
+        if (!fields.includes(query)) return false;
       }
 
-      if (selectedCategory && chapter.category !== selectedCategory) return false;
-      if (selectedFrequency && chapter.meetingFrequency !== selectedFrequency) return false;
-      if (selectedMembership && chapter.membershipStatus !== selectedMembership) return false;
-      if (selectedGradeLevel && chapter.gradeLevel !== selectedGradeLevel) return false;
-      if (selectedMeetingTime && chapter.meetingTime !== selectedMeetingTime) return false;
+      if (
+        meetingDay !== "Any" &&
+        inferDay(chapter.meetingSchedule) !== meetingDay
+      )
+        return false;
+      if (meetingTime !== "Any" && chapter.meetingTime !== meetingTime)
+        return false;
+      if (category !== "Any" && chapter.category !== category) return false;
+      if (
+        roomFilter !== "Any" &&
+        getPrimaryLocation(chapter.meetingLocation) !== roomFilter
+      )
+        return false;
 
       return true;
     });
-  }, [searchQuery, selectedCategory, selectedFrequency, selectedMembership, selectedGradeLevel, selectedMeetingTime]);
-
-  const clearFilters = () => {
-    setSearchQuery('');
-    setSelectedCategory('');
-    setSelectedFrequency('');
-    setSelectedMembership('');
-    setSelectedGradeLevel('');
-    setSelectedMeetingTime('');
-  };
-
-  const activeFilterCount = [
-    selectedCategory,
-    selectedFrequency,
-    selectedMembership,
-    selectedGradeLevel,
-    selectedMeetingTime,
-  ].filter(Boolean).length;
+  }, [search, meetingDay, meetingTime, category, roomFilter]);
 
   return (
     <div className="bg-neutral-100 min-h-screen">
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=1920&q=80"
-            alt="Students in discussion"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-500/95 to-primary-500/80"></div>
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4">
-          <h1 className="page-title text-white">Chapter Directory</h1>
-          <p className="text-xl text-white/90 max-w-2xl">
-            Browse and discover clubs and organizations that match your interests.
+      <section className="bg-primary-500 text-white border-b-4 border-secondary-500">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 animate-fade-up">
+          <p className="text-xs sm:text-sm uppercase tracking-[0.12em] font-semibold text-primary-100">
+            Discover & Compare
+          </p>
+          <h1 className="mt-2 text-4xl md:text-5xl font-heading font-bold">
+            Club Directory
+          </h1>
+          <p className="mt-3 max-w-2xl text-primary-100 leading-relaxed">
+            Explore clubs with map-assisted room filtering, search, and
+            school-friendly discovery filters.
           </p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="card p-6 mb-8">
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="flex-grow relative">
+      <section
+        className="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid lg:grid-cols-[320px_1fr] gap-6 animate-fade-up"
+        style={{ animationDelay: "100ms" }}
+      >
+        <aside className="card p-5 h-fit">
+          <h2 className="text-lg font-heading font-bold text-primary-600">
+            Filters
+          </h2>
+          <p className="body-muted mt-1">
+            Narrow results quickly by time, category, and meeting room.
+          </p>
+          <div className="mt-4 space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-neutral-700 mb-1">
+                Search
+              </label>
               <input
-                type="text"
-                placeholder="Search chapters by name, description, or category..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="input-field pl-12"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search by name, category, room"
+                className="input-field"
               />
-              <svg
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-neutral-700 mb-1">
+                Meeting day
+              </label>
+              <select
+                value={meetingDay}
+                onChange={(e) => setMeetingDay(e.target.value)}
+                className="select-field"
               >
-                <path strokeLinecap="square" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+                {meetingDayFilters.map((option) => (
+                  <option key={option}>{option}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-neutral-700 mb-1">
+                Time
+              </label>
+              <select
+                value={meetingTime}
+                onChange={(e) => setMeetingTime(e.target.value)}
+                className="select-field"
+              >
+                {meetingTimeFilters.map((option) => (
+                  <option key={option}>{option}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-neutral-700 mb-1">
+                Category
+              </label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="select-field"
+              >
+                {categoryFilters.map((option) => (
+                  <option key={option}>{option}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-neutral-700 mb-1">
+                Room / location
+              </label>
+              <select
+                value={roomFilter}
+                onChange={(e) => setRoomFilter(e.target.value)}
+                className="select-field"
+              >
+                {rooms.map((option) => (
+                  <option key={option}>{option}</option>
+                ))}
+              </select>
             </div>
             <button
-              onClick={() => setShowFilters(!showFilters)}
-              className={`btn-outline flex items-center gap-2 ${showFilters ? 'bg-primary-500 text-white' : ''}`}
+              type="button"
+              className="btn-outline w-full"
+              onClick={() => {
+                setSearch("");
+                setMeetingDay("Any");
+                setMeetingTime("Any");
+                setCategory("Any");
+                setRoomFilter("Any");
+              }}
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="square" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-              </svg>
-              Filters
-              {activeFilterCount > 0 && (
-                <span className="bg-secondary-500 text-white px-2 py-0.5 text-sm">
-                  {activeFilterCount}
-                </span>
-              )}
+              Clear filters
             </button>
           </div>
+        </aside>
 
-          {showFilters && (
-            <div className="border-t border-neutral-200 pt-6">
-              <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-neutral-700 mb-2">Category</label>
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="select-field"
-                  >
-                    <option value="">All Categories</option>
-                    {categories.map((cat) => (
-                      <option key={cat} value={cat}>{cat}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-neutral-700 mb-2">Meeting Frequency</label>
-                  <select
-                    value={selectedFrequency}
-                    onChange={(e) => setSelectedFrequency(e.target.value)}
-                    className="select-field"
-                  >
-                    <option value="">Any Frequency</option>
-                    {frequencies.map((freq) => (
-                      <option key={freq} value={freq}>{freq}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-neutral-700 mb-2">Membership Status</label>
-                  <select
-                    value={selectedMembership}
-                    onChange={(e) => setSelectedMembership(e.target.value)}
-                    className="select-field"
-                  >
-                    <option value="">Any Status</option>
-                    {membershipStatuses.map((status) => (
-                      <option key={status} value={status}>{status}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-neutral-700 mb-2">Grade Level</label>
-                  <select
-                    value={selectedGradeLevel}
-                    onChange={(e) => setSelectedGradeLevel(e.target.value)}
-                    className="select-field"
-                  >
-                    <option value="">All Grades</option>
-                    {gradeLevels.map((level) => (
-                      <option key={level} value={level}>{level}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-neutral-700 mb-2">Meeting Time</label>
-                  <select
-                    value={selectedMeetingTime}
-                    onChange={(e) => setSelectedMeetingTime(e.target.value)}
-                    className="select-field"
-                  >
-                    <option value="">Any Time</option>
-                    {meetingTimes.map((time) => (
-                      <option key={time} value={time}>{time}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {activeFilterCount > 0 && (
-                <div className="mt-4 flex justify-end">
-                  <button onClick={clearFilters} className="text-primary-500 hover:underline text-sm font-medium">
-                    Clear All Filters
-                  </button>
-                </div>
-              )}
+        <div className="space-y-6">
+          <div className="card p-5">
+            <h2 className="text-lg font-heading font-bold text-primary-600">
+              Interactive Club Map
+            </h2>
+            <p className="text-sm text-neutral-600 mt-1">
+              Explore meeting locations and click a marker to filter clubs.
+            </p>
+            <div className="mt-4">
+              <DirectoryLeafletMap
+                chapters={filtered}
+                activeRoom={roomFilter}
+                onSelectRoom={setRoomFilter}
+              />
             </div>
-          )}
-        </div>
+            <div className="mt-4 grid sm:grid-cols-3 gap-3">
+              {rooms.slice(1, 7).map((room) => (
+                <button
+                  key={room}
+                  type="button"
+                  onClick={() =>
+                    setRoomFilter(roomFilter === room ? "Any" : room)
+                  }
+                  className={`border px-3 py-3 text-left text-sm font-semibold ux-hover-lift-sm ${roomFilter === room ? "border-primary-500 bg-primary-50 text-primary-700" : "border-neutral-300 bg-white text-neutral-700 hover:border-primary-400"}`}
+                >
+                  {room}
+                </button>
+              ))}
+            </div>
+          </div>
 
-        <div className="mb-6 flex justify-between items-center">
-          <p className="text-neutral-600">
-            Showing <strong>{filteredChapters.length}</strong> of <strong>{chapters.length}</strong> chapters
-          </p>
-        </div>
+          <div className="flex items-center justify-between px-1">
+            <p className="text-sm font-medium text-neutral-700">
+              Showing {filtered.length} of {chapters.length} clubs
+            </p>
+          </div>
 
-        {filteredChapters.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredChapters.map((chapter) => (
-              <Link key={chapter.id} href={`/directory/${chapter.id}`} className="card-hover block">
-                <div className="bg-primary-500 h-24 flex items-center justify-center relative">
-                  <span className="text-3xl font-bold text-white font-heading">
-                    {chapter.name.split(' ').map(w => w[0]).join('').slice(0, 3)}
-                  </span>
-                  <span className="absolute top-2 right-2 badge badge-secondary text-xs">
+          <div className="grid md:grid-cols-2 gap-4">
+            {filtered.map((chapter) => (
+              <Link
+                href={`/directory/${chapter.id}`}
+                key={chapter.id}
+                className="card p-5 hover:border-primary-400 ux-hover-lift"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="text-xl font-heading font-bold text-primary-600">
+                    {chapter.name}
+                  </h3>
+                  <span className="badge badge-outline text-xs">
                     {chapter.category}
                   </span>
                 </div>
-                <div className="p-4">
-                  <h3 className="font-bold text-lg text-primary-500 font-heading">{chapter.name}</h3>
-                  <p className="text-sm text-neutral-600 mt-2 line-clamp-2">{chapter.description}</p>
-                  
-                  <div className="mt-4 space-y-2 text-sm text-neutral-500">
-                    <div className="flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="square" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      {chapter.meetingSchedule}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="square" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
-                      {chapter.memberCount} members
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="badge badge-outline text-xs">{chapter.membershipStatus}</span>
-                    <span className="badge badge-outline text-xs">{chapter.meetingTime}</span>
-                  </div>
+                <p className="text-sm text-neutral-700 mt-2 line-clamp-2">
+                  {chapter.description}
+                </p>
+                <div className="mt-4 text-sm text-neutral-700 space-y-1">
+                  <p>
+                    <span className="font-semibold">Meeting:</span>{" "}
+                    {chapter.meetingSchedule}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Time:</span>{" "}
+                    {chapter.meetingTime}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Location:</span>{" "}
+                    {formatChapterLocation(chapter.meetingLocation)}
+                  </p>
                 </div>
               </Link>
             ))}
           </div>
-        ) : (
-          <div className="card p-12 text-center">
-            <svg className="w-16 h-16 mx-auto text-neutral-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="square" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <h3 className="text-xl font-bold text-neutral-500 mb-2">No chapters found</h3>
-            <p className="text-neutral-400 mb-4">Try adjusting your search or filters to find what you&apos;re looking for.</p>
-            <button onClick={clearFilters} className="btn-primary">
-              Clear Filters
-            </button>
-          </div>
-        )}
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

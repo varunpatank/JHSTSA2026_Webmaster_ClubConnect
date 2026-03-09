@@ -1,123 +1,87 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const mainNavLinks = [
+  const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/explore", label: "Explore" },
-    { href: "/my-space", label: "My Space" },
-    { href: "/community", label: "Community" },
-    { href: "/meetings", label: "Meetings" },
-    { href: "/references", label: "References" },
+    { href: "/directory", label: "Browse Clubs" },
+    { href: "/start-a-club", label: "Start New Club" },
+    { href: "/events", label: "Events" },
+    { href: "/resources", label: "Resources" },
+    { href: "/profile", label: "Profile" },
   ];
-
-  const initiationStages = [
-    { id: "ideation", label: "Ideation & Planning" },
-    { id: "proposal", label: "Proposal & Approval" },
-    { id: "setup", label: "Setup & Structure" },
-    { id: "recruitment", label: "Recruitment & Launch" },
-    { id: "operations", label: "Operations & Management" },
-    { id: "growth", label: "Growth & Competitions" },
-  ];
-  const [showInitiation, setShowInitiation] = useState(false);
-  const hideTimeoutRef = useRef<number | null>(null);
-
-  const openInitiation = () => {
-    if (hideTimeoutRef.current) {
-      clearTimeout(hideTimeoutRef.current);
-      hideTimeoutRef.current = null;
-    }
-    setShowInitiation(true);
-  };
-
-  const closeInitiationDelayed = (delay = 250) => {
-    if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
-    hideTimeoutRef.current = window.setTimeout(() => {
-      setShowInitiation(false);
-      hideTimeoutRef.current = null;
-    }, delay);
-  };
-
-  useEffect(() => {
-    return () => {
-      if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
-    };
-  }, []);
 
   return (
-    <header className="bg-primary-700 text-white shadow-lg z-50">
-      {/* Main Header */}
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between py-4">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-secondary-500 flex items-center justify-center rounded-xl shadow-md">
-              <span className="text-2xl font-bold text-white">CC</span>
+    <header className="sticky top-0 z-40 border-b border-primary-600 bg-primary-700 text-white">
+      <div className="h-1 w-full bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between py-3 gap-4">
+          <Link
+            href="/"
+            className="flex items-center gap-3"
+            aria-label="ClubConnect home"
+          >
+            <div className="w-10 h-10 rounded-xl bg-secondary-500 text-white flex items-center justify-center shadow-sm">
+              <span className="text-base font-bold">CC</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold font-heading">ClubConnect</h1>
-              <p className="text-xs text-neutral-300">School Club Hub</p>
+              <p className="text-base font-bold text-white leading-tight">
+                ClubConnect
+              </p>
+              <p className="text-xs text-primary-100">Juanita HS Chapter Hub</p>
             </div>
           </Link>
 
-          {/* Desktop Nav - Simple, with Initiation dropdown */}
-          <nav className="hidden lg:flex items-center gap-1 relative">
-            {mainNavLinks.map((link) => (
+          <nav
+            className="hidden md:flex items-center gap-1"
+            aria-label="Primary navigation"
+          >
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-4 py-2 font-medium hover:bg-primary-600 rounded-lg transition-colors"
+                className="px-3 py-2 text-sm font-medium text-primary-100 rounded-lg hover:text-white hover:bg-primary-600"
               >
                 {link.label}
               </Link>
             ))}
-
-            {/* Initiation dropdown */}
-            <div
-              className="relative"
-              onMouseEnter={openInitiation}
-              onMouseLeave={() => closeInitiationDelayed()}
-            >
-              <Link
-                href="/initiation"
-                className="px-4 py-2 font-medium hover:bg-primary-600 rounded-lg transition-colors inline-flex items-center gap-2"
-                onFocus={openInitiation}
-                onBlur={() => closeInitiationDelayed()}
-                aria-haspopup="menu"
-                aria-expanded={showInitiation}
-              >
-                Initiation
-                <span className="text-sm">▾</span>
-              </Link>
-
-              {showInitiation && (
-                <div
-                  className="absolute right-0 mt-2 w-64 bg-white text-neutral-800 rounded-lg shadow-lg border z-50"
-                  onMouseEnter={openInitiation}
-                  onMouseLeave={() => closeInitiationDelayed()}
-                >
-                  <div className="p-2">
-                    {initiationStages.map((s) => (
-                      <Link
-                        key={s.id}
-                        href={`/initiation#${s.id}`}
-                        className="block px-3 py-2 rounded hover:bg-neutral-100"
-                        onFocus={openInitiation}
-                      >
-                        {s.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
           </nav>
+
+          <button
+            type="button"
+            className="md:hidden inline-flex items-center justify-center rounded-lg border border-primary-500 p-2 text-white hover:bg-primary-600"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-nav"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </div>
+
+        {mobileMenuOpen && (
+          <nav
+            id="mobile-nav"
+            className="md:hidden pb-4 pt-2 space-y-2"
+            aria-label="Mobile navigation"
+          >
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="block rounded-lg border border-primary-600 px-3 py-2 text-sm font-medium text-primary-100 hover:bg-primary-600 hover:text-white"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        )}
       </div>
     </header>
   );
