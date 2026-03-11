@@ -72,8 +72,10 @@ export default function EventSubmissionForm({
   return (
     <div className="bg-neutral-100 min-h-screen">
       <section className="bg-primary-500 text-white border-b-4 border-secondary-500">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
-          <h1 className="text-4xl font-heading font-bold">Event Submission</h1>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4">
+          <h1 className="text-2xl md:text-5xl font-heading font-bold">
+            Event Submission
+          </h1>
           <p className="mt-2 text-neutral-100">
             Create a club event to publish it on the club page, homepage events
             section, and events listing.

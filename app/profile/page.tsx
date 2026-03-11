@@ -77,9 +77,9 @@ export default function ProfilePage() {
   return (
     <div className="bg-neutral-100 min-h-screen">
       <section className="bg-primary-500 text-white border-b-4 border-secondary-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 flex items-start justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-4xl font-heading font-bold">
+            <h1 className="text-2xl md:text-5xl font-heading font-bold">
               Profile Dashboard
             </h1>
             <p className="mt-2 text-neutral-100">

@@ -14,8 +14,10 @@ export default async function DonatePage({ searchParams }: DonatePageProps) {
   return (
     <div className="bg-neutral-100 min-h-screen">
       <section className="bg-primary-500 text-white border-b-4 border-secondary-500">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-          <h1 className="text-4xl font-heading font-bold">Donations</h1>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
+          <h1 className="text-2xl md:text-5xl font-heading font-bold">
+            Donations
+          </h1>
           <p className="mt-2 text-neutral-100">
             Support club activities through approved external platforms.
           </p>

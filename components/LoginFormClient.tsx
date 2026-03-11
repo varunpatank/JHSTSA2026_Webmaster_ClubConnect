@@ -73,7 +73,7 @@ export default function LoginFormClient({
   return (
     <div className="min-h-screen bg-neutral-100 py-10 px-4">
       <div className="max-w-xl mx-auto card p-8">
-        <h1 className="text-3xl font-heading font-bold text-primary-600">
+        <h1 className="text-2xl md:text-5xl font-heading font-bold text-primary-600">
           Login
         </h1>
         <p className="text-neutral-700 mt-2">

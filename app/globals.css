@@ -444,3 +444,20 @@ textarea:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+@keyframes jumpright {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+@layer utilities {
+  .animate-jump-right {
+    animation: jumpright 1s ease-out infinite;
+    will-change: transform;
+  }
+}

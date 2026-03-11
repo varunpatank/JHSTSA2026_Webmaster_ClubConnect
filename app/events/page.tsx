@@ -75,9 +75,11 @@ export default function EventsPage() {
   return (
     <div className="bg-neutral-100 min-h-screen">
       <section className="bg-primary-500 text-white border-b-4 border-secondary-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
-            <h1 className="text-4xl font-heading font-bold">Events</h1>
+            <h1 className="text-2xl md:text-5xl font-heading font-bold">
+              Events
+            </h1>
             <p className="mt-2 text-neutral-100">
               Meetings, performances, competitions, and special activities
               across clubs.

@@ -26,14 +26,10 @@ export default function ResourcesPage() {
   return (
     <div className="bg-neutral-100 min-h-screen">
       <section className="bg-primary-500 text-white border-b-4 border-secondary-500">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
-          <h1 className="text-4xl font-heading font-bold">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <h1 className="text-2xl md:text-5xl font-heading font-bold">
             Start-Club Resources
           </h1>
-          <p className="mt-2 max-w-3xl text-neutral-100">
-            Reference guidance used during proposal and initiation so students
-            can build viable, school-ready clubs.
-          </p>
         </div>
       </section>
 

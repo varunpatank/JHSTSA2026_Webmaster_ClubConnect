@@ -25,6 +25,7 @@ export interface ChapterMeetingLocation {
   lat: number;
   lng: number;
   parentOrg?: string;
+  address?: string;
   room?: string;
   internalLocation?: string;
 }

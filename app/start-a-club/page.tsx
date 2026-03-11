@@ -48,12 +48,10 @@ export default function StartAClubPage() {
   return (
     <div className="bg-neutral-100 min-h-screen">
       <section className="bg-primary-500 text-white border-b-4 border-secondary-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-          <h1 className="text-4xl font-heading font-bold">Start New Club</h1>
-          <p className="mt-2 max-w-3xl text-neutral-100">
-            Complete the guided proposal form to create a draft, submit for
-            approval, or publish when all requirements are met.
-          </p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <h1 className="text-2xl md:text-5xl font-heading font-bold">
+            Start New Club
+          </h1>
         </div>
       </section>
 

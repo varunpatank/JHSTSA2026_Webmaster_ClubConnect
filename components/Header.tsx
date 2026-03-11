@@ -18,7 +18,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-primary-600 bg-primary-700 text-white">
-      <div className="h-1 w-full bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500" />
+      <div className="h-1 w-full bg-gradient-to-r from-primary-600 via-secondary-500 to-primary-600" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between py-3 gap-4">
           <Link
@@ -33,7 +33,7 @@ export default function Header() {
               <p className="text-base font-bold text-white leading-tight">
                 ClubConnect
               </p>
-              <p className="text-xs text-primary-100">Juanita HS Chapter Hub</p>
+              <p className="text-xs text-primary-100">School Resource Hub</p>
             </div>
           </Link>
 

@@ -64,7 +64,7 @@ export default function EventDetailPage() {
           ← Back to Events
         </Link>
         <div className="card p-8 mt-3">
-          <h1 className="text-3xl font-heading font-bold text-primary-600">
+          <h1 className="text-2xl md:text-5xl font-heading font-bold text-primary-600">
             {event.title}
           </h1>
           <p className="mt-2 text-neutral-700">Hosted by {event.chapterName}</p>

@@ -50,7 +50,7 @@ export default function ClubDetailPage() {
   return (
     <div className="bg-neutral-100 min-h-screen">
       <section className="bg-primary-500 text-white border-b-4 border-secondary-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <Link
             href="/directory"
             className="text-sm text-neutral-100 hover:underline"
@@ -62,7 +62,7 @@ export default function ClubDetailPage() {
               <span className="badge bg-white text-primary-600">
                 {chapter.category}
               </span>
-              <h1 className="text-4xl font-heading font-bold mt-3">
+              <h1 className="text-2xl md:text-5xl font-heading font-bold mt-3">
                 {chapter.name}
               </h1>
               <p className="mt-2 text-neutral-100 max-w-3xl">

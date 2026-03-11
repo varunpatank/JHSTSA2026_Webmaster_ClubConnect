@@ -1,66 +1,99 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import Link from "next/link";
+import { Suspense, useCallback, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { chapters } from "@/lib/data";
-import { formatChapterLocation, getPrimaryLocation } from "@/lib/location";
+import { getLocationScopeKey } from "@/lib/location";
+import { inferDay, matchesSize } from "@/lib/directoryConstants";
+import ClubMatchQuiz from "@/components/directory/ClubMatchQuiz";
+import DirectoryFilters, {
+  type DirectoryFilterState,
+} from "@/components/directory/DirectoryFilters";
+import ClubGrid from "@/components/directory/ClubGrid";
+import TrendingClubs from "@/components/directory/TrendingClubs";
+import AIChatbot from "@/components/directory/AIChatbot";
+import DiscussionForums from "@/components/directory/DiscussionForums";
 
 const DirectoryLeafletMap = dynamic(
   () => import("@/components/DirectoryLeafletMap"),
   { ssr: false },
 );
 
-const meetingDayFilters = [
-  "Any",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-];
-const meetingTimeFilters = [
-  "Any",
-  "Before School",
-  "Lunch",
-  "After School",
-  "Weekends",
-];
-const categoryFilters = [
-  "Any",
-  "Academic",
-  "Arts",
-  "Service",
-  "Cultural",
-  "STEM",
-  "Sports",
-  "Leadership",
-  "Media",
-  "Other",
+/* ── URL ↔ state helpers ── */
+
+const FILTER_KEYS: (keyof DirectoryFilterState)[] = [
+  "search",
+  "meetingDay",
+  "meetingTime",
+  "category",
+  "scopeFilter",
+  "size",
+  "status",
 ];
 
-function inferDay(schedule: string) {
-  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  return days.find((day) => schedule.includes(day)) || "Varies";
+const DEFAULT_FILTERS: DirectoryFilterState = {
+  search: "",
+  meetingDay: "Any",
+  meetingTime: "Any",
+  category: "Any",
+  scopeFilter: "Any",
+  size: "Any",
+  status: "Any",
+};
+
+function filtersFromParams(params: URLSearchParams): DirectoryFilterState {
+  return {
+    search: params.get("search") ?? DEFAULT_FILTERS.search,
+    meetingDay: params.get("meetingDay") ?? DEFAULT_FILTERS.meetingDay,
+    meetingTime: params.get("meetingTime") ?? DEFAULT_FILTERS.meetingTime,
+    category: params.get("category") ?? DEFAULT_FILTERS.category,
+    scopeFilter: params.get("scopeFilter") ?? DEFAULT_FILTERS.scopeFilter,
+    size: params.get("size") ?? DEFAULT_FILTERS.size,
+    status: params.get("status") ?? DEFAULT_FILTERS.status,
+  };
 }
 
-export default function DirectoryPage() {
-  const [search, setSearch] = useState("");
-  const [meetingDay, setMeetingDay] = useState("Any");
-  const [meetingTime, setMeetingTime] = useState("Any");
-  const [category, setCategory] = useState("Any");
-  const [roomFilter, setRoomFilter] = useState("Any");
+function filtersToParams(filters: DirectoryFilterState): string {
+  const params = new URLSearchParams();
+  for (const key of FILTER_KEYS) {
+    const value = filters[key];
+    const def = DEFAULT_FILTERS[key];
+    if (value && value !== def) {
+      params.set(key, value);
+    }
+  }
+  const qs = params.toString();
+  return qs ? `?${qs}` : "";
+}
 
-  const rooms = useMemo(() => {
-    const uniqueRooms = new Set(
-      chapters.map((chapter) => getPrimaryLocation(chapter.meetingLocation)),
-    );
-    return ["Any", ...Array.from(uniqueRooms)];
-  }, []);
+function DirectoryPageContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const filters = useMemo(
+    () => filtersFromParams(searchParams),
+    [searchParams],
+  );
+
+  const setFilters = useCallback(
+    (
+      next:
+        | DirectoryFilterState
+        | ((prev: DirectoryFilterState) => DirectoryFilterState),
+    ) => {
+      const resolved = typeof next === "function" ? next(filters) : next;
+      router.replace(`/directory${filtersToParams(resolved)}`, {
+        scroll: false,
+      });
+    },
+    [filters, router],
+  );
 
   const filtered = useMemo(() => {
     return chapters.filter((chapter) => {
-      const query = search.trim().toLowerCase();
+      const query = filters.search.trim().toLowerCase();
       if (query) {
         const fields = [
           chapter.name,
@@ -74,211 +107,298 @@ export default function DirectoryPage() {
           .toLowerCase();
         if (!fields.includes(query)) return false;
       }
-
       if (
-        meetingDay !== "Any" &&
-        inferDay(chapter.meetingSchedule) !== meetingDay
+        filters.meetingDay !== "Any" &&
+        inferDay(chapter.meetingSchedule) !== filters.meetingDay
       )
         return false;
-      if (meetingTime !== "Any" && chapter.meetingTime !== meetingTime)
-        return false;
-      if (category !== "Any" && chapter.category !== category) return false;
       if (
-        roomFilter !== "Any" &&
-        getPrimaryLocation(chapter.meetingLocation) !== roomFilter
+        filters.meetingTime !== "Any" &&
+        chapter.meetingTime !== filters.meetingTime
       )
         return false;
-
+      if (filters.category !== "Any" && chapter.category !== filters.category)
+        return false;
+      if (
+        filters.scopeFilter !== "Any" &&
+        getLocationScopeKey(chapter.meetingLocation) !== filters.scopeFilter
+      )
+        return false;
+      if (!matchesSize(chapter.memberCount, filters.size)) return false;
+      if (
+        filters.status !== "Any" &&
+        chapter.membershipStatus !== filters.status
+      )
+        return false;
       return true;
     });
-  }, [search, meetingDay, meetingTime, category, roomFilter]);
+  }, [filters]);
 
   return (
     <div className="bg-neutral-100 min-h-screen">
+      {/* ── Hero Header ── */}
       <section className="bg-primary-500 text-white border-b-4 border-secondary-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 animate-fade-up">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 animate-fade-up">
           <p className="text-xs sm:text-sm uppercase tracking-[0.12em] font-semibold text-primary-100">
-            Discover & Compare
+            Discover · Filter · Connect
           </p>
-          <h1 className="mt-2 text-4xl md:text-5xl font-heading font-bold">
-            Club Directory
+          <h1 className="mt-2 text-2xl md:text-5xl font-heading font-bold">
+            Organization Directory
           </h1>
-          <p className="mt-3 max-w-2xl text-primary-100 leading-relaxed">
-            Explore clubs with map-assisted room filtering, search, and
-            school-friendly discovery filters.
-          </p>
         </div>
       </section>
 
-      <section
-        className="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid lg:grid-cols-[320px_1fr] gap-6 animate-fade-up"
-        style={{ animationDelay: "100ms" }}
-      >
-        <aside className="card p-5 h-fit">
-          <h2 className="text-lg font-heading font-bold text-primary-600">
-            Filters
-          </h2>
-          <p className="body-muted mt-1">
-            Narrow results quickly by time, category, and meeting room.
-          </p>
-          <div className="mt-4 space-y-4">
-            <div>
-              <label className="block text-sm font-semibold text-neutral-700 mb-1">
-                Search
-              </label>
-              <input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by name, category, room"
-                className="input-field"
-              />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+        {/* ── Map + Filters Island ── */}
+        <section className="animate-fade-up" style={{ animationDelay: "60ms" }}>
+          <div className="bg-white border border-neutral-200 p-4 rounded-xl">
+            <div className="flex items-center justify-between mb-2">
+              <div>
+                <h2 className="text-lg font-heading font-bold text-primary-700">
+                  Interactive Map
+                </h2>
+              </div>
+              <span className="text-sm font-medium text-neutral-500">
+                {filtered.length} clubs shown
+              </span>
             </div>
-            <div>
-              <label className="block text-sm font-semibold text-neutral-700 mb-1">
-                Meeting day
-              </label>
-              <select
-                value={meetingDay}
-                onChange={(e) => setMeetingDay(e.target.value)}
-                className="select-field"
-              >
-                {meetingDayFilters.map((option) => (
-                  <option key={option}>{option}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-neutral-700 mb-1">
-                Time
-              </label>
-              <select
-                value={meetingTime}
-                onChange={(e) => setMeetingTime(e.target.value)}
-                className="select-field"
-              >
-                {meetingTimeFilters.map((option) => (
-                  <option key={option}>{option}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-neutral-700 mb-1">
-                Category
-              </label>
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="select-field"
-              >
-                {categoryFilters.map((option) => (
-                  <option key={option}>{option}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-neutral-700 mb-1">
-                Room / location
-              </label>
-              <select
-                value={roomFilter}
-                onChange={(e) => setRoomFilter(e.target.value)}
-                className="select-field"
-              >
-                {rooms.map((option) => (
-                  <option key={option}>{option}</option>
-                ))}
-              </select>
-            </div>
-            <button
-              type="button"
-              className="btn-outline w-full"
-              onClick={() => {
-                setSearch("");
-                setMeetingDay("Any");
-                setMeetingTime("Any");
-                setCategory("Any");
-                setRoomFilter("Any");
-              }}
-            >
-              Clear filters
-            </button>
-          </div>
-        </aside>
-
-        <div className="space-y-6">
-          <div className="card p-5">
-            <h2 className="text-lg font-heading font-bold text-primary-600">
-              Interactive Club Map
-            </h2>
-            <p className="text-sm text-neutral-600 mt-1">
-              Explore meeting locations and click a marker to filter clubs.
-            </p>
-            <div className="mt-4">
+            <div className="relative">
               <DirectoryLeafletMap
                 chapters={filtered}
-                activeRoom={roomFilter}
-                onSelectRoom={setRoomFilter}
+                activeScope={filters.scopeFilter}
+                onSelectScope={(scope) =>
+                  setFilters((f) => ({ ...f, scopeFilter: scope }))
+                }
+              />
+              <DirectoryFilters
+                filters={filters}
+                onFilterChange={setFilters}
+                resultCount={filtered.length}
+                totalCount={chapters.length}
               />
             </div>
-            <div className="mt-4 grid sm:grid-cols-3 gap-3">
-              {rooms.slice(1, 7).map((room) => (
-                <button
-                  key={room}
-                  type="button"
-                  onClick={() =>
-                    setRoomFilter(roomFilter === room ? "Any" : room)
-                  }
-                  className={`border px-3 py-3 text-left text-sm font-semibold ux-hover-lift-sm ${roomFilter === room ? "border-primary-500 bg-primary-50 text-primary-700" : "border-neutral-300 bg-white text-neutral-700 hover:border-primary-400"}`}
-                >
-                  {room}
-                </button>
-              ))}
+          </div>
+
+          {/* Trending + Quiz Row */}
+          <div className="mt-4 grid lg:grid-cols-2 gap-4">
+            <TrendingClubs />
+            <ClubMatchQuiz />
+          </div>
+        </section>
+
+        {/* ── Orgs Grid + AI Chat Row ── */}
+        <section
+          className="animate-fade-up"
+          style={{ animationDelay: "120ms" }}
+        >
+          <div className="flex items-center justify-center mb-3">
+            <div className="flex items-center gap-3">
+              <h2 className="text-lg font-heading font-bold text-primary-700">
+                All Clubs
+              </h2>
+              <span className="text-sm text-neutral-500">
+                {filtered.length} of {chapters.length} clubs
+              </span>
             </div>
           </div>
 
-          <div className="flex items-center justify-between px-1">
-            <p className="text-sm font-medium text-neutral-700">
-              Showing {filtered.length} of {chapters.length} clubs
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            {filtered.map((chapter) => (
-              <Link
-                href={`/directory/${chapter.id}`}
-                key={chapter.id}
-                className="card p-5 hover:border-primary-400 ux-hover-lift"
+          <div className="relative">
+            {/* Floating sidebar toggle */}
+            <button
+              type="button"
+              aria-expanded={sidebarOpen}
+              aria-controls="directory-sidebar"
+              onClick={() => setSidebarOpen((o) => !o)}
+              className={`hidden lg:flex absolute top-5 z-10 items-center justify-center w-7 h-14 text-white shadow-lg transition-all duration-300 group ${
+                sidebarOpen
+                  ? "-left-3.5 bg-primary-600 hover:bg-primary-700 rounded-l-lg"
+                  : "left-0 bg-secondary-500 hover:bg-secondary-600 rounded-r-lg"
+              }`}
+              title={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`h-4 w-4 transition-transform duration-300 ${sidebarOpen ? "" : "rotate-180"}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-xl font-heading font-bold text-primary-600">
-                    {chapter.name}
-                  </h3>
-                  <span className="badge badge-outline text-xs">
-                    {chapter.category}
-                  </span>
-                </div>
-                <p className="text-sm text-neutral-700 mt-2 line-clamp-2">
-                  {chapter.description}
-                </p>
-                <div className="mt-4 text-sm text-neutral-700 space-y-1">
-                  <p>
-                    <span className="font-semibold">Meeting:</span>{" "}
-                    {chapter.meetingSchedule}
-                  </p>
-                  <p>
-                    <span className="font-semibold">Time:</span>{" "}
-                    {chapter.meetingTime}
-                  </p>
-                  <p>
-                    <span className="font-semibold">Location:</span>{" "}
-                    {formatChapterLocation(chapter.meetingLocation)}
-                  </p>
-                </div>
-              </Link>
-            ))}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <div
+              className={`grid gap-5 transition-all duration-300 ${
+                sidebarOpen
+                  ? "lg:grid-cols-[340px_1fr]"
+                  : "lg:grid-cols-1 lg:pl-9"
+              }`}
+            >
+              {sidebarOpen && (
+                <aside
+                  id="directory-sidebar"
+                  className="border border-primary-200 bg-gradient-to-b from-primary-50/60 to-white rounded-xl shadow-sm overflow-hidden"
+                >
+                  {/* Sidebar header */}
+                  <div className="bg-primary-700 px-4 py-3 flex items-center gap-2.5">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 text-primary-200"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 6h16M4 12h16M4 18h7"
+                      />
+                    </svg>
+                    <h3 className="text-sm font-heading font-bold text-white uppercase tracking-wider">
+                      Quick Tools
+                    </h3>
+                  </div>
+
+                  <div className="p-3.5 space-y-3.5">
+                    {/* Quick Stats */}
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { value: chapters.length, label: "Total Clubs" },
+                        { value: filtered.length, label: "Showing" },
+                        {
+                          value: new Set(chapters.map((c) => c.category)).size,
+                          label: "Categories",
+                        },
+                      ].map((stat) => (
+                        <div
+                          key={stat.label}
+                          className="bg-white border border-neutral-200 px-2 py-2.5 text-center rounded-lg"
+                        >
+                          <p className="text-lg font-bold text-primary-600 leading-none">
+                            {stat.value}
+                          </p>
+                          <p className="text-[10px] text-neutral-500 mt-1 uppercase tracking-wide font-medium">
+                            {stat.label}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <AIChatbot />
+
+                    {/* Student Resources Quick Links */}
+                    <div className="bg-white border border-neutral-200 p-3.5 space-y-2.5 rounded-xl">
+                      <div className="flex items-center gap-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-3.5 w-3.5 text-secondary-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13 10V3L4 14h7v7l9-11h-7z"
+                          />
+                        </svg>
+                        <h3 className="text-xs font-heading font-bold text-primary-700 uppercase tracking-wider">
+                          Student Resources
+                        </h3>
+                      </div>
+                      <div className="space-y-1.5">
+                        {[
+                          {
+                            icon: "🎓",
+                            label: "Alumni Network",
+                            desc: "Connect with past members",
+                            href: "/resources",
+                          },
+                          {
+                            icon: "📅",
+                            label: "Counselor Meetings",
+                            desc: "Schedule advisor time",
+                            href: "/resources",
+                          },
+                          {
+                            icon: "📚",
+                            label: "Resource Library",
+                            desc: "Templates, guides & forms",
+                            href: "/resources",
+                          },
+                          {
+                            icon: "🚀",
+                            label: "Start a Club",
+                            desc: "Proposal guide & forms",
+                            href: "/start-a-club",
+                          },
+                        ].map((item) => (
+                          <a
+                            key={item.label}
+                            href={item.href}
+                            className="group/link flex items-center gap-3 border border-neutral-100 bg-neutral-50/50 p-2.5 hover:border-primary-300 hover:bg-primary-50 transition-all duration-200 rounded-lg"
+                          >
+                            <span className="text-lg leading-none group-hover/link:scale-110 transition-transform duration-200">
+                              {item.icon}
+                            </span>
+                            <div className="min-w-0">
+                              <p className="font-semibold text-primary-700 text-sm leading-tight group-hover/link:text-primary-600 transition-colors">
+                                {item.label}
+                              </p>
+                              <p className="text-[11px] text-neutral-500 leading-tight mt-0.5">
+                                {item.desc}
+                              </p>
+                            </div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-3.5 w-3.5 text-neutral-300 group-hover/link:text-primary-400 ml-auto shrink-0 transition-colors"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
+                            </svg>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </aside>
+              )}
+
+              <ClubGrid clubs={filtered} />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* ── Discussion Forums ── */}
+        <section
+          className="animate-fade-up"
+          style={{ animationDelay: "180ms" }}
+        >
+          <DiscussionForums />
+        </section>
+      </div>
     </div>
+  );
+}
+
+export default function DirectoryPage() {
+  return (
+    <Suspense>
+      <DirectoryPageContent />
+    </Suspense>
   );
 }

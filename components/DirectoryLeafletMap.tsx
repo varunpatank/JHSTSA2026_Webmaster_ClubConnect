@@ -10,24 +10,28 @@ import MapView, {
 } from "react-map-gl/maplibre";
 import maplibregl from "maplibre-gl";
 import type { Chapter } from "@/types";
-import { formatChapterLocation, getPrimaryLocation } from "@/lib/location";
+import {
+  formatChapterLocation,
+  getLocationScopeKey,
+  getLocationScopeLabel,
+} from "@/lib/location";
 
 type DirectoryLeafletMapProps = {
   chapters: Chapter[];
-  activeRoom: string;
-  onSelectRoom: (room: string) => void;
+  activeScope: string;
+  onSelectScope: (scope: string) => void;
 };
 
 type ClubMarker = {
   chapter: Chapter;
-  room: string;
-  building: string;
+  scopeKey: string;
+  scopeLabel: string;
   coordinates: [number, number];
 };
 
 type BuildingGroup = {
   id: string;
-  building: string;
+  label: string;
   center: [number, number];
   clubs: ClubMarker[];
 };
@@ -58,8 +62,8 @@ function spreadCoordinates(
 
 export default function DirectoryLeafletMap({
   chapters,
-  activeRoom,
-  onSelectRoom,
+  activeScope,
+  onSelectScope,
 }: DirectoryLeafletMapProps) {
   const mapRef = useRef<MapRef | null>(null);
   const [popupChapterId, setPopupChapterId] = useState<string | null>(null);
@@ -81,19 +85,16 @@ export default function DirectoryLeafletMap({
 
   const markers = useMemo<ClubMarker[]>(() => {
     return chapters.map((chapter) => {
-      const room = getPrimaryLocation(chapter.meetingLocation);
-      const building =
-        chapter.meetingLocation.parentOrg ||
-        chapter.meetingLocation.internalLocation ||
-        "Campus";
+      const scopeKey = getLocationScopeKey(chapter.meetingLocation);
+      const scopeLabel = getLocationScopeLabel(chapter.meetingLocation);
       const coordinates: [number, number] = [
         chapter.meetingLocation.lat,
         chapter.meetingLocation.lng,
       ];
       return {
         chapter,
-        room,
-        building,
+        scopeKey,
+        scopeLabel,
         coordinates,
       };
     });
@@ -103,11 +104,11 @@ export default function DirectoryLeafletMap({
     const byBuilding = new globalThis.Map<string, BuildingGroup>();
 
     for (const marker of markers) {
-      const existing = byBuilding.get(marker.building);
+      const existing = byBuilding.get(marker.scopeKey);
       if (!existing) {
-        byBuilding.set(marker.building, {
-          id: marker.building,
-          building: marker.building,
+        byBuilding.set(marker.scopeKey, {
+          id: marker.scopeKey,
+          label: marker.scopeLabel,
           center: marker.coordinates,
           clubs: [marker],
         });
@@ -122,9 +123,9 @@ export default function DirectoryLeafletMap({
         clubs.reduce((sum, item) => sum + item.coordinates[1], 0) /
         clubs.length;
 
-      byBuilding.set(marker.building, {
-        id: marker.building,
-        building: marker.building,
+      byBuilding.set(marker.scopeKey, {
+        id: marker.scopeKey,
+        label: marker.scopeLabel,
         center: [avgLatitude, avgLongitude],
         clubs,
       });
@@ -209,13 +210,26 @@ export default function DirectoryLeafletMap({
     map.easeTo({ pitch: 0, bearing: 0, duration: 450, essential: true });
   };
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const flyTo = (lat: number, lng: number) => {
+    mapRef.current?.flyTo({ center: [lng, lat], duration: 600 });
+    containerRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
+
   useEffect(() => {
     if (!hasLoaded) return;
     applyViewMode(isThreeD);
   }, [isThreeD, hasLoaded]);
 
   return (
-    <div className="border border-neutral-300 bg-white relative overflow-hidden">
+    <div
+      ref={containerRef}
+      className="border border-neutral-300 bg-white relative overflow-hidden"
+    >
       <MapView
         ref={mapRef}
         {...viewState}
@@ -226,9 +240,10 @@ export default function DirectoryLeafletMap({
           setHasLoaded(true);
           applyViewMode(isThreeD);
         }}
+        cooperativeGestures
         minZoom={15}
         maxZoom={20}
-        style={{ height: 420, width: "100%" }}
+        style={{ height: 600, width: "100%" }}
       >
         <NavigationControl position="top-right" showCompass={false} />
         {groupedBuildings.map((buildingGroup) => {
@@ -243,7 +258,7 @@ export default function DirectoryLeafletMap({
                 index,
                 buildingGroup.clubs.length,
               );
-              const isActive = clubMarker.room === activeRoom;
+              const isActive = clubMarker.scopeKey === activeScope;
               return (
                 <Marker
                   key={`${clubMarker.chapter.id}-dot`}
@@ -253,11 +268,12 @@ export default function DirectoryLeafletMap({
                   <button
                     type="button"
                     onClick={() => {
-                      onSelectRoom(isActive ? "Any" : clubMarker.room);
+                      onSelectScope(isActive ? "Any" : clubMarker.scopeKey);
                       setPopupChapterId(clubMarker.chapter.id);
+                      flyTo(explodedPosition[0], explodedPosition[1]);
                     }}
                     className={`h-4 w-4 border-2 border-white shadow-lg ${isActive ? "bg-secondary-500" : "bg-primary-500"}`}
-                    aria-label={`${clubMarker.chapter.name} in ${buildingGroup.building}`}
+                    aria-label={`${clubMarker.chapter.name} in ${buildingGroup.label}`}
                   />
                 </Marker>
               );
@@ -275,6 +291,7 @@ export default function DirectoryLeafletMap({
                   type="button"
                   onClick={() => {
                     setPopupBuildingId(buildingGroup.id);
+                    flyTo(buildingGroup.center[0], buildingGroup.center[1]);
                     if (allowExpandedDots) {
                       setExpandedBuildingId((current) =>
                         current === buildingGroup.id ? null : buildingGroup.id,
@@ -282,7 +299,7 @@ export default function DirectoryLeafletMap({
                     }
                   }}
                   className="min-w-8 h-8 px-2 border-2 border-white shadow-lg text-[11px] font-bold text-white bg-primary-700"
-                  aria-label={`${buildingGroup.clubs.length} clubs in ${buildingGroup.building}`}
+                  aria-label={`${buildingGroup.clubs.length} clubs in ${buildingGroup.label}`}
                 >
                   {buildingGroup.clubs.length}
                 </button>
@@ -291,7 +308,7 @@ export default function DirectoryLeafletMap({
           }
 
           const [singleClub] = buildingGroup.clubs;
-          const isActive = singleClub.room === activeRoom;
+          const isActive = singleClub.scopeKey === activeScope;
           return (
             <Marker
               key={singleClub.chapter.id}
@@ -301,11 +318,12 @@ export default function DirectoryLeafletMap({
               <button
                 type="button"
                 onClick={() => {
-                  onSelectRoom(isActive ? "Any" : singleClub.room);
+                  onSelectScope(isActive ? "Any" : singleClub.scopeKey);
                   setPopupChapterId(singleClub.chapter.id);
+                  flyTo(singleClub.coordinates[0], singleClub.coordinates[1]);
                 }}
                 className={`min-w-8 h-8 px-1 border-2 border-white shadow-lg text-[10px] font-bold text-white ${isActive ? "bg-secondary-500" : "bg-primary-500"}`}
-                aria-label={`Filter by ${singleClub.room}`}
+                aria-label={`Filter by ${singleClub.scopeLabel}`}
               >
                 {getClubMarkerLabel(singleClub.chapter.name)}
               </button>
@@ -349,7 +367,7 @@ export default function DirectoryLeafletMap({
           >
             <div className="space-y-2 text-sm pr-2 min-w-[210px]">
               <p className="font-semibold text-primary-700">
-                {activeBuilding.building}
+                {activeBuilding.label}
               </p>
               <p className="text-xs text-neutral-500">
                 {activeBuilding.clubs.length} clubs in this building
@@ -375,7 +393,7 @@ export default function DirectoryLeafletMap({
                     key={clubMarker.chapter.id}
                     type="button"
                     onClick={() => {
-                      onSelectRoom(clubMarker.room);
+                      onSelectScope(clubMarker.scopeKey);
                       setPopupChapterId(clubMarker.chapter.id);
                       setPopupBuildingId(null);
                     }}
@@ -389,7 +407,7 @@ export default function DirectoryLeafletMap({
           </Popup>
         )}
       </MapView>
-      <div className="absolute top-3 left-3 z-10">
+      <div className="absolute top-3 right-14 z-10">
         <button
           type="button"
           onClick={() => setIsThreeD((current) => !current)}
