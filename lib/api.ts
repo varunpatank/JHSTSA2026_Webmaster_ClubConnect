@@ -29,6 +29,50 @@ export const authApi = {
     signInWithOAuth: (provider: string, options?: { redirectTo?: string }) =>
         supabase.auth.signInWithOAuth({ provider: provider as any, options }),
 
+    /** Create a new user in auth and a corresponding public profile row.
+     *  Accepts: firstName, lastName, email, grade (required), optional password,
+     *  bio, phone, school. Returns both auth and profile responses.
+     */
+    createUser: async (data: {
+        firstName: string
+        lastName: string
+        email: string
+        grade: string
+        password: string
+        bio?: string
+        phone?: string
+        school?: string
+    }) => {
+        const { firstName, lastName, email, grade, password, bio, phone, school } = data
+
+        const signUpPayload: any = { email, password }
+
+        const authRes = await supabase.auth.signUp(signUpPayload)
+        if (authRes.error) return { auth: authRes, profile: null }
+
+        const userId = authRes.data.user?.id
+        if (!userId) {
+            // If no user id is returned (magic link flow) profile creation must be deferred
+            return { auth: authRes, profile: { data: null, error: new Error('User ID not available; profile creation deferred') } }
+        }
+
+        const profileRes = await supabase.from('profiles').insert({
+            id: userId,
+            first_name: firstName,
+            last_name: lastName,
+            bio: bio ?? null,
+            email,
+            phone: phone ?? null,
+            grade: grade ?? null,
+            school: school ?? null,
+        }).select().single()
+
+        return { auth: authRes, profile: profileRes }
+    },
+
+    /** Returns true if a user is currently logged in */
+    isLoggedIn: async () => !!(await supabase.auth.getUser().then(({ data }) => data.user)),
+
     /**
      * SSO helper: uses idToken when available (OIDC) otherwise falls back to OAuth redirect.
      * provider examples: "google", "github", custom OIDC provider id.
