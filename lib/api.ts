@@ -50,10 +50,10 @@ export const authApi = {
 export const profilesApi = {
     /** Viewable by everyone (authenticated + anon) */
     getAll: () =>
-        supabase.from('profiles').select('*'),
+        supabase.from('profiles').select('*').limit(50),
 
     getById: (id: string) =>
-        supabase.from('profiles').select('*').eq('id', id).single(),
+        supabase.from('profiles').select('*').limit(50).eq('id', id).single(),
 
     /** Only the authenticated user can update their own profile */
     update: (id: string, data: Partial<Profile>) =>
@@ -71,14 +71,14 @@ export const profilesApi = {
 export const membershipsApi = {
     /** Returns all memberships visible to the current user (RLS filters automatically) */
     getForCurrentUser: () =>
-        supabase.from('memberships').select('*'),
+        supabase.from('memberships').select('*').limit(50),
 
     /** All memberships for a given org (RLS ensures only officers/admins see them) */
     getByOrg: (orgId: string) =>
-        supabase.from('memberships').select('*').eq('org_id', orgId),
+        supabase.from('memberships').select('*').limit(50).eq('org_id', orgId),
 
     getById: (id: string) =>
-        supabase.from('memberships').select('*').eq('id', id).single(),
+        supabase.from('memberships').select('*').limit(50).eq('id', id).single(),
 
     /**
      * Officers: update fields other than user_permissions and position.
@@ -102,10 +102,10 @@ export const membershipsApi = {
 export const organizationsApi = {
     /** Selectable by everyone */
     getAll: () =>
-        supabase.from('organizations').select('*'),
+        supabase.from('organizations').select('*').limit(50),
 
     getById: (id: string) =>
-        supabase.from('organizations').select('*').eq('id', id).single(),
+        supabase.from('organizations').select('*').limit(50).eq('id', id).single(),
 
     /** Creatable by any authenticated user */
     create: (data: Partial<Organization>) =>
@@ -127,10 +127,10 @@ export const organizationsApi = {
 
 export const organizationTagsApi = {
     getAll: () =>
-        supabase.from('organizations_tags').select('*'),
+        supabase.from('organizations_tags').select('*').limit(50),
 
     getByOrg: (orgId: string) =>
-        supabase.from('organizations_tags').select('*').eq('org_id', orgId),
+        supabase.from('organizations_tags').select('*').limit(50).eq('org_id', orgId),
 
     /** Only org admins can create (RLS enforced) */
     create: (data: Partial<OrganizationTag>) =>
@@ -152,13 +152,13 @@ export const organizationTagsApi = {
 
 export const meetingsApi = {
     getAll: () =>
-        supabase.from('meetings').select('*'),
+        supabase.from('meetings').select('*').limit(50),
 
     getByOrg: (orgId: string) =>
-        supabase.from('meetings').select('*').eq('org_id', orgId),
+        supabase.from('meetings').select('*').limit(50).eq('org_id', orgId),
 
     getById: (id: string) =>
-        supabase.from('meetings').select('*').eq('id', id).single(),
+        supabase.from('meetings').select('*').limit(50).eq('id', id).single(),
 
     /** Only org admins can create (RLS enforced) */
     create: (data: Partial<Meeting>) =>
@@ -180,10 +180,10 @@ export const meetingsApi = {
 
 export const eventsApi = {
     getAll: () =>
-        supabase.from('events').select('*'),
+        supabase.from('events').select('*').limit(50),
 
     getByOrg: (orgId: string) =>
-        supabase.from('events').select('*').eq('org_id', orgId),
+        supabase.from('events').select('*').limit(50).eq('org_id', orgId),
 
     getById: (id: string) =>
         supabase.from('events').select('*').eq('id', id).single(),
@@ -209,10 +209,10 @@ export const eventsApi = {
 
 export const eventTagsApi = {
     getAll: () =>
-        supabase.from('event_tags').select('*'),
+        supabase.from('event_tags').select('*').limit(50),
 
     getByEvent: (eventId: string) =>
-        supabase.from('event_tags').select('*').eq('event_id', eventId),
+        supabase.from('event_tags').select('*').limit(50).eq('event_id', eventId),
 
     /** Only org admins of the related event's org can create (RLS enforced) */
     create: (data: Partial<EventTag>) =>
@@ -234,10 +234,10 @@ export const eventTagsApi = {
 
 export const locationsApi = {
     getAll: () =>
-        supabase.from('locations').select('*'),
+        supabase.from('locations').select('*').limit(50),
 
     getByOrg: (orgId: string) =>
-        supabase.from('locations').select('*').eq('org_id', orgId),
+        supabase.from('locations').select('*').limit(50).eq('org_id', orgId),
 
     getById: (id: string) =>
         supabase.from('locations').select('*').eq('id', id).single(),
@@ -263,10 +263,10 @@ export const locationsApi = {
 
 export const resourcesApi = {
     getAll: () =>
-        supabase.from('resources').select('*'),
+        supabase.from('resources').select('*').limit(50),
 
     getByOrg: (orgId: string) =>
-        supabase.from('resources').select('*').eq('org_id', orgId),
+        supabase.from('resources').select('*').limit(50).eq('org_id', orgId),
 
     getById: (id: string) =>
         supabase.from('resources').select('*').eq('id', id).single(),
@@ -292,10 +292,10 @@ export const resourcesApi = {
 
 export const resourceTagsApi = {
     getAll: () =>
-        supabase.from('resource_tags').select('*'),
+        supabase.from('resource_tags').select('*').limit(50),
 
     getByResource: (resourceId: string) =>
-        supabase.from('resource_tags').select('*').eq('resource_id', resourceId),
+        supabase.from('resource_tags').select('*').limit(50).eq('resource_id', resourceId),
 
     /** Uploader of the resource or org admin can create (RLS enforced) */
     create: (data: Partial<ResourceTag>) =>
