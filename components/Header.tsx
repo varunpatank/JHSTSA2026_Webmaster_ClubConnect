@@ -14,7 +14,6 @@ export default function Header() {
     { href: "/start-a-club", label: "Start New Club" },
     { href: "/events", label: "Events" },
     { href: "/resources", label: "Resources" },
-    { href: "/profile", label: "Profile" },
   ];
 
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -76,7 +75,7 @@ export default function Header() {
     <header className="sticky top-0 z-40 border-b border-primary-600 bg-primary-700 text-white">
       <div className="h-1 w-full bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between py-3 gap-4">
+        <div className="flex items-end justify-between py-3 gap-4">
           <Link
             href="/"
             className="flex items-center gap-3"
@@ -93,42 +92,54 @@ export default function Header() {
             </div>
           </Link>
 
-          <nav
-            className="hidden md:flex items-center gap-1"
-            aria-label="Primary navigation"
-          >
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-3 py-2 text-sm font-medium text-primary-100 rounded-lg hover:text-white hover:bg-primary-600"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+          <div className="flex items-center gap-4">
+            <nav
+              className="hidden md:flex items-center gap-1"
+              aria-label="Primary navigation"
+            >
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="px-3 py-2 text-sm font-medium text-primary-100 rounded-lg hover:text-white hover:bg-primary-600"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
 
-          <button
-            type="button"
-            className="md:hidden inline-flex items-center justify-center rounded-lg border border-primary-500 p-2 text-white hover:bg-primary-600"
-            onClick={() => setMobileMenuOpen((open) => !open)}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-nav"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
-          <Link href={isLoggedIn ? "/profile" : "/login"} className="ml-2">
-            <div className="w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center overflow-hidden border border-primary-500">
-              {avatarUrl ? (
-                // show uploaded avatar
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={avatarUrl} alt="Profile avatar" className="w-full h-full object-cover" />
-              ) : (
-                <User size={18} />
-              )}
-            </div>
-          </Link>
+            <button
+              type="button"
+              className="md:hidden inline-flex items-center justify-center rounded-lg border border-primary-500 p-2 text-white hover:bg-primary-600"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-nav"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+
+            {isLoggedIn ? (
+              <Link href="/profile" className="ml-2">
+                <div className="w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center overflow-hidden border border-primary-500">
+                  {avatarUrl ? (
+                    // show uploaded avatar
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={avatarUrl} alt="Profile avatar" className="w-full h-full object-cover" />
+                  ) : (
+                    <User size={18} />
+                  )}
+                </div>
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                className="ml-2 px-3 py-2 text-sm font-medium text-primary-100 rounded-lg hover:text-white hover:bg-primary-600"
+              >
+                Log in
+              </Link>
+            )}
+          </div>
         </div>
 
         {mobileMenuOpen && (
