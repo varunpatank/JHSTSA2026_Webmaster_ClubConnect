@@ -5,12 +5,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getAdminClubs, getJoinedClubs } from "@/lib/clientState";
 import { supabase, authApi, profilesApi } from "@/lib/api";
+import AvatarUploader from "@/components/AvatarUploader";
 
 export default function ProfilePage() {
   const [ready, setReady] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [name, setName] = useState("Student User");
   const [email, setEmail] = useState("student@jhstsa.edu");
+  const [userId, setUserId] = useState<string | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [phone, setPhone] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [joinedClubs, setJoinedClubs] = useState(getJoinedClubs());
@@ -26,11 +29,13 @@ export default function ProfilePage() {
           const { data } = await supabase.auth.getUser();
           const user = data.user;
           if (user?.id) {
+              setUserId(user.id);
             const profileRes = await profilesApi.getById(user.id);
             const profile = profileRes.data as any;
             if (profile) {
               setName(`${profile.name}` || "Student User");
               setEmail(profile.email ?? user.email ?? "student@jhstsa.edu");
+                setAvatarUrl(profile.avatar_url ?? null);
             } else {
               setName(user.user_metadata?.full_name || "Student User");
               setEmail(user.email ?? "student@jhstsa.edu");
@@ -116,6 +121,15 @@ export default function ProfilePage() {
           <h2 className="text-xl font-heading font-bold text-primary-600">
             Account Details
           </h2>
+          <div className="mt-4">
+            {userId && (
+              <AvatarUploader
+                userId={userId}
+                currentUrl={avatarUrl}
+                onUpdate={(url) => setAvatarUrl(url)}
+              />
+            )}
+          </div>
           <div className="mt-4 space-y-3">
             <div>
               <label className="block text-sm font-semibold text-neutral-700 mb-1">

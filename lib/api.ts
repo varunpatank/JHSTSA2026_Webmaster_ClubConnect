@@ -1,5 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import type { Profile, Membership, Organization, OrganizationTag, Meeting, Event, EventTag, Location, Resource, ResourceTag } from './apiTypes'
+import webpfy from 'webpfy'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabasePublishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
@@ -351,4 +352,69 @@ export const resourceTagsApi = {
     /** Uploader of the resource or org admin can delete (RLS enforced) */
     delete: (id: string) =>
         supabase.from('resource_tags').delete().eq('id', id),
+}
+
+// -----------------------------------------------------------------------
+// Storage helpers (avatars)
+// -----------------------------------------------------------------------
+
+export const storageApi = {
+    /**
+     * Upload a user's avatar to the `avatars` bucket.
+     * Returns `{ path, publicUrl }` on success.
+     */
+    uploadAvatar: async (userId: string, file: File | Blob) => {
+        // Attempt to convert image files to webp in-browser for smaller, consistent uploads.
+        let uploadBlob : Blob = file as Blob;
+        const isImage = (file as any).type && String((file as any).type).startsWith('image/')
+        if (isImage) {
+            try {
+                console.log("Compressing...")
+                uploadBlob = (await webpfy({image : file, quality : 50})).webpBlob;
+                console.log("Compressed!")
+            }
+            catch (e) {
+                console.log("Error converting image to webp:", e);
+            }
+        } else {
+            console.warn("Image not recognized as image")
+        }
+
+        const path = `${userId}/${Date.now()}.webp`
+
+        const { data, error } = await supabase.storage.from('avatars').upload(path, uploadBlob, { upsert: true, contentType: 'image/webp' })
+        if (error) return { data: null, error }
+
+        const publicUrl = supabase.storage.from('avatars').getPublicUrl(data.path).data.publicUrl
+
+        // After a successful upload, attempt to delete the user's previous avatar
+        // (if any). We read the `avatar_url` from the profiles table, derive the
+        // storage object path from the public URL, and remove it. Failures here
+        // are non-fatal (we still return the new avatar info).
+        try {
+            const prevProfile = await supabase.from('profiles').select('avatar_url').eq('id', userId).single()
+            if (!prevProfile.error && prevProfile.data && prevProfile.data.avatar_url) {
+                const prevUrl: string = prevProfile.data.avatar_url
+                const parts = prevUrl.split('/avatars/')
+                const prevPath = parts.length > 1 ? decodeURIComponent(parts[1]) : null
+                if (prevPath && prevPath !== data.path) {
+                    await supabase.storage.from('avatars').remove([prevPath])
+                }
+            }
+        }
+        catch (e) {
+            console.warn('Failed to remove previous avatar:', e)
+        }
+
+        return { data: { path: data.path, publicUrl }, error: null }
+    },
+
+    /**
+     * Get a public URL for an avatar path. If your bucket is private,
+     * replace this with `createSignedUrl` usage.
+     */
+    getAvatarPublicUrl: (path: string | null) => {
+        if (!path) return null
+        return supabase.storage.from('avatars').getPublicUrl(path).data.publicUrl
+    },
 }
