@@ -61,7 +61,7 @@ export default function SignupFormClient({ redirect = "/profile" }: SignupFormCl
         password,
         grade,
         bio: bio || undefined,
-        phone: phone || undefined,
+        phone_number: phone || undefined,
         school: school || undefined,
       });
 

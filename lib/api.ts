@@ -40,10 +40,10 @@ export const authApi = {
         grade: string
         password: string
         bio?: string
-        phone?: string
+        phone_number?: string
         school?: string
     }) => {
-        const { firstName, lastName, email, grade, password, bio, phone, school } = data
+        const { firstName, lastName, email, grade, password, bio, phone_number, school } = data
 
         const signUpPayload: any = { email, password }
 
@@ -62,7 +62,7 @@ export const authApi = {
             last_name: lastName,
             bio: bio ?? null,
             email,
-            phone: phone ?? null,
+            phone_number: phone_number ?? null,
             grade: grade ?? null,
             school: school ?? null,
         }).select().single()
