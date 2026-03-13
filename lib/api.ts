@@ -30,20 +30,20 @@ export const authApi = {
         supabase.auth.signInWithOAuth({ provider: provider as any, options }),
 
     /** Create a new user in auth and a corresponding public profile row.
-     *  Accepts: firstName, lastName, email, grade (required), optional password,
+     *  Accepts: name (full name), email, grade (required for non-adults), optional password,
      *  bio, phone, school. Returns both auth and profile responses.
      */
     createUser: async (data: {
-        firstName: string
-        lastName: string
+        name: string
         email: string
         grade: string
         password: string
         bio?: string
         phone_number?: string
         school?: string
+        is_adult?: boolean
     }) => {
-        const { firstName, lastName, email, grade, password, bio, phone_number, school } = data
+        const { name, email, grade, password, bio, phone_number, school, is_adult } = data
 
         const signUpPayload: any = { email, password }
 
@@ -52,19 +52,18 @@ export const authApi = {
 
         const userId = authRes.data.user?.id
         if (!userId) {
-            // If no user id is returned (magic link flow) profile creation must be deferred
             return { auth: authRes, profile: { data: null, error: new Error('User ID not available; profile creation deferred') } }
         }
 
         const profileRes = await supabase.from('profiles').insert({
             id: userId,
-            first_name: firstName,
-            last_name: lastName,
+            name: name,
             bio: bio ?? null,
             email,
             phone_number: phone_number ?? null,
             grade: grade ?? null,
             school: school ?? null,
+            is_adult: !!is_adult,
         }).select().single()
 
         return { auth: authRes, profile: profileRes }

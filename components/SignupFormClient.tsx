@@ -10,12 +10,12 @@ interface SignupFormClientProps {
 }
 
 export default function SignupFormClient({ redirect = "/profile" }: SignupFormClientProps) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isAdult, setIsAdult] = useState(false);
   const [grade, setGrade] = useState("");
   const [bio, setBio] = useState("");
   const [phone, setPhone] = useState("");
@@ -30,9 +30,9 @@ export default function SignupFormClient({ redirect = "/profile" }: SignupFormCl
     setError(null);
 
     const required = {
-      firstName: !firstName,
-      lastName: !lastName,
-      grade: !grade,
+      name: !name,
+      grade: !isAdult && !grade,
+      school: !isAdult && !school,
       email: !email,
       password: !password,
       confirmedPassword: !confirmedPassword,
@@ -42,7 +42,8 @@ export default function SignupFormClient({ redirect = "/profile" }: SignupFormCl
     console.log(missingKeys);
     if (missingKeys.length > 0) {
       setMissing(required);
-      setError("Please fill required fields: first name, last name, email, password, grade.");
+      // TODO: make this dynamic with missing fields
+      setError(isAdult ? "Please fill required fields: name, email, password": "Please fill required fields: name, email, password, school, grade.");
       return;
     }
 
@@ -55,14 +56,14 @@ export default function SignupFormClient({ redirect = "/profile" }: SignupFormCl
     setLoading(true);
     try {
       const res = await authApi.createUser({
-        firstName,
-        lastName,
+        name,
         email,
         password,
         grade,
         bio: bio || undefined,
         phone_number: phone || undefined,
         school: school || undefined,
+        is_adult: isAdult,
       });
 
       if (res.auth?.error) {
@@ -77,7 +78,7 @@ export default function SignupFormClient({ redirect = "/profile" }: SignupFormCl
         return;
       }
 
-      setMissing({});
+          setMissing({});
 
       router.push(redirect);
     } catch (err: any) {
@@ -95,47 +96,33 @@ export default function SignupFormClient({ redirect = "/profile" }: SignupFormCl
         {error && <p className="text-sm text-red-600">{error}</p>}
 
         <form className="mt-6 space-y-4" onSubmit={onSubmit}>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-semibold text-neutral-700 mb-1">First name</label>
-              <input
-                value={firstName}
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                  if (missing.firstName) setMissing((p) => ({ ...p, firstName: false }));
-                }}
-                className={`input-field ${missing.firstName ? 'border-red-500 ring-1 ring-red-300' : ''}`}
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-neutral-700 mb-1">Last name</label>
-              <input
-                value={lastName}
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                  if (missing.lastName) setMissing((p) => ({ ...p, lastName: false }));
-                }}
-                className={`input-field ${missing.lastName ? 'border-red-500 ring-1 ring-red-300' : ''}`}
-                required
-              />
-            </div>
-          </div>
-
           <div>
-            <label className="block text-sm font-semibold text-neutral-700 mb-1">Grade</label>
+            <label className="block text-sm font-semibold text-neutral-700 mb-1">Full name</label>
             <input
-              value={grade}
+              value={name}
               onChange={(e) => {
-                setGrade(e.target.value);
-                if (missing.grade) setMissing((p) => ({ ...p, grade: false }));
+                setName(e.target.value);
+                if (missing.name) setMissing((p) => ({ ...p, name: false }));
               }}
-              className={`input-field ${missing.grade ? 'border-red-500 ring-1 ring-red-300' : ''}`}
-              placeholder="eg. 10"
+              className={`input-field ${missing.name ? 'border-red-500 ring-1 ring-red-300' : ''}`}
               required
             />
           </div>
 
+          <div className="flex items-center gap-3">
+            <input
+              id="isAdult"
+              type="checkbox"
+              checked={isAdult}
+              onChange={(e) => {
+                const v = e.target.checked;
+                setIsAdult(v);
+                if (v) setMissing((p) => ({ ...p, grade: false, school: false }));
+              }}
+              className="h-4 w-4"
+            />
+            <label htmlFor="isAdult" className="text-sm text-neutral-700">I'm an adult (staff/parent) — grade and school optional</label>
+          </div>
           <div>
             <label className="block text-sm font-semibold text-neutral-700 mb-1">Email</label>
             <input
@@ -148,6 +135,35 @@ export default function SignupFormClient({ redirect = "/profile" }: SignupFormCl
               className={`input-field ${missing.email ? 'border-red-500 ring-1 ring-red-300' : ''}`}
               placeholder="student@school.edu"
               required
+            />
+          </div>
+            <div>
+            <label className="block text-sm font-semibold text-neutral-700 mb-1">Phone (optional)</label>
+            <input value={phone} onChange={(e) => setPhone(e.target.value)} className="input-field" />
+          </div>
+            <div>
+            <label className="block text-sm font-semibold text-neutral-700 mb-1">School</label>
+            <input
+              value={school}
+              onChange={(e) => {
+                setSchool(e.target.value);
+                if (missing.school) setMissing((p) => ({ ...p, school: false }));
+              }}
+              className={`input-field ${missing.school ? 'border-red-500 ring-1 ring-red-300' : ''}`}
+              required={!isAdult}
+            />
+          </div>
+            <div>
+            <label className="block text-sm font-semibold text-neutral-700 mb-1">Grade</label>
+            <input
+              value={grade}
+              onChange={(e) => {
+                setGrade(e.target.value);
+                if (missing.grade) setMissing((p) => ({ ...p, grade: false }));
+              }}
+              className={`input-field ${missing.grade ? 'border-red-500 ring-1 ring-red-300' : ''}`}
+              placeholder="eg. 10"
+              required={!isAdult}
             />
           </div>
 
@@ -188,16 +204,6 @@ export default function SignupFormClient({ redirect = "/profile" }: SignupFormCl
               placeholder="••••••••"
               required
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-neutral-700 mb-1">Phone (optional)</label>
-            <input value={phone} onChange={(e) => setPhone(e.target.value)} className="input-field" />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-neutral-700 mb-1">School (optional)</label>
-            <input value={school} onChange={(e) => setSchool(e.target.value)} className="input-field" />
           </div>
 
           <div>
