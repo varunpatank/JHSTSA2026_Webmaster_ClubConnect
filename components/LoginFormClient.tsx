@@ -67,9 +67,15 @@ export default function LoginFormClient({
         <h1 className="text-3xl font-heading font-bold text-primary-600">
           Login
         </h1>
-        <p className="text-neutral-700 mt-2">
+        <p className="text-neutral-900 mt-2">
           Sign in with email and password to request membership, create a club,
           and manage admin actions.
+        </p>
+        <p className="text-neutral-500 mt-2 text-sm">
+          Don't have an account?
+          <Link href="/signup" className="ml-1 text-primary-600 hover:underline">
+               Sign up!
+          </Link>
         </p>
 
         <form className="mt-6 space-y-4" onSubmit={onSubmit}>
