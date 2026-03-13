@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, X, User } from "lucide-react";
+import { supabase, profilesApi, storageApi } from "../lib/api";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -15,6 +16,61 @@ export default function Header() {
     { href: "/resources", label: "Resources" },
     { href: "/profile", label: "Profile" },
   ];
+
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadUser = async () => {
+      try {
+        const { data } = await supabase.auth.getUser();
+        const user = data.user;
+        if (!mounted) return;
+        
+        if (!user) {
+          setIsLoggedIn(false);
+          setAvatarUrl(null);
+          return;
+        }
+
+        setIsLoggedIn(true);
+
+        const profileRes: any = await profilesApi.getById(user.id);
+        if (!mounted) return;
+
+        if (!profileRes.error && profileRes.data && profileRes.data.avatar_url) {
+          const avatarValue: string = profileRes.data.avatar_url;
+          // `avatar_url` may already be a full public URL (AvatarUploader saves the public URL),
+          // otherwise treat it as a storage path and build a public URL from it.
+          const publicUrl = avatarValue.startsWith('http')
+            ? avatarValue
+            : storageApi.getAvatarPublicUrl(avatarValue);
+          setAvatarUrl(publicUrl ?? null);
+        } else {
+          setAvatarUrl(null);
+        }
+      } catch (e) {
+        setIsLoggedIn(false);
+        setAvatarUrl(null);
+      }
+    };
+
+    loadUser();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(() => {
+      loadUser();
+    });
+
+    return () => {
+      mounted = false;
+      // unsubscribe if present
+      if (authListener && (authListener as any).subscription && typeof (authListener as any).subscription.unsubscribe === 'function') {
+        ;(authListener as any).subscription.unsubscribe();
+      }
+    };
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 border-b border-primary-600 bg-primary-700 text-white">
@@ -62,6 +118,17 @@ export default function Header() {
           >
             {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
+          <Link href={isLoggedIn ? "/profile" : "/login"} className="ml-2">
+            <div className="w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center overflow-hidden border border-primary-500">
+              {avatarUrl ? (
+                // show uploaded avatar
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={avatarUrl} alt="Profile avatar" className="w-full h-full object-cover" />
+              ) : (
+                <User size={18} />
+              )}
+            </div>
+          </Link>
         </div>
 
         {mobileMenuOpen && (

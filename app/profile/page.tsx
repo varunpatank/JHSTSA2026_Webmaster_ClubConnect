@@ -35,7 +35,7 @@ export default function ProfilePage() {
             if (profile) {
               setName(`${profile.name}` || "Student User");
               setEmail(profile.email ?? user.email ?? "student@jhstsa.edu");
-                setAvatarUrl(profile.avatar_url ?? null);
+              setAvatarUrl(profile.avatar_url ?? null);
             } else {
               setName(user.user_metadata?.full_name || "Student User");
               setEmail(user.email ?? "student@jhstsa.edu");
