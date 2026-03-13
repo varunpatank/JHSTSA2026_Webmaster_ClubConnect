@@ -29,7 +29,7 @@ export default function ProfilePage() {
             const profileRes = await profilesApi.getById(user.id);
             const profile = profileRes.data as any;
             if (profile) {
-              setName(`${profile.first_name ?? ""} ${profile.last_name ?? ""}`.trim() || "Student User");
+              setName(`${profile.name}` || "Student User");
               setEmail(profile.email ?? user.email ?? "student@jhstsa.edu");
             } else {
               setName(user.user_metadata?.full_name || "Student User");
