@@ -3,13 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  getAdminClubs,
-  getJoinedClubs,
-  getUserIdentity,
-  isLoggedIn,
-  logoutUser,
-} from "@/lib/clientState";
+import { getAdminClubs, getJoinedClubs } from "@/lib/clientState";
+import { supabase, authApi, profilesApi } from "@/lib/api";
 
 export default function ProfilePage() {
   const [ready, setReady] = useState(false);
@@ -23,16 +18,34 @@ export default function ProfilePage() {
   const router = useRouter();
 
   useEffect(() => {
-    const signedIn = isLoggedIn();
-    setLoggedIn(signedIn);
-    if (signedIn) {
-      const identity = getUserIdentity();
-      setName(identity.name);
-      setEmail(identity.email);
-      setJoinedClubs(getJoinedClubs());
-      setAdminClubs(getAdminClubs());
-    }
-    setReady(true);
+    (async () => {
+      try {
+        const signedIn = await authApi.isLoggedIn();
+        setLoggedIn(signedIn);
+        if (signedIn) {
+          const { data } = await supabase.auth.getUser();
+          const user = data.user;
+          if (user?.id) {
+            const profileRes = await profilesApi.getById(user.id);
+            const profile = profileRes.data as any;
+            if (profile) {
+              setName(`${profile.first_name ?? ""} ${profile.last_name ?? ""}`.trim() || "Student User");
+              setEmail(profile.email ?? user.email ?? "student@jhstsa.edu");
+            } else {
+              setName(user.user_metadata?.full_name || "Student User");
+              setEmail(user.email ?? "student@jhstsa.edu");
+            }
+          }
+
+          setJoinedClubs(getJoinedClubs());
+          setAdminClubs(getAdminClubs());
+        }
+      } catch (e) {
+        // ignore and fall back to defaults
+      } finally {
+        setReady(true);
+      }
+    })();
   }, []);
 
   const notifications = useMemo(() => {
@@ -88,8 +101,8 @@ export default function ProfilePage() {
           </div>
           <button
             className="btn-outline border-white text-white hover:bg-white hover:text-primary-500"
-            onClick={() => {
-              logoutUser();
+            onClick={async () => {
+              await authApi.signOut();
               router.push("/");
             }}
           >

@@ -1,7 +1,7 @@
 import LoginFormClient from "@/components/LoginFormClient";
 
 interface LoginPageProps {
-  searchParams: Promise<{ redirect?: string; action?: string; club?: string }>;
+  searchParams: Promise<{ redirect?: string;}>;
 }
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
@@ -10,8 +10,6 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   return (
     <LoginFormClient
       redirect={params.redirect || "/profile"}
-      action={params.action}
-      clubId={params.club}
     />
   );
 }

@@ -1,15 +1,12 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { addJoinedClub, isLoggedIn, loginUser } from "@/lib/clientState";
-import { chapters } from "@/lib/data";
+import { authApi } from "@/lib/api";
 
 interface LoginFormClientProps {
   redirect: string;
-  action?: string;
-  clubId?: string;
 }
 
 export default function LoginFormClient({
@@ -19,57 +16,53 @@ export default function LoginFormClient({
 }: LoginFormClientProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("Student User");
+  const [checkingAuth, setCheckingAuth] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  if (typeof window !== "undefined" && isLoggedIn()) {
-    return (
-      <div className="min-h-screen bg-neutral-100 flex items-center justify-center px-4">
-        <div className="card p-8 text-center max-w-lg w-full">
-          <h1 className="text-2xl font-heading font-bold text-primary-600">
-            You are already signed in
-          </h1>
-          <p className="text-neutral-700 mt-2">
-            Continue to your profile or return to browsing clubs.
-          </p>
-          <div className="mt-5 flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/profile" className="btn-primary">
-              Go to Profile
-            </Link>
-            <Link href="/directory" className="btn-outline">
-              Browse Clubs
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const loggedIn = await authApi.isLoggedIn();
+        if (mounted && loggedIn) router.replace('/profile');
+      } catch (e) {
+        // ignore errors and continue to show the form
+      } finally {
+        if (mounted) setCheckingAuth(false);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, [router]);
+  
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
+    setError(null);
     if (!email || !password) return;
+    setSubmitting(true);
 
-    loginUser(name || "Student User", email);
-
-    if (action === "join" && clubId) {
-      const chapter = chapters.find((item) => item.id === clubId);
-      if (chapter) {
-        addJoinedClub({
-          id: chapter.id,
-          name: chapter.name,
-          status:
-            chapter.membershipStatus === "Open Enrollment"
-              ? "member"
-              : "pending",
-        });
-        router.push("/profile?from=join");
-        return;
+    (async () => {
+      try {
+        const res = await authApi.signInWithEmail(email, password);
+        if (res.error) {
+          setError(res.error.message || "Sign in failed");
+          setSubmitting(false);
+          return;
+        }
+        router.push(redirect);
+      } catch (e: any) {
+        setError(e?.message || "Sign in failed");
+      } finally {
+        setSubmitting(false);
       }
-    }
-
-    router.push(redirect);
+    })();
   };
-
+  
+  if (checkingAuth) return null;
   return (
     <div className="min-h-screen bg-neutral-100 py-10 px-4">
       <div className="max-w-xl mx-auto card p-8">
@@ -82,17 +75,7 @@ export default function LoginFormClient({
         </p>
 
         <form className="mt-6 space-y-4" onSubmit={onSubmit}>
-          <div>
-            <label className="block text-sm font-semibold text-neutral-700 mb-1">
-              Name
-            </label>
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="input-field"
-              required
-            />
-          </div>
+          {error && <p className="text-sm text-red-600">{error}</p>}
           <div>
             <label className="block text-sm font-semibold text-neutral-700 mb-1">
               Email
@@ -120,7 +103,7 @@ export default function LoginFormClient({
             />
           </div>
           <button type="submit" className="btn-primary w-full">
-            Sign In
+            {submitting ? "Signing in..." : "Sign In"}
           </button>
         </form>
 
