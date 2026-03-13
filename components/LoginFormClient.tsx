@@ -11,8 +11,6 @@ interface LoginFormClientProps {
 
 export default function LoginFormClient({
   redirect,
-  action,
-  clubId,
 }: LoginFormClientProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
